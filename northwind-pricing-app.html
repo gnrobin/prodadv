@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Northwind Analytics — Pricing &amp; Quoting</title>
+<style>
+:root{
+  --ink:#22304A; --ink2:#3E4C66; --muted:#6B7789; --faint:#98A1B0;
+  --accent:#C2703D; --accent-dk:#A85C2D; --accent-soft:#F7ECE3;
+  --bg:#FAF9F7; --card:#FFFFFF; --line:#E6E2DB; --line2:#F0EDE7;
+  --green:#2E7D5B; --green-soft:#E7F2EC;
+  --amber:#B7791F; --amber-soft:#FBF2E0;
+  --red:#B4453C; --red-soft:#FAEBE9;
+  --r:10px; --r-sm:7px;
+  --shadow:0 1px 2px rgba(34,48,74,.04), 0 1px 12px rgba(34,48,74,.05);
+  --font:"Google Sans","Google Sans Text","Product Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--font); background:var(--bg); color:var(--ink);
+  font-size:14px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1;
+}
+.app{max-width:1240px;margin:0 auto;padding:22px 20px 60px}
+h1,h2,h3,h4{margin:0;font-weight:600;letter-spacing:-.012em;line-height:1.25}
+p{margin:0}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+input,select{font-family:inherit;font-size:inherit;color:var(--ink)}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- masthead ---------- */
+.masthead{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:18px 22px;display:flex;align-items:center;gap:16px;box-shadow:var(--shadow);
+}
+.logomark{width:46px;height:46px;border-radius:9px;background:var(--ink);
+  display:grid;place-items:center;flex:none}
+.logomark svg{width:26px;height:26px}
+.mast-txt{flex:1;min-width:0}
+.eyebrow{font-size:10.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--faint)}
+.mast-txt h1{font-size:23px;font-weight:500;color:var(--ink);margin:1px 0 2px}
+.mast-txt p{font-size:13px;color:var(--muted)}
+.mast-actions{display:flex;gap:8px;align-items:center;flex:none}
+.btn{
+  border:1px solid var(--line);background:var(--card);color:var(--ink2);
+  border-radius:var(--r-sm);padding:7px 13px;font-size:12.5px;font-weight:500;
+  transition:.14s; white-space:nowrap;
+}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn-primary{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn-primary:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-sm{padding:5px 10px;font-size:11.5px}
+
+/* ---------- tabs ---------- */
+.tabbar{
+  margin-top:12px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r);padding:6px;display:flex;gap:2px;box-shadow:var(--shadow);
+  overflow-x:auto; scrollbar-width:none;
+}
+.tabbar::-webkit-scrollbar{display:none}
+.tab{
+  flex:1;border:1px solid transparent;background:transparent;color:var(--muted);
+  border-radius:var(--r-sm);padding:9px 10px;font-size:13px;font-weight:500;
+  transition:.14s;white-space:nowrap;
+}
+.tab:hover{color:var(--ink);background:var(--bg)}
+.tab.active{background:var(--bg);border-color:var(--line);color:var(--ink);font-weight:600}
+.tab.active::after{content:"";display:block;height:2px;width:22px;margin:5px auto -2px;background:var(--accent);border-radius:2px}
+
+/* ---------- panels ---------- */
+.panel{display:none;margin-top:12px}
+.panel.active{display:block;animation:fade .22s ease}
+@keyframes fade{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.card + .card{margin-top:12px}
+.card-hd{padding:16px 20px;border-bottom:1px solid var(--line2)}
+.card-hd.plain{border-bottom:none}
+.card-hd h2{font-size:15.5px}
+.card-hd h3{font-size:13.5px}
+.card-hd p{font-size:12.5px;color:var(--muted);margin-top:3px;max-width:82ch}
+.card-bd{padding:20px}
+.card-bd.tight{padding:14px 20px}
+
+/* ---------- rate hero ---------- */
+.seat-hero{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+/* All three cards are reference content, not controls — they share one resting
+   state so none reads as "selected". The differentiator gets an editorial
+   accent (top rule + tag), deliberately unlike the active-tab treatment. */
+.seat-card{border:1px solid var(--line);border-radius:var(--r);padding:20px 18px 18px;
+  text-align:center;background:var(--card);position:relative;overflow:hidden}
+.seat-card.spotlight{border-color:#EBCDB4}
+.seat-card.spotlight::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent)}
+.spot-tag{position:absolute;top:11px;right:11px;font-size:9px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:3px 8px;border-radius:20px}
+.seat-ico{width:30px;height:30px;margin:0 auto 10px;color:var(--ink2)}
+.seat-card.spotlight .seat-ico{color:var(--accent)}
+.seat-card h3{font-size:16px;color:var(--ink)}
+.seat-role{font-size:11.5px;color:var(--muted);margin-top:4px;min-height:32px}
+.seat-price{font-size:27px;font-weight:600;color:var(--ink);margin-top:10px;letter-spacing:-.02em}
+.seat-unit{font-size:11.5px;color:var(--faint)}
+.plat-band{
+  margin-top:12px;border:1px solid #EBCDB4;border-radius:var(--r);
+  padding:16px;text-align:center;background:var(--accent-soft);
+}
+.plat-band h3{font-size:15px;color:var(--accent-dk)}
+.plat-band .p{font-size:12.5px;color:var(--ink2);margin-top:3px}
+
+/* ---------- tables ---------- */
+table{width:100%;border-collapse:collapse;font-size:12.8px}
+thead th{
+  text-align:left;font-size:10.5px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--faint);padding:9px 12px;
+  border-bottom:1px solid var(--line);white-space:nowrap;
+}
+tbody td{padding:11px 12px;border-bottom:1px solid var(--line2);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+td.r,th.r{text-align:right}
+tbody tr.hi td{background:var(--accent-soft)}
+.t-main{font-weight:600;color:var(--ink)}
+.t-sub{font-size:11.5px;color:var(--muted);margin-top:2px}
+.tbl-wrap{overflow-x:auto}
+
+/* ---------- configure: two pane ---------- */
+.two-pane{display:grid;grid-template-columns:340px 1fr;gap:12px;align-items:start}
+.rail{display:flex;flex-direction:column;gap:10px}
+.ctl{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 15px;box-shadow:var(--shadow)}
+.ctl-lbl{font-size:12.5px;font-weight:600;color:var(--ink)}
+.ctl-hint{font-size:11.2px;color:var(--muted);margin-top:3px;line-height:1.45}
+.seg{display:flex;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:3px;margin-top:9px;gap:3px}
+.seg button{flex:1;border:1px solid transparent;background:transparent;color:var(--muted);
+  border-radius:5px;padding:7px 6px;font-size:12px;font-weight:500;transition:.14s}
+.seg button:hover:not(:disabled){color:var(--ink)}
+.seg button.on{background:var(--card);border-color:var(--line);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(34,48,74,.06)}
+.seg button:disabled{opacity:.35;cursor:not-allowed}
+.field{position:relative;margin-top:9px}
+.field input[type=number],.field input[type=text]{
+  width:100%;border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:9px 46px 9px 11px;background:var(--card);font-size:13.5px;font-weight:600;
+}
+.field input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.field .suffix{position:absolute;right:11px;top:50%;transform:translateY(-50%);
+  font-size:11.5px;color:var(--faint);pointer-events:none}
+
+/* two-handle slider */
+.mix{margin-top:14px;padding-top:2px}
+.mixtrack{position:relative;height:9px;border-radius:5px;background:var(--line2);margin:16px 8px 0;touch-action:none}
+.mixseg{position:absolute;top:0;height:100%}
+.mixseg.a{background:var(--ink);border-radius:5px 0 0 5px}
+.mixseg.b{background:var(--accent)}
+.mixseg.c{background:#C9CFD8;border-radius:0 5px 5px 0}
+.handle{position:absolute;top:50%;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;
+  background:var(--card);border:2px solid var(--ink);cursor:grab;transition:box-shadow .14s,transform .1s;z-index:2}
+.handle:hover{box-shadow:0 0 0 5px rgba(34,48,74,.10)}
+.handle.drag{cursor:grabbing;transform:scale(1.12);box-shadow:0 0 0 6px rgba(194,112,61,.16);border-color:var(--accent)}
+.mixlegend{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.mixleg{text-align:center}
+.mixleg .dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px;vertical-align:1px}
+.mixleg .nm{font-size:11px;color:var(--muted);font-weight:500}
+.mixleg .pc{font-size:15px;font-weight:600;margin-top:2px}
+.mixleg .ct{font-size:10.8px;color:var(--faint)}
+.mixleg input{width:100%;margin-top:5px;border:1px solid var(--line);border-radius:5px;
+  padding:4px 6px;text-align:center;font-size:11.5px;font-weight:600;background:var(--bg)}
+.mixleg input:focus{outline:none;border-color:var(--accent);background:var(--card)}
+
+.modrow{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px solid var(--line2)}
+.modrow:last-child{border-bottom:none}
+.modrow.locked{opacity:.4}
+.modrow input[type=checkbox]{margin-top:2px;width:15px;height:15px;accent-color:var(--ink);flex:none}
+.modrow .mn{font-size:12.5px;font-weight:600}
+.modrow .md{font-size:11px;color:var(--muted);line-height:1.4}
+.modrow .mp{font-size:11.5px;font-weight:600;color:var(--accent);white-space:nowrap;margin-left:auto;padding-left:8px}
+
+.livecard{background:var(--ink);color:#fff;border-radius:var(--r);padding:14px 15px}
+.livecard .hd{font-size:10px;letter-spacing:.13em;text-transform:uppercase;opacity:.6;font-weight:600}
+.liverow{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.10);font-size:12.2px}
+.liverow:last-child{border-bottom:none}
+.liverow .k{opacity:.72}
+.liverow .v{font-weight:600}
+.tierflash{animation:flash .7s ease}
+@keyframes flash{0%{background:rgba(194,112,61,.55)}100%{background:transparent}}
+
+/* quote preview doc */
+.qdoc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.qdoc-hd{padding:20px 24px;border-bottom:1px solid var(--line2);display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.qbrand{display:flex;align-items:center;gap:9px}
+.qbrand .lm{width:28px;height:28px;border-radius:6px;background:var(--ink);display:grid;place-items:center}
+.qbrand .lm svg{width:16px;height:16px}
+.qbrand .nm{font-size:14.5px;font-weight:600;letter-spacing:-.01em}
+.qmeta{text-align:right}
+.qmeta .t{font-size:10.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--faint)}
+.qmeta .u{font-size:11px;color:var(--faint);margin-top:2px}
+.qdoc-bd{padding:22px 24px}
+.qtitle{font-size:10.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--accent)}
+.qdoc-bd h2{font-size:25px;font-weight:600;color:var(--ink);margin:6px 0 7px;letter-spacing:-.02em}
+.qlede{font-size:12.5px;color:var(--muted);max-width:70ch}
+.stat3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.stat{border:1px solid var(--line);border-radius:var(--r-sm);padding:13px 14px;background:var(--bg)}
+.stat .k{font-size:9.8px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--faint)}
+.stat .v{font-size:21px;font-weight:600;margin-top:5px;letter-spacing:-.02em}
+.stat .s{font-size:11px;color:var(--muted);margin-top:2px}
+.stat.dark{background:var(--ink);border-color:var(--ink)}
+.stat.dark .k{color:rgba(255,255,255,.6)} .stat.dark .v{color:#fff} .stat.dark .s{color:rgba(255,255,255,.72)}
+.subtotal-row td{border-top:1px solid var(--line);border-bottom:none;font-weight:600;background:var(--bg)}
+.total-row td{border-top:2px solid var(--ink);border-bottom:none;padding-top:13px}
+.total-row .lbl{font-size:12.5px;font-weight:600}
+.total-row .amt{font-size:19px;font-weight:600;letter-spacing:-.02em}
+.disc-row td{color:var(--green)}
+.termbox{margin-top:18px;border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden}
+.termbox .th{background:var(--bg);padding:10px 14px;font-size:10.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--faint);border-bottom:1px solid var(--line2)}
+.termrow{display:flex;justify-content:space-between;padding:9px 14px;font-size:12.5px;border-bottom:1px solid var(--line2)}
+.termrow:last-child{border-bottom:none}
+.termrow.tcv{background:var(--ink);color:#fff;font-weight:600}
+.termrow.tcv .v{font-size:16px}
+
+/* badges */
+.badge{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600;white-space:nowrap}
+.badge .d{width:6px;height:6px;border-radius:50%;background:currentColor}
+.badge.ok{background:var(--green-soft);color:var(--green)}
+.badge.warn{background:var(--amber-soft);color:var(--amber)}
+.badge.bad{background:var(--red-soft);color:var(--red)}
+.badge.neutral{background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+
+/* discounts */
+.d-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+.slider-wrap{margin-top:14px}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:4px;background:var(--line2);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:19px;height:19px;border-radius:50%;
+  background:var(--card);border:2px solid var(--ink);cursor:grab;box-shadow:0 1px 3px rgba(34,48,74,.2)}
+input[type=range]::-moz-range-thumb{width:19px;height:19px;border-radius:50%;background:var(--card);
+  border:2px solid var(--ink);cursor:grab}
+.gauge{margin-top:14px}
+.gauge-track{height:11px;border-radius:6px;background:linear-gradient(90deg,var(--red) 0%,var(--red) 26%,var(--amber) 26%,var(--amber) 46%,var(--green) 46%,var(--green) 100%);position:relative}
+.gauge-pin{position:absolute;top:-6px;width:3px;height:23px;background:var(--ink);border-radius:2px;transform:translateX(-50%);
+  box-shadow:0 0 0 2px var(--card);transition:left .3s cubic-bezier(.4,0,.2,1)}
+.gauge-scale{display:flex;justify-content:space-between;font-size:10.5px;color:var(--faint);margin-top:6px}
+.approve-card{border-radius:var(--r-sm);padding:15px;border:1px solid var(--line);transition:.2s}
+.approve-card.lvl0{background:var(--green-soft);border-color:#BFDCCD}
+.approve-card.lvl1{background:var(--bg)}
+.approve-card.lvl2{background:var(--amber-soft);border-color:#EBD9AE}
+.approve-card.lvl3{background:var(--red-soft);border-color:#EEC9C5}
+.approve-card .who{font-size:19px;font-weight:600;margin-top:5px}
+.approve-card .why{font-size:12px;color:var(--ink2);margin-top:7px;line-height:1.5}
+
+/* TCO */
+.stackrow{border:1px solid var(--line);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:9px;background:var(--card);transition:.16s}
+.stackrow.off{opacity:.45;background:var(--bg)}
+.stackrow-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.stackrow-top .cat{font-size:13px;font-weight:600;flex:1;min-width:150px}
+.chk{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted);cursor:pointer;user-select:none}
+.chk input{width:15px;height:15px;accent-color:var(--ink);cursor:pointer}
+.stackrow-bd{display:grid;grid-template-columns:1.35fr 1fr;gap:10px;margin-top:10px}
+.mini-lbl{font-size:10.2px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
+.stackrow input[type=text],.stackrow input[type=number],.stackrow select{
+  width:100%;border:1px solid var(--line);border-radius:6px;padding:7px 10px;font-size:12.5px;background:var(--card)}
+.stackrow input:focus,.stackrow select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.bench{font-size:10.8px;color:var(--faint);margin-top:4px}
+.rm{border:none;background:none;color:var(--faint);font-size:16px;line-height:1;padding:2px 5px;border-radius:4px}
+.rm:hover{color:var(--red);background:var(--red-soft)}
+.labor-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.labor-out{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.tco-big{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+
+/* competition */
+.vs-tbl td{width:50%;font-size:12.6px;line-height:1.55}
+.vs-tbl td.nw{border-right:1px solid var(--line2);color:var(--ink)}
+.vs-tbl td.mk{color:var(--ink2)}
+.vs-head th{padding-bottom:10px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+
+/* faq */
+.faq-tools{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.faq-search{flex:1;min-width:200px;position:relative}
+.faq-search input{width:100%;border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px 9px 34px;font-size:13px;background:var(--card)}
+.faq-search input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.faq-search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--faint)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:20px;padding:5px 12px;font-size:11.5px;font-weight:500;transition:.14s}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.faq-cat{font-size:10.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--faint);margin:20px 0 8px}
+.faq-cat:first-child{margin-top:0}
+.qa{border:1px solid var(--line);border-radius:var(--r-sm);margin-bottom:7px;overflow:hidden;background:var(--card)}
+.qa-q{width:100%;text-align:left;border:none;background:none;padding:13px 15px;font-size:13px;font-weight:500;color:var(--ink);display:flex;gap:12px;align-items:flex-start}
+.qa-q:hover{background:var(--bg)}
+.qa-q .ar{margin-left:auto;color:var(--faint);transition:transform .2s;flex:none;font-size:11px;margin-top:3px}
+.qa.open .qa-q{background:var(--bg);font-weight:600}
+.qa.open .qa-q .ar{transform:rotate(90deg)}
+.qa-a{display:none;padding:2px 15px 15px;font-size:12.6px;color:var(--ink2);line-height:1.62;border-top:1px solid var(--line2)}
+.qa-a p{margin-top:11px}
+.qa.open .qa-a{display:block}
+.ask-box{background:var(--bg);border:1px dashed var(--line);border-radius:var(--r-sm);padding:16px;margin-top:18px}
+.ask-box textarea{width:100%;border:1px solid var(--line);border-radius:6px;padding:9px 11px;font-family:inherit;font-size:12.5px;resize:vertical;min-height:60px;background:var(--card)}
+
+/* summary */
+.sum-doc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:38px 42px}
+.sum-hd{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:22px;border-bottom:2px solid var(--ink);gap:20px}
+.sum-cust{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}
+.sum-cust input{width:100%;border:none;border-bottom:1px solid var(--line);padding:5px 0;font-size:13px;font-weight:600;background:transparent}
+.sum-cust input:focus{outline:none;border-bottom-color:var(--accent)}
+.sum-sec{margin-top:26px}
+.sum-sec h3{font-size:10.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);
+  padding-bottom:7px;border-bottom:1px solid var(--line);margin-bottom:11px}
+.sig{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:34px;padding-top:22px;border-top:1px solid var(--line)}
+.sig .ln{border-bottom:1px solid var(--ink);height:34px}
+.sig .cap{font-size:10.5px;color:var(--faint);margin-top:5px}
+.kv{display:flex;justify-content:space-between;padding:6px 0;font-size:12.6px;border-bottom:1px solid var(--line2)}
+.kv:last-child{border-bottom:none}
+.kv .k{color:var(--muted)}
+.kv .v{font-weight:600}
+
+.foot{margin-top:26px;text-align:center;font-size:11px;color:var(--faint);line-height:1.7}
+.foot .disc{max-width:74ch;margin:0 auto 6px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(70px);background:var(--ink);color:#fff;
+  padding:11px 20px;border-radius:22px;font-size:12.5px;font-weight:500;box-shadow:0 6px 24px rgba(34,48,74,.28);
+  transition:transform .28s cubic-bezier(.4,0,.2,1);z-index:99}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+@media (max-width:1080px){
+  .two-pane{grid-template-columns:1fr}
+  .d-grid,.two-col{grid-template-columns:1fr}
+  .labor-grid,.labor-out,.tco-big{grid-template-columns:repeat(2,1fr)}
+  .seat-hero{grid-template-columns:1fr}
+  .sum-cust{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:620px){
+  .stat3{grid-template-columns:1fr}
+  .labor-grid,.labor-out,.tco-big,.sum-cust{grid-template-columns:1fr}
+  .sum-doc{padding:22px}
+  .app{padding:14px 12px 40px}
+}
+
+/* ---------- print ---------- */
+@media print{
+  @page{size:letter portrait;margin:0.55in}
+  body{background:#fff;font-size:10.5pt}
+  .masthead,.tabbar,.foot,.no-print,.toast{display:none!important}
+  .app{max-width:none;padding:0}
+  .panel{display:none!important}
+  .panel.active{display:block!important;margin:0}
+  .sum-doc{border:none;box-shadow:none;padding:0;border-radius:0}
+  .card{border:1px solid #ddd;box-shadow:none;break-inside:avoid}
+  .sum-sec{break-inside:avoid}
+  table{break-inside:auto}
+  tr{break-inside:avoid}
+  .stat.dark{background:#fff!important;border:1px solid #999!important}
+  .stat.dark .k{color:#666!important}.stat.dark .v,.stat.dark .s{color:#000!important}
+  .termrow.tcv{background:#fff!important;color:#000!important;border-top:2px solid #000}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- masthead -->
+  <header class="masthead">
+    <div class="logomark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 19V5l16 14V5"/>
+      </svg>
+    </div>
+    <div class="mast-txt">
+      <div class="eyebrow">Maintained by Revenue Operations</div>
+      <h1>Northwind Analytics Pricing</h1>
+      <p>Rate card, quote builder, and the tools to show total cost of ownership</p>
+    </div>
+    <div class="mast-actions no-print">
+      <button class="btn" id="btnReset">Reset demo</button>
+      <button class="btn btn-primary" id="btnJump">Go to quote</button>
+    </div>
+  </header>
+
+  <!-- tabs -->
+  <nav class="tabbar no-print" id="tabbar">
+    <button class="tab active" data-tab="products">Products</button>
+    <button class="tab" data-tab="configure">Configure Quote</button>
+    <button class="tab" data-tab="discounts">Discounts &amp; Approvals</button>
+    <button class="tab" data-tab="tco">TCO</button>
+    <button class="tab" data-tab="competition">Competition</button>
+    <button class="tab" data-tab="faqs">FAQs</button>
+    <button class="tab" data-tab="summary">Summary &amp; Export</button>
+  </nav>
+
+  <!-- ============ PRODUCTS ============ -->
+  <section class="panel active" id="p-products">
+    <div class="card">
+      <div class="card-hd">
+        <h2>Northwind Data Platform</h2>
+        <p>Northwind is licensed per seat. Every user is a Creator, an Explorer, or a Viewer, and the per-seat rate steps down as total seat count grows. Modules attach to licensed seats only. Support is priced as a percentage of software with a floor. <span style="color:var(--faint)">This tab is the published rate card for reference — build a live quote on <strong style="color:var(--muted);font-weight:600">Configure Quote</strong>.</span></p>
+      </div>
+      <div class="card-bd">
+        <div class="seat-hero">
+          <div class="seat-card">
+            <svg class="seat-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+            <h3>Creator</h3>
+            <div class="seat-role">Builds models, pipelines, and dashboards</div>
+            <div class="seat-price" id="pcCreator">$660–$1,200</div>
+            <div class="seat-unit">/ seat / year</div>
+          </div>
+          <div class="seat-card">
+            <svg class="seat-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <h3>Explorer</h3>
+            <div class="seat-role">Self-serve analysis and ad-hoc queries</div>
+            <div class="seat-price" id="pcExplorer">$264–$480</div>
+            <div class="seat-unit">/ seat / year · 40% of Creator</div>
+          </div>
+          <div class="seat-card spotlight">
+            <span class="spot-tag">Where we win</span>
+            <svg class="seat-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="2.6"/></svg>
+            <h3>Viewer</h3>
+            <div class="seat-role">Consumes dashboards and reports only</div>
+            <div class="seat-price" id="pcViewer">$66–$120</div>
+            <div class="seat-unit">/ seat / year · 10% of Creator</div>
+          </div>
+        </div>
+        <div class="plat-band">
+          <h3>Viewer seats cost a tenth of a Creator seat</h3>
+          <div class="p">Most analytics vendors charge read-only users at near-full price. This is where Northwind quotes separate from the market.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd"><h2>Seat volume tiers</h2><p>Tier is set by <strong>total</strong> seats, not Creator seats. Explorer and Viewer rates derive from the Creator rate, so the whole card moves together.</p></div>
+      <div class="tbl-wrap"><table id="tierTable">
+        <thead><tr><th>Total seats</th><th class="r">Creator / yr</th><th class="r">Explorer / yr</th><th class="r">Viewer / yr</th><th class="r">Embed module / yr</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+      <div class="card-bd tight" style="border-top:1px solid var(--line2)">
+        <p style="font-size:11.5px;color:var(--muted)">The row matching your current configuration is highlighted. For reference, 180 seats is roughly a 40-person analytics and business-intelligence function in a mid-market company.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd"><h2>Modules</h2><p>Per-seat modules are charged on <strong>licensed seats only</strong> — Creator plus Explorer. Viewers never carry module cost. Embed is flat, because it serves external users who are not licensed seats.</p></div>
+      <div class="tbl-wrap"><table id="moduleTable"><thead><tr><th>Module</th><th>What it does</th><th class="r">Price</th><th class="r">Basis</th></tr></thead><tbody></tbody></table></div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd"><h2>Support tiers</h2><p>Priced as a percentage of the software subtotal with a dollar floor, so small deals still carry real support coverage.</p></div>
+      <div class="tbl-wrap"><table id="supportTable"><thead><tr><th>Tier</th><th>Service level</th><th class="r">Price</th><th class="r">Minimum</th></tr></thead><tbody></tbody></table></div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd"><h2>Editions</h2><p>Essentials is the entry package for smaller teams. Selecting it on the Configure Quote tab visibly locks the controls it excludes.</p></div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th></th><th>Northwind Platform</th><th>Northwind Essentials</th></tr></thead>
+        <tbody>
+          <tr><td class="t-main">Seat types</td><td>Creator, Explorer, Viewer</td><td>Creator, Explorer, Viewer</td></tr>
+          <tr><td class="t-main">Modules</td><td>All four available</td><td>Modeler only</td></tr>
+          <tr><td class="t-main">Seat cap</td><td>None</td><td>250 seats</td></tr>
+          <tr><td class="t-main">Support</td><td>Standard, Premier, or Enterprise</td><td>Standard only</td></tr>
+          <tr><td class="t-main">Contract term</td><td>1, 2, or 3 years</td><td>1, 2, or 3 years</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- ============ CONFIGURE ============ -->
+  <section class="panel" id="p-configure">
+    <div class="two-pane">
+      <div class="rail no-print">
+        <div class="ctl">
+          <div class="ctl-lbl">Edition</div>
+          <div class="seg" id="segEdition">
+            <button data-v="platform" class="on">Platform</button>
+            <button data-v="essentials">Essentials</button>
+          </div>
+          <div class="ctl-hint" id="editionHint">All modules and support tiers available.</div>
+        </div>
+
+        <div class="ctl">
+          <div class="ctl-lbl">Contract term</div>
+          <div class="seg" id="segTerm">
+            <button data-v="1">1 year</button>
+            <button data-v="2">2 years</button>
+            <button data-v="3" class="on">3 years</button>
+          </div>
+          <div class="ctl-hint" id="termHint">3-year term applies an 8% programmatic discount. No approval needed.</div>
+        </div>
+
+        <div class="ctl">
+          <div class="ctl-lbl">Total seats</div>
+          <div class="field">
+            <input type="number" id="inSeats" min="1" max="25000" step="1" value="180">
+            <span class="suffix">seats</span>
+          </div>
+          <div class="ctl-hint" id="seatHint"></div>
+        </div>
+
+        <div class="ctl">
+          <div class="ctl-lbl">Seat mix</div>
+          <div class="ctl-hint">Drag the handles to split total seats across the three types. They always sum to the total.</div>
+          <div class="mix">
+            <div class="mixtrack" id="mixTrack">
+              <div class="mixseg a" id="segA"></div>
+              <div class="mixseg b" id="segB"></div>
+              <div class="mixseg c" id="segC"></div>
+              <div class="handle" id="h1" tabindex="0" role="slider" aria-label="Creator share"></div>
+              <div class="handle" id="h2" tabindex="0" role="slider" aria-label="Explorer share"></div>
+            </div>
+            <div class="mixlegend">
+              <div class="mixleg">
+                <div class="nm"><span class="dot" style="background:var(--ink)"></span>Creator</div>
+                <div class="pc" id="pcC">15%</div>
+                <div class="ct" id="ctC">27 seats</div>
+                <input type="number" id="inC" min="0" max="100" step="1" value="15">
+              </div>
+              <div class="mixleg">
+                <div class="nm"><span class="dot" style="background:var(--accent)"></span>Explorer</div>
+                <div class="pc" id="pcE">45%</div>
+                <div class="ct" id="ctE">81 seats</div>
+                <input type="number" id="inE" min="0" max="100" step="1" value="45">
+              </div>
+              <div class="mixleg">
+                <div class="nm"><span class="dot" style="background:#C9CFD8"></span>Viewer</div>
+                <div class="pc" id="pcV">40%</div>
+                <div class="ct" id="ctV">72 seats</div>
+                <input type="number" id="inV" min="0" max="100" step="1" value="40">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ctl">
+          <div class="ctl-lbl">Modules</div>
+          <div class="ctl-hint">Per-seat modules charge on licensed seats (Creator + Explorer).</div>
+          <div id="modList" style="margin-top:6px"></div>
+        </div>
+
+        <div class="ctl">
+          <div class="ctl-lbl">Support tier</div>
+          <div class="seg" id="segSupport" style="flex-direction:column">
+            <button data-v="standard">Standard — included</button>
+            <button data-v="premier" class="on">Premier — 15%, min $12K</button>
+            <button data-v="enterprise">Enterprise — 22%, min $30K</button>
+          </div>
+          <div class="ctl-hint" id="supportHint"></div>
+        </div>
+
+        <div class="livecard" id="liveRates">
+          <div class="hd">Active rate card <span id="tierBadge" style="float:right;opacity:.85"></span></div>
+          <div id="liveRows"></div>
+        </div>
+      </div>
+
+      <div class="qdoc" id="quoteDoc">
+        <div class="qdoc-hd">
+          <div class="qbrand">
+            <div class="lm"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5l16 14V5"/></svg></div>
+            <div><div class="nm">Northwind Analytics</div></div>
+          </div>
+          <div class="qmeta">
+            <div class="t">Annual Pricing Estimate</div>
+            <div class="u">northwindanalytics.com</div>
+          </div>
+        </div>
+        <div class="qdoc-bd">
+          <div class="qtitle" id="qEdition">Northwind Platform</div>
+          <h2 id="qHeadline">Annual Pricing Estimate</h2>
+          <p class="qlede" id="qLede"></p>
+
+          <div class="stat3">
+            <div class="stat"><div class="k">Total seats</div><div class="v" id="sTotal">180</div><div class="s" id="sTotalSub">All licensed users</div></div>
+            <div class="stat"><div class="k">Licensed seats</div><div class="v" id="sLic">108</div><div class="s" id="sLicSub">Carry module cost</div></div>
+            <div class="stat dark"><div class="k">Effective rate</div><div class="v" id="sEff">$569</div><div class="s">per seat per year, net</div></div>
+          </div>
+
+          <div class="tbl-wrap" style="margin-top:20px">
+            <table id="quoteTable">
+              <thead><tr><th>Billing element</th><th class="r">Quantity</th><th class="r">Rate</th><th class="r">Amount</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="termbox">
+            <div class="th">Contract term</div>
+            <div id="termRows"></div>
+          </div>
+
+          <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap" class="no-print">
+            <button class="btn btn-sm" id="btnCsvQuote">Export line items (CSV)</button>
+            <button class="btn btn-sm" id="btnGoSummary">Open full quote document</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DISCOUNTS ============ -->
+  <section class="panel" id="p-discounts">
+    <div class="card">
+      <div class="card-hd">
+        <h2>Discounts &amp; approvals</h2>
+        <p>Term discount is programmatic and needs no sign-off. Only the negotiated discount below routes for approval, and only the resulting effective per-seat rate is checked against the margin floor.</p>
+      </div>
+      <div class="card-bd">
+        <div class="d-grid">
+          <div>
+            <div class="ctl-lbl">Negotiated discount</div>
+            <div class="field" style="max-width:170px"><input type="number" id="inDisc" min="0" max="60" step="0.5" value="12"><span class="suffix">%</span></div>
+            <div class="slider-wrap"><input type="range" id="rngDisc" min="0" max="60" step="0.5" value="12"></div>
+            <div class="gauge-scale"><span>0%</span><span>15%</span><span>30%</span><span>45%</span><span>60%</span></div>
+
+            <div style="margin-top:22px">
+              <div class="ctl-lbl">Margin floor</div>
+              <div class="ctl-hint">Effective net rate per seat per year, against the $450 floor.</div>
+              <div class="gauge">
+                <div class="gauge-track"><div class="gauge-pin" id="gaugePin" style="left:50%"></div></div>
+                <div class="gauge-scale"><span>$300</span><span>$450 floor</span><span>$495</span><span>$900+</span></div>
+              </div>
+              <div style="margin-top:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                <span class="badge" id="floorBadge"><span class="d"></span><span id="floorTxt"></span></span>
+                <span style="font-size:12.5px;color:var(--muted)">Effective rate <strong class="num" id="floorRate" style="color:var(--ink)"></strong> / seat / yr</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="approve-card" id="approveCard">
+              <div class="eyebrow">Approval required</div>
+              <div class="who" id="approveWho">Sales Manager</div>
+              <div class="why" id="approveWhy"></div>
+            </div>
+            <div style="margin-top:12px" class="card">
+              <div class="card-bd tight">
+                <div class="kv"><span class="k">Annual list</span><span class="v num" id="dList"></span></div>
+                <div class="kv"><span class="k">Term discount</span><span class="v num" id="dTerm"></span></div>
+                <div class="kv"><span class="k">Negotiated discount</span><span class="v num" id="dNeg"></span></div>
+                <div class="kv"><span class="k">Annual net</span><span class="v num" id="dNet"></span></div>
+                <div class="kv"><span class="k">Total contract value</span><span class="v num" id="dTcv"></span></div>
+                <div class="kv"><span class="k">Total giveback over term</span><span class="v num" id="dGive" style="color:var(--green)"></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd"><h2>Discount ladder</h2><p>What each step costs and who has to sign it. The current setting is highlighted.</p></div>
+      <div class="tbl-wrap"><table id="ladderTable">
+        <thead><tr><th class="r">Discount</th><th class="r">Annual net</th><th class="r">Total contract value</th><th class="r">Effective / seat</th><th>Margin</th><th>Approver</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- ============ TCO ============ -->
+  <section class="panel" id="p-tco">
+    <div class="card">
+      <div class="card-hd">
+        <h2>Total cost of ownership</h2>
+        <p>Compare the customer's incumbent stack and analytics labor against the configured Northwind quote. Every cost below is editable, and only tools marked <em>retained</em> carry into the future state.</p>
+      </div>
+      <div class="card-bd tight no-print" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <span class="eyebrow" style="margin-right:4px">Export TCO</span>
+        <button class="btn btn-sm" id="btnCsvTco">CSV</button>
+        <button class="btn btn-sm" id="btnPrintTco">Print / PDF</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd"><h3>Current technology stack</h3><p>Included rows count toward current-state cost. Mark a row retained when it stays in place alongside Northwind.</p></div>
+      <div class="card-bd">
+        <div id="stackList"></div>
+        <button class="btn btn-sm no-print" id="btnAddTool" style="margin-top:4px">+ Add another tool</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd"><h3>Analytics labor</h3><p>Northwind's impact on labor is modeled as time reclaimed from manual reporting and data preparation, not headcount reduction.</p></div>
+      <div class="card-bd">
+        <div class="labor-grid">
+          <div><div class="mini-lbl">Analytics headcount</div><div class="field" style="margin-top:0"><input type="number" id="inHc" min="0" step="1" value="9"><span class="suffix">FTE</span></div></div>
+          <div><div class="mini-lbl">Loaded cost per head</div><div class="field" style="margin-top:0"><input type="number" id="inLoaded" min="0" step="1000" value="145000"><span class="suffix">/ yr</span></div></div>
+          <div><div class="mini-lbl">Time on manual reporting</div><div class="field" style="margin-top:0"><input type="number" id="inManual" min="0" max="100" step="1" value="45"><span class="suffix">%</span></div></div>
+          <div><div class="mini-lbl">Of that, reclaimed</div><div class="field" style="margin-top:0"><input type="number" id="inReclaim" min="0" max="100" step="1" value="55"><span class="suffix">%</span></div></div>
+        </div>
+        <div class="labor-out">
+          <div class="stat"><div class="k">Current labor</div><div class="v num" id="lbCur"></div><div class="s" id="lbCurSub"></div></div>
+          <div class="stat"><div class="k">Addressable</div><div class="v num" id="lbAddr"></div><div class="s">Manual reporting share</div></div>
+          <div class="stat"><div class="k">Modeled savings</div><div class="v num" id="lbSave" style="color:var(--green)"></div><div class="s">Time reclaimed annually</div></div>
+          <div class="stat"><div class="k">Remaining labor</div><div class="v num" id="lbRem"></div><div class="s">Future annual labor</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd"><h2>TCO comparison</h2><p id="tcoLede"></p></div>
+      <div class="card-bd">
+        <div class="tco-big">
+          <div class="stat"><div class="k">Current annual TCO</div><div class="v num" id="tcoCur"></div><div class="s">Technology + labor</div></div>
+          <div class="stat"><div class="k">Future annual TCO</div><div class="v num" id="tcoFut"></div><div class="s">Northwind + retained tech + labor</div></div>
+          <div class="stat dark"><div class="k">Annual savings</div><div class="v num" id="tcoSave"></div><div class="s" id="tcoPct"></div></div>
+          <div class="stat"><div class="k">Term savings</div><div class="v num" id="tcoTerm"></div><div class="s" id="tcoTermSub"></div></div>
+        </div>
+        <div class="tbl-wrap" style="margin-top:16px"><table id="tcoTable">
+          <thead><tr><th>Component</th><th class="r">Current</th><th class="r">Future</th><th class="r">Change</th></tr></thead>
+          <tbody></tbody>
+        </table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COMPETITION ============ -->
+  <section class="panel" id="p-competition">
+    <div class="card">
+      <div class="card-hd">
+        <h2>Northwind vs. the market</h2>
+        <p>The market sells analytics as four to six separate products on four to six different pricing bases. Northwind sells one platform on one basis, with read-only users priced accordingly.</p>
+      </div>
+      <div class="tbl-wrap"><table class="vs-tbl">
+        <thead class="vs-head"><tr><th>Northwind Analytics</th><th>Typical market stack</th></tr></thead>
+        <tbody id="vsBody"></tbody>
+      </table></div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd"><h2>Annual cost comparison</h2><p>The incumbent stack from the TCO tab, priced against the configured Northwind quote on the same annual basis. Retained infrastructure is excluded from both sides, since it stays either way.</p></div>
+      <div class="card-bd">
+        <div class="two-col">
+          <div class="card" style="box-shadow:none">
+            <div class="card-hd plain" style="padding-bottom:8px"><h3>Market stack</h3><p>Separate products, separate pricing bases.</p></div>
+            <div class="tbl-wrap"><table id="mktTable"><thead><tr><th>Category</th><th class="r">Basis</th><th class="r">Annual</th></tr></thead><tbody></tbody></table></div>
+          </div>
+          <div class="card" style="box-shadow:none">
+            <div class="card-hd plain" style="padding-bottom:8px"><h3>Northwind</h3><p>Configured quote, net of all discounts.</p></div>
+            <div class="tbl-wrap"><table id="nwTable"><thead><tr><th>Element</th><th class="r">Basis</th><th class="r">Annual</th></tr></thead><tbody></tbody></table></div>
+          </div>
+        </div>
+        <div class="stat3" style="margin-top:14px">
+          <div class="stat"><div class="k">Market stack</div><div class="v num" id="cmpMkt"></div><div class="s">Displaced tools, annual</div></div>
+          <div class="stat"><div class="k">Northwind</div><div class="v num" id="cmpNw"></div><div class="s">Configured annual net</div></div>
+          <div class="stat dark"><div class="k">Difference</div><div class="v num" id="cmpDelta"></div><div class="s" id="cmpPct"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd"><h3>Read-only users are where the gap opens</h3><p>Modeled at the configured Viewer count, comparing Northwind's Viewer rate to a typical market read-only seat.</p></div>
+      <div class="card-bd"><div class="tbl-wrap"><table id="viewerTable">
+        <thead><tr><th>Read-only users</th><th class="r">Rate / seat / yr</th><th class="r">Annual</th></tr></thead><tbody></tbody>
+      </table></div></div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="panel" id="p-faqs">
+    <div class="card">
+      <div class="card-hd">
+        <div class="eyebrow">Revenue operations guidance</div>
+        <h2 style="margin-top:3px">Pricing FAQs</h2>
+        <p>Published for the current rate card. If a scenario is not covered here, route it to Deal Desk rather than improvising.</p>
+      </div>
+      <div class="card-bd">
+        <div class="faq-tools">
+          <div class="faq-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input type="text" id="faqSearch" placeholder="Search questions and answers…">
+          </div>
+          <button class="btn btn-sm" id="btnExpandAll">Expand all</button>
+        </div>
+        <div class="chips" id="faqChips"></div>
+        <div id="faqList" style="margin-top:18px"></div>
+        <div class="ask-box no-print">
+          <div class="ctl-lbl">Still have a pricing question?</div>
+          <div class="ctl-hint" style="margin-bottom:9px">Demo affordance — in production this posts to the Deal Desk queue.</div>
+          <textarea id="askBox" placeholder="Describe the pricing scenario or question…"></textarea>
+          <button class="btn btn-sm btn-primary" id="btnAsk" style="margin-top:9px">Send question</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SUMMARY ============ -->
+  <section class="panel" id="p-summary">
+    <div class="card no-print">
+      <div class="card-bd tight" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <span class="eyebrow" style="margin-right:4px">Export</span>
+        <button class="btn btn-sm btn-primary" id="btnPrint">Print / Save as PDF</button>
+        <button class="btn btn-sm" id="btnCsvAll">Full quote (CSV)</button>
+        <span style="font-size:11.5px;color:var(--muted);margin-left:6px">Print produces a clean one-document PDF — the app chrome is stripped.</span>
+      </div>
+    </div>
+
+    <div class="sum-doc" id="sumDoc">
+      <div class="sum-hd">
+        <div class="qbrand">
+          <div class="lm"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5l16 14V5"/></svg></div>
+          <div>
+            <div class="nm" style="font-size:16px">Northwind Analytics</div>
+            <div style="font-size:11px;color:var(--faint)">1400 Wabash Avenue, Suite 600 · Chicago, IL 60605</div>
+          </div>
+        </div>
+        <div class="qmeta">
+          <div class="t">Pricing proposal</div>
+          <div class="u" id="sumQuoteNo"></div>
+        </div>
+      </div>
+
+      <div class="sum-cust">
+        <div><div class="mini-lbl">Prepared for</div><input type="text" id="cName" value="Meridian Health Group"></div>
+        <div><div class="mini-lbl">Prepared by</div><input type="text" id="cBy" value="Greg Robin"></div>
+        <div><div class="mini-lbl">Quote date</div><input type="text" id="cDate"></div>
+        <div><div class="mini-lbl">Valid until</div><input type="text" id="cValid"></div>
+      </div>
+
+      <div class="sum-sec">
+        <h3>Configuration</h3>
+        <div id="sumConfig"></div>
+      </div>
+
+      <div class="sum-sec">
+        <h3>Annual pricing detail</h3>
+        <div class="tbl-wrap"><table id="sumTable"><thead><tr><th>Billing element</th><th class="r">Quantity</th><th class="r">Rate</th><th class="r">Amount</th></tr></thead><tbody></tbody></table></div>
+      </div>
+
+      <div class="sum-sec">
+        <h3>Contract schedule</h3>
+        <div id="sumTerm"></div>
+      </div>
+
+      <div class="sum-sec">
+        <h3>Total cost of ownership summary</h3>
+        <div id="sumTco"></div>
+      </div>
+
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Customer signature and date</div></div>
+        <div><div class="ln"></div><div class="cap">Northwind Analytics signature and date</div></div>
+      </div>
+
+      <p style="font-size:10.5px;color:var(--faint);margin-top:22px;line-height:1.6">
+        Pricing is an estimate based on the configuration shown and is valid through the date above. Annual pricing is held flat across the contract term at the configured seat count. Seats added mid-term are billed at the then-current tier rate, prorated to the contract anniversary.
+        <br><br><strong>Northwind Analytics is a fictional company.</strong> All products, prices, competitors, and benchmark costs shown are illustrative and do not represent any real vendor.
+      </p>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p class="disc"><strong>Northwind Analytics is a fictional company.</strong> All products, prices, competitors, and benchmark costs in this application are illustrative and do not represent any real vendor. Built as a capability demonstration.</p>
+    <p>Pricing v2.4 · Demo data only · Built by Productivity Advisors</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ==========================================================================
+   NORTHWIND ANALYTICS — PRICING & QUOTING
+   Single-file demo app. No dependencies, no browser storage.
+   ========================================================================== */
+
+/* ---------- 1. RATE CARD ---------- */
+const SEAT_TIERS = [
+  { tier:1, min:1,    max:50,       creator:1200, label:'1 – 50' },
+  { tier:2, min:51,   max:250,      creator:1020, label:'51 – 250' },
+  { tier:3, min:251,  max:1000,     creator:840,  label:'251 – 1,000' },
+  { tier:4, min:1001, max:Infinity, creator:660,  label:'1,001+' }
+];
+const EXPLORER_RATIO = 0.40, VIEWER_RATIO = 0.10;
+
+const MODULES = {
+  modeler : { name:'Northwind Modeler',  price:240, perSeat:true,  desc:'Semantic layer, metric definitions, governance' },
+  pipeline: { name:'Northwind Pipeline', price:180, perSeat:true,  desc:'Ingestion, transformation, orchestration' },
+  signal  : { name:'Northwind Signal',   price:150, perSeat:true,  desc:'Anomaly detection, alerting, monitoring' },
+  embed   : { name:'Northwind Embed',    perSeat:false, flat:{1:18000,2:30000,3:45000,4:60000},
+              desc:'Embedded analytics for external customers' }
+};
+const MODULE_KEYS = ['modeler','pipeline','signal','embed'];
+
+const SUPPORT = {
+  standard  : { name:'Standard',   pct:0,    floor:0,     sla:'Business hours, 8-hour response' },
+  premier   : { name:'Premier',    pct:0.15, floor:12000, sla:'24×5, 4-hour response, named CSM' },
+  enterprise: { name:'Enterprise', pct:0.22, floor:30000, sla:'24×7, 1-hour P1 response, TAM and quarterly business reviews' }
+};
+const TERM_DISCOUNT = { 1:0, 2:0.05, 3:0.08 };
+const MARGIN_FLOOR = 450, MARGIN_WARN = 495;
+const ESSENTIALS_CAP = 250;
+
+const APPROVALS = [
+  { max:0.10, who:'Rep — self-serve',    lvl:0, why:'Within standard rep authority. No sign-off required; book it.' },
+  { max:0.20, who:'Sales Manager',       lvl:1, why:'Manager approval required. Note the competitive situation and the close date on the opportunity record.' },
+  { max:0.30, who:'VP Sales',            lvl:2, why:'VP approval required. Expect to justify the discount with a competitive displacement, a multi-year commitment, or a reference commitment.' },
+  { max:Infinity, who:'Deal Desk + CFO', lvl:3, why:'Deal Desk and CFO approval required. Discounts at this level are reviewed against segment margin targets and generally need an offsetting concession such as term length, prepayment, or a case study.' }
+];
+
+/* ---------- 2. STATE ---------- */
+/* Plain-data deep clone. Avoids structuredClone so the file works in older
+   browsers and in any embedded viewer a prospect might open it in. */
+function deepClone(o){ return JSON.parse(JSON.stringify(o)); }
+
+const DEFAULTS = {
+  edition:'platform', termYears:3, totalSeats:180,
+  mix:{ c:15, e:45, v:40 },
+  modules:{ modeler:true, pipeline:false, signal:true, embed:false },
+  supportTier:'premier', discount:12,
+  customer:{ name:'Meridian Health Group', by:'Greg Robin' },
+  labor:{ hc:9, loaded:145000, manualPct:45, reclaimPct:55 },
+  stack:[
+    { cat:'Business Intelligence Suite', vendor:'Sightline BI',    cost:183600, benchmark:183600, included:true, retained:false, basis:'180 seats × $85 / seat / mo' },
+    { cat:'Cloud ETL / Integration',     vendor:'Halyard Data',    cost:64000,  benchmark:64000,  included:true, retained:false, basis:'Consumption credits' },
+    { cat:'Data Catalog & Governance',   vendor:'Tessera Catalog', cost:28800,  benchmark:28800,  included:true, retained:false, basis:'40 seats × $60 / seat / mo' },
+    { cat:'Alerting & Observability',    vendor:'Perch Monitor',   cost:22000,  benchmark:22000,  included:true, retained:false, basis:'Flat platform fee' },
+    { cat:'Cloud Data Warehouse',        vendor:'Cloud warehouse', cost:240000, benchmark:240000, included:true, retained:true,  basis:'Compute + storage' }
+  ]
+};
+let S = deepClone(DEFAULTS);
+
+/* ---------- 3. HELPERS ---------- */
+const $  = id => document.getElementById(id);
+const money  = n => '$' + Math.round(n).toLocaleString('en-US');
+const money2 = n => '$' + n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const rate   = n => Number.isInteger(n) ? '$'+n.toLocaleString('en-US')
+                                        : '$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const pct    = n => (Math.round(n*10)/10) + '%';
+const clamp  = (n,a,b) => Math.min(b,Math.max(a,n));
+const esc    = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function tierFor(seats){ return SEAT_TIERS.find(t => seats >= t.min && seats <= t.max) || SEAT_TIERS[0]; }
+
+function toast(msg){
+  const t = $('toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._t); t._t = setTimeout(()=>t.classList.remove('show'), 2100);
+}
+
+/* ---------- 4. PRICING ENGINE ----------
+   Order of operations, per spec §4.7:
+   1 platform  2 modules  3 software subtotal  4 support
+   5 annual list  6 term discount  7 negotiated  8 TCV  9 effective rate
+------------------------------------------------------------------------- */
+function calc(st = S){
+  const total = Math.max(1, Math.round(st.totalSeats));
+  const t = tierFor(total);
+
+  const creator  = Math.round(total * st.mix.c / 100);
+  const explorer = Math.round(total * st.mix.e / 100);
+  const viewer   = Math.max(0, total - creator - explorer);
+  const licensed = creator + explorer;
+
+  const rCreator  = t.creator;
+  const rExplorer = Math.round(t.creator * EXPLORER_RATIO * 100) / 100;
+  const rViewer   = Math.round(t.creator * VIEWER_RATIO   * 100) / 100;
+
+  const platform = creator*rCreator + explorer*rExplorer + viewer*rViewer;
+
+  const lines = [];
+  if (creator)  lines.push({ k:'Creator seats',  sub:'Model, pipeline, and dashboard authors', q:creator+' seats',  r:rate(rCreator),  amt:creator*rCreator });
+  if (explorer) lines.push({ k:'Explorer seats', sub:'Self-serve analysis, 40% of Creator',    q:explorer+' seats', r:rate(rExplorer), amt:explorer*rExplorer });
+  if (viewer)   lines.push({ k:'Viewer seats',   sub:'Read-only consumption, 10% of Creator',  q:viewer+' seats',   r:rate(rViewer),   amt:viewer*rViewer });
+
+  let modules = 0, embedFee = 0;
+  const allowed = allowedModules(st.edition);
+  MODULE_KEYS.forEach(k=>{
+    if (!st.modules[k] || !allowed.includes(k)) return;
+    const m = MODULES[k];
+    if (m.perSeat){
+      const amt = m.price * licensed;
+      modules += amt;
+      lines.push({ k:m.name, sub:m.desc, q:licensed+' licensed', r:rate(m.price)+' / seat', amt });
+    } else {
+      embedFee = m.flat[t.tier];
+      lines.push({ k:m.name, sub:m.desc+' — flat, tier '+t.tier, q:'1 annual', r:money(embedFee), amt:embedFee });
+    }
+  });
+
+  const software = platform + modules + embedFee;
+
+  const sup = SUPPORT[allowedSupport(st.edition).includes(st.supportTier) ? st.supportTier : 'standard'];
+  const supportRaw = software * sup.pct;
+  const support = sup.pct > 0 ? Math.max(supportRaw, sup.floor) : 0;
+  const supportAtFloor = sup.pct > 0 && support > supportRaw;
+
+  const annualList  = software + support;
+  const termPct     = TERM_DISCOUNT[st.termYears] || 0;
+  const termAmt     = annualList * termPct;
+  const afterTerm   = annualList - termAmt;
+  const negPct      = clamp(st.discount,0,100) / 100;
+  const negAmt      = afterTerm * negPct;
+  const annualNet   = afterTerm - negAmt;
+  const tcv         = annualNet * st.termYears;
+  const effective   = annualNet / total;
+
+  const appr = APPROVALS.find(a => negPct <= a.max + 1e-9);
+  const floorState = effective >= MARGIN_WARN ? 'ok' : (effective >= MARGIN_FLOOR ? 'warn' : 'bad');
+
+  return { total, tier:t, creator, explorer, viewer, licensed,
+           rCreator, rExplorer, rViewer, platform, modules, embedFee, software,
+           support, supportPct:sup.pct, supportName:sup.name, supportAtFloor, supportFloor:sup.floor,
+           annualList, termPct, termAmt, afterTerm, negPct, negAmt, annualNet, tcv, effective,
+           lines, approval:appr, floorState };
+}
+
+function allowedModules(ed){ return ed === 'essentials' ? ['modeler'] : MODULE_KEYS; }
+function allowedSupport(ed){ return ed === 'essentials' ? ['standard'] : ['standard','premier','enterprise']; }
+
+/* ---------- 5. TCO ENGINE ---------- */
+function calcTco(q = calc()){
+  const inc = S.stack.filter(r => r.included);
+  const curTech = inc.reduce((s,r)=> s + (+r.cost||0), 0);
+  const futTech = inc.filter(r=>r.retained).reduce((s,r)=> s + (+r.cost||0), 0);
+  const displaced = curTech - futTech;
+
+  const L = S.labor;
+  const curLabor  = (+L.hc||0) * (+L.loaded||0);
+  const addressable = curLabor * (clamp(+L.manualPct||0,0,100)/100);
+  const laborSave = addressable * (clamp(+L.reclaimPct||0,0,100)/100);
+  const remLabor  = curLabor - laborSave;
+
+  const curTco = curTech + curLabor;
+  const futTco = futTech + q.annualNet + remLabor;
+  const save   = curTco - futTco;
+
+  return { curTech, futTech, displaced, curLabor, addressable, laborSave, remLabor,
+           curTco, futTco, save, pct: curTco ? save/curTco*100 : 0, termSave: save * S.termYears };
+}
+
+/* ---------- 6. STATIC CONTENT ---------- */
+const VS_ROWS = [
+  ['One platform on one commercial model: seats, optional modules, and a support tier. One contract, one renewal date, one vendor relationship.',
+   'Four to six products assembled from different vendors — BI, integration, catalog, alerting — each with its own contract, renewal, and pricing basis.'],
+  ['Viewer seats are priced at 10% of a Creator seat, so publishing a dashboard to the whole company does not change the economics of the deal.',
+   'Read-only users are commonly billed at or near full seat price, which makes broad distribution the single largest line on the invoice.'],
+  ['Annual cost is fixed at the configured seat count. Finance can forecast the number twelve months out and be right.',
+   'Consumption-credit pricing on integration and warehouse layers means spend moves with query volume, and overages surface after the fact.'],
+  ['Semantics and governance are native to the platform, so a metric is defined once and means the same thing in every downstream surface.',
+   'Governance is typically a separate catalog product bolted alongside BI, which leaves metric definitions to drift between tools.'],
+  ['Modules attach to licensed seats only. Cost scales with the number of people building, not the number of people reading.',
+   'Add-on pricing is usually applied across the full user population regardless of who actually uses the capability.'],
+  ['One implementation, one security review, one integration surface for procurement and IT to approve.',
+   'Each additional vendor carries its own security review, DPA, SSO configuration, and renewal negotiation.']
+];
+
+const FAQS = [
+  { c:'Packaging and editions', q:'What is the difference between Northwind Platform and Northwind Essentials?',
+    a:['Essentials is the entry edition for teams under 250 seats. It includes all three seat types and the Modeler module, on Standard support only.',
+       'Platform removes the seat cap and unlocks Pipeline, Signal, and Embed, plus Premier and Enterprise support. Nearly every deal above roughly 150 seats lands on Platform, because the module attach is what makes the seat economics work.']},
+  { c:'Packaging and editions', q:'Can a customer start on Essentials and move to Platform mid-term?',
+    a:['Yes. The upgrade is priced as the difference between the two configurations for the remainder of the term, prorated to the contract anniversary. There is no penalty and no re-papering of the original agreement.',
+       'The reverse — Platform down to Essentials — is only done at renewal.']},
+  { c:'Packaging and editions', q:'Does Northwind include the data warehouse?',
+    a:['No. Northwind sits on top of the customer’s existing cloud warehouse and does not replace it. That is why the warehouse row on the TCO tab defaults to retained: it stays in place either way, so including it on both sides of the comparison is the honest way to present it.']},
+
+  { c:'Seats and licensing', q:'How do I decide who is a Creator versus an Explorer?',
+    a:['A Creator builds: semantic models, pipelines, and published dashboards. An Explorer consumes those artifacts interactively — filtering, drilling, and running ad-hoc queries — but cannot publish to others.',
+       'A useful rule for sizing: in most organizations Creators land between 10% and 20% of total seats. If a quote shows Creators above 25%, verify it before sending. Either the customer has an unusually technical team, or seats are being mis-typed in a way that will inflate the quote and lose the deal.']},
+  { c:'Seats and licensing', q:'Are Viewer seats really only 10% of a Creator seat?',
+    a:['Yes, and it is the most important number on the rate card. Broad dashboard distribution is where competing quotes balloon, because most vendors charge read-only users at or near full price.',
+       'Lead with it. A 1,000-seat deployment where 500 people are Viewers costs materially less on Northwind than on a per-seat BI suite, and that gap is the entire competitive argument.']},
+  { c:'Seats and licensing', q:'What happens when a customer crosses a seat tier mid-term?',
+    a:['Added seats are billed at the then-current tier rate for the new total, prorated to the contract anniversary. Existing seats are not repriced downward mid-term.',
+       'If a customer is within about 10% of a tier boundary at the time of quoting, model both sides before you send it. Buying up to the next tier is frequently cheaper in absolute dollars than stopping just short of it, and showing that math builds credibility.']},
+  { c:'Seats and licensing', q:'Is there a minimum seat count?',
+    a:['There is no hard floor, but below roughly 25 seats the deal rarely clears the cost of implementation and support. Route anything smaller to the self-serve motion rather than quoting it directly.']},
+
+  { c:'Modules and support', q:'Why do modules charge on licensed seats instead of total seats?',
+    a:['Because Viewers do not use them. Charging module fees on read-only users would undo the pricing advantage that Viewer seats create, and customers notice that kind of inconsistency immediately.',
+       'Licensed seats means Creator plus Explorer. On the default 180-seat configuration that is 108 seats carrying module cost, not 180.']},
+  { c:'Modules and support', q:'Why is Embed priced flat rather than per seat?',
+    a:['Embed serves the customer’s own external customers, who are not licensed Northwind users and cannot be counted as seats. Pricing it flat by tier keeps it predictable for the buyer and keeps the seat model clean.']},
+  { c:'Modules and support', q:'How does the support floor work?',
+    a:['Premier is 15% of the software subtotal with a $12,000 minimum; Enterprise is 22% with a $30,000 minimum. Whichever is greater applies.',
+       'On small deals the floor is what actually bills. A 40-seat Essentials deal has a software subtotal well under $80,000, so the percentage alone would not fund a named CSM. Expect to explain this on smaller opportunities.']},
+  { c:'Modules and support', q:'Can support be quoted at a flat negotiated amount?',
+    a:['Not by reps. Any support pricing that departs from the percentage-and-floor model requires Deal Desk approval, because it breaks the renewal uplift model. Route it rather than quoting it.']},
+
+  { c:'Billing and contracting', q:'Is annual pricing held flat across a multi-year term?',
+    a:['Yes. The configured annual price applies to each year of the term. There is no uplift built into years two and three, which is a genuine differentiator against vendors that bake in 5–7% annual increases and disclose them only in the order form.',
+       'Total contract value is simply the annual net multiplied by the term length.']},
+  { c:'Billing and contracting', q:'How is the multi-year discount applied relative to the negotiated discount?',
+    a:['The term discount comes off first, then the negotiated discount applies to the remainder. They are sequential, not additive: a 3-year term at 8% plus a 12% negotiated discount produces a combined 19.04% reduction, not 20%.',
+       'This matters when a customer does their own arithmetic and gets a different number. Walk them through the order of operations rather than adjusting the quote.']},
+  { c:'Billing and contracting', q:'Is the annual fee invoiced upfront?',
+    a:['Annual upfront is standard. Quarterly billing is available on Platform deals above $250,000 total contract value and carries a 3% administrative uplift. Monthly billing is not offered.']},
+
+  { c:'Discounts and approvals', q:'Does the multi-year term discount count toward my approval threshold?',
+    a:['No. The term discount is programmatic and requires no approval. Only the negotiated discount routes for sign-off.',
+       'This is deliberate. Reps should not be discouraged from selling longer terms because it pushes them into a higher approval bracket.']},
+  { c:'Discounts and approvals', q:'What is the margin floor and what happens if I cross it?',
+    a:['The floor is $450 in effective net revenue per seat per year — annual net divided by total seats. Below it, the deal goes to Deal Desk regardless of the headline discount percentage.',
+       'Note that a large Viewer population pulls the effective rate down on its own, without any discount at all. A 1,400-seat deal that is half Viewers can land near the floor at a perfectly ordinary discount. Check the gauge before you promise anything.']},
+  { c:'Discounts and approvals', q:'How should I respond when a customer benchmarks us against a per-seat BI quote?',
+    a:['Reframe from price per seat to cost of the whole stack. A BI quote alone does not include integration, cataloging, or alerting, and those line items are already in the customer’s budget under other vendors.',
+       'The Competition tab produces this comparison directly from the configured quote and the incumbent stack on the TCO tab, so the numbers you show are the numbers you quoted.']},
+  { c:'Discounts and approvals', q:'My pricing question is not answered here. What do I do?',
+    a:['Route it to Deal Desk rather than improvising an answer. Nonstandard terms quoted verbally have a way of becoming contractual expectations, and unwinding them costs more time than the approval would have.']}
+];
+</script>
+<script>
+/* ==========================================================================
+   7. RENDER LAYER
+   ========================================================================== */
+
+/* ---------- 7a. animated numbers ---------- */
+const _anim = new WeakMap();
+function setNum(el, value, fmt){
+  if (!el) return;
+  const prev = _anim.get(el);
+  if (prev === undefined || Math.abs(prev - value) < 0.005 || !isFinite(prev)){
+    _anim.set(el, value); el.textContent = fmt(value); return;
+  }
+  cancelAnimationFrame(el._raf);
+  const from = prev, to = value, t0 = performance.now(), dur = 380;
+  const step = now => {
+    const p = Math.min(1, (now - t0)/dur);
+    const e = 1 - Math.pow(1 - p, 3);
+    el.textContent = fmt(from + (to - from)*e);
+    if (p < 1) el._raf = requestAnimationFrame(step); else _anim.set(el, to);
+  };
+  el._raf = requestAnimationFrame(step);
+}
+
+/* ---------- 7b. PRODUCTS ---------- */
+function renderProducts(q){
+  const lo = SEAT_TIERS[SEAT_TIERS.length-1], hi = SEAT_TIERS[0];
+  $('pcCreator').textContent  = rate(lo.creator)+'–'+rate(hi.creator);
+  $('pcExplorer').textContent = rate(lo.creator*EXPLORER_RATIO)+'–'+rate(hi.creator*EXPLORER_RATIO);
+  $('pcViewer').textContent   = rate(lo.creator*VIEWER_RATIO)+'–'+rate(hi.creator*VIEWER_RATIO);
+
+  $('tierTable').tBodies[0].innerHTML = SEAT_TIERS.map(t=>`
+    <tr class="${t.tier===q.tier.tier?'hi':''}">
+      <td><span class="t-main">${t.label}</span>${t.tier===q.tier.tier?' <span class="badge ok" style="margin-left:6px"><span class="d"></span>Current</span>':''}</td>
+      <td class="r num t-main">${rate(t.creator)}</td>
+      <td class="r num">${rate(t.creator*EXPLORER_RATIO)}</td>
+      <td class="r num">${rate(t.creator*VIEWER_RATIO)}</td>
+      <td class="r num">${money(MODULES.embed.flat[t.tier])}</td>
+    </tr>`).join('');
+
+  $('moduleTable').tBodies[0].innerHTML = MODULE_KEYS.map(k=>{
+    const m = MODULES[k];
+    return `<tr>
+      <td class="t-main">${m.name}</td>
+      <td style="color:var(--muted)">${m.desc}</td>
+      <td class="r num t-main">${m.perSeat ? rate(m.price) : money(m.flat[1])+' – '+money(m.flat[4])}</td>
+      <td class="r" style="color:var(--muted)">${m.perSeat ? 'per licensed seat / yr' : 'flat / yr, by tier'}</td>
+    </tr>`;
+  }).join('');
+
+  $('supportTable').tBodies[0].innerHTML = Object.values(SUPPORT).map(s=>`
+    <tr>
+      <td class="t-main">${s.name}</td>
+      <td style="color:var(--muted)">${s.sla}</td>
+      <td class="r num t-main">${s.pct ? (s.pct*100)+'% of software' : 'Included'}</td>
+      <td class="r num">${s.floor ? money(s.floor) : '—'}</td>
+    </tr>`).join('');
+}
+
+/* ---------- 7c. CONFIGURE ---------- */
+let lastTier = null;
+function renderConfigure(q){
+  // segmented controls
+  syncSeg('segEdition', S.edition);
+  syncSeg('segTerm', String(S.termYears));
+  syncSeg('segSupport', S.supportTier);
+  [...$('segSupport').children].forEach(b=>{
+    b.disabled = !allowedSupport(S.edition).includes(b.dataset.v);
+  });
+
+  $('editionHint').textContent = S.edition === 'essentials'
+    ? `Essentials: Modeler module only, Standard support, capped at ${ESSENTIALS_CAP} seats.`
+    : 'All modules and support tiers available. No seat cap.';
+  const tp = TERM_DISCOUNT[S.termYears];
+  $('termHint').textContent = tp
+    ? `${S.termYears}-year term applies a ${(tp*100)}% programmatic discount. No approval needed.`
+    : 'Single-year term. No programmatic discount applied.';
+  $('seatHint').innerHTML = `Tier ${q.tier.tier} · ${q.tier.label} seats`
+    + (S.edition==='essentials' ? ` · <span style="color:var(--amber)">Essentials caps at ${ESSENTIALS_CAP}</span>` : '');
+  const sup = SUPPORT[S.supportTier];
+  $('supportHint').textContent = sup.pct
+    ? (q.supportAtFloor ? `Floor applies — ${money(sup.floor)} minimum exceeds ${(sup.pct*100)}% of software.`
+                        : `${(sup.pct*100)}% of software subtotal. ${sup.sla}.`)
+    : sup.sla + '. No charge.';
+
+  if ($('inSeats') !== document.activeElement) $('inSeats').value = S.totalSeats;
+  renderMix(q);
+
+  // modules
+  const allowed = allowedModules(S.edition);
+  $('modList').innerHTML = MODULE_KEYS.map(k=>{
+    const m = MODULES[k], ok = allowed.includes(k);
+    return `<label class="modrow ${ok?'':'locked'}">
+      <input type="checkbox" data-mod="${k}" ${S.modules[k]&&ok?'checked':''} ${ok?'':'disabled'}>
+      <span style="flex:1">
+        <span class="mn">${m.name}</span>
+        <span class="md">${m.desc}${ok?'':' — Platform edition only'}</span>
+      </span>
+      <span class="mp">${m.perSeat ? rate(m.price)+' / seat' : money(m.flat[q.tier.tier])+' flat'}</span>
+    </label>`;
+  }).join('');
+  $('modList').querySelectorAll('input[data-mod]').forEach(cb=>{
+    cb.onchange = () => { S.modules[cb.dataset.mod] = cb.checked; renderAll(); };
+  });
+
+  // live rate card
+  $('tierBadge').textContent = 'Tier ' + q.tier.tier;
+  $('liveRows').innerHTML = `
+    <div class="liverow"><span class="k">Creator</span><span class="v num">${rate(q.rCreator)}</span></div>
+    <div class="liverow"><span class="k">Explorer</span><span class="v num">${rate(q.rExplorer)}</span></div>
+    <div class="liverow"><span class="k">Viewer</span><span class="v num">${rate(q.rViewer)}</span></div>
+    <div class="liverow"><span class="k">Licensed seats</span><span class="v num">${q.licensed.toLocaleString()}</span></div>
+    <div class="liverow"><span class="k">Annual net</span><span class="v num">${money(q.annualNet)}</span></div>`;
+  if (lastTier !== null && lastTier !== q.tier.tier){
+    $('liveRates').classList.remove('tierflash'); void $('liveRates').offsetWidth;
+    $('liveRates').classList.add('tierflash');
+    toast(`Seat tier ${q.tier.tier} — Creator rate now ${rate(q.rCreator)}`);
+  }
+  lastTier = q.tier.tier;
+
+  // quote doc
+  $('qEdition').textContent = S.edition === 'essentials' ? 'Northwind Essentials' : 'Northwind Platform';
+  $('qHeadline').textContent = 'Annual Pricing Estimate';
+  $('qLede').textContent = `Annual estimate for ${q.total.toLocaleString()} seats configured to the mix below, `
+    + `across a ${S.termYears}-year flat-price term. Pricing does not escalate in later years.`;
+
+  setNum($('sTotal'), q.total, v => Math.round(v).toLocaleString());
+  setNum($('sLic'),   q.licensed, v => Math.round(v).toLocaleString());
+  setNum($('sEff'),   q.effective, v => money(v));
+  $('sTotalSub').textContent = `${q.creator} Creator · ${q.explorer} Explorer · ${q.viewer} Viewer`;
+  $('sLicSub').textContent = `Creator + Explorer · ${Math.round(q.licensed/q.total*100)}% of seats`;
+
+  $('quoteTable').tBodies[0].innerHTML = quoteRowsHtml(q);
+  $('termRows').innerHTML = termRowsHtml(q);
+}
+
+function quoteRowsHtml(q){
+  let h = q.lines.map(l=>`<tr>
+      <td><div class="t-main">${l.k}</div><div class="t-sub">${l.sub}</div></td>
+      <td class="r num">${l.q}</td><td class="r num">${l.r}</td><td class="r num">${money(l.amt)}</td>
+    </tr>`).join('');
+  h += `<tr class="subtotal-row"><td colspan="3">Software subtotal</td><td class="r num">${money(q.software)}</td></tr>`;
+  if (q.support > 0){
+    h += `<tr>
+      <td><div class="t-main">${q.supportName} support</div><div class="t-sub">${q.supportAtFloor
+        ? 'Floor applied — '+money(q.supportFloor)+' minimum' : (q.supportPct*100)+'% of software subtotal'}</div></td>
+      <td class="r num">1 annual</td><td class="r num">${(q.supportPct*100)}%</td><td class="r num">${money(q.support)}</td></tr>`;
+  } else {
+    h += `<tr><td><div class="t-main">Standard support</div><div class="t-sub">Included at no charge</div></td>
+      <td class="r num">1 annual</td><td class="r num">—</td><td class="r num">${money(0)}</td></tr>`;
+  }
+  h += `<tr class="subtotal-row"><td colspan="3">Annual list price</td><td class="r num">${money(q.annualList)}</td></tr>`;
+  if (q.termAmt > 0) h += `<tr class="disc-row">
+      <td><div class="t-main">Term discount</div><div class="t-sub">${S.termYears}-year commitment · programmatic, no approval</div></td>
+      <td class="r num">—</td><td class="r num">${(q.termPct*100)}%</td><td class="r num">−${money(q.termAmt)}</td></tr>`;
+  if (q.negAmt > 0) h += `<tr class="disc-row">
+      <td><div class="t-main">Negotiated discount</div><div class="t-sub">Approval: ${q.approval.who}</div></td>
+      <td class="r num">—</td><td class="r num">${pct(q.negPct*100)}</td><td class="r num">−${money(q.negAmt)}</td></tr>`;
+  h += `<tr class="total-row"><td colspan="3" class="lbl">Annual net</td><td class="r num amt">${money(q.annualNet)}</td></tr>`;
+  return h;
+}
+
+function termRowsHtml(q){
+  let h = '';
+  for (let y = 1; y <= S.termYears; y++)
+    h += `<div class="termrow"><span>Year ${y}</span><span class="num">${money(q.annualNet)}</span></div>`;
+  h += `<div class="termrow tcv"><span>Total contract value · ${S.termYears} year${S.termYears>1?'s':''}</span><span class="v num">${money(q.tcv)}</span></div>`;
+  return h;
+}
+
+/* ---------- 7d. seat mix slider ---------- */
+function renderMix(q){
+  const {c,e,v} = S.mix;
+  $('segA').style.left = '0%';           $('segA').style.width = c+'%';
+  $('segB').style.left = c+'%';          $('segB').style.width = e+'%';
+  $('segC').style.left = (c+e)+'%';      $('segC').style.width = v+'%';
+  $('h1').style.left = c+'%';
+  $('h2').style.left = (c+e)+'%';
+  $('pcC').textContent = c+'%'; $('pcE').textContent = e+'%'; $('pcV').textContent = v+'%';
+  $('ctC').textContent = q.creator.toLocaleString()+' seats';
+  $('ctE').textContent = q.explorer.toLocaleString()+' seats';
+  $('ctV').textContent = q.viewer.toLocaleString()+' seats';
+  ['inC','inE','inV'].forEach((id,i)=>{
+    if ($(id) !== document.activeElement) $(id).value = [c,e,v][i];
+  });
+}
+
+function initMixSlider(){
+  const track = $('mixTrack');
+  let active = null;
+  const pos = ev => {
+    const r = track.getBoundingClientRect();
+    const x = (ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left;
+    return clamp(Math.round(x / r.width * 100), 0, 100);
+  };
+  const start = h => ev => {
+    active = h; h.classList.add('drag'); ev.preventDefault();
+    document.addEventListener('pointermove', move);
+    document.addEventListener('pointerup', end, { once:true });
+  };
+  const move = ev => {
+    if (!active) return;
+    const p = pos(ev);
+    if (active === $('h1')) S.mix.c = clamp(p, 0, S.mix.c + S.mix.e);
+    else                    S.mix.e = clamp(p - S.mix.c, 0, 100 - S.mix.c);
+    S.mix.v = 100 - S.mix.c - S.mix.e;
+    renderAll();
+  };
+  const end = () => {
+    if (active) active.classList.remove('drag');
+    active = null;
+    document.removeEventListener('pointermove', move);
+  };
+  $('h1').addEventListener('pointerdown', start($('h1')));
+  $('h2').addEventListener('pointerdown', start($('h2')));
+
+  // keyboard accessibility
+  [['h1','c'],['h2','e']].forEach(([id,key])=>{
+    $(id).addEventListener('keydown', ev=>{
+      const d = ev.key === 'ArrowRight' ? 1 : ev.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      ev.preventDefault();
+      if (key === 'c') S.mix.c = clamp(S.mix.c + d, 0, S.mix.c + S.mix.e);
+      else             S.mix.e = clamp(S.mix.e + d, 0, 100 - S.mix.c);
+      S.mix.v = 100 - S.mix.c - S.mix.e;
+      renderAll();
+    });
+  });
+
+  // precise numeric entry
+  const bind = (id, key) => $(id).addEventListener('input', ()=>{
+    let val = clamp(+$(id).value || 0, 0, 100);
+    if (key === 'c'){ S.mix.c = val; S.mix.e = Math.min(S.mix.e, 100 - val); }
+    if (key === 'e'){ S.mix.e = Math.min(val, 100 - S.mix.c); }
+    if (key === 'v'){ const room = 100 - Math.min(val,100); const tot = S.mix.c + S.mix.e || 1;
+                      S.mix.c = Math.round(room * S.mix.c / tot); S.mix.e = room - S.mix.c; }
+    S.mix.v = 100 - S.mix.c - S.mix.e;
+    renderAll();
+  });
+  bind('inC','c'); bind('inE','e'); bind('inV','v');
+}
+
+/* ---------- 7e. DISCOUNTS ---------- */
+function renderDiscounts(q){
+  if ($('inDisc') !== document.activeElement) $('inDisc').value = S.discount;
+  $('rngDisc').value = S.discount;
+
+  const a = q.approval;
+  const card = $('approveCard');
+  card.className = 'approve-card lvl' + a.lvl;
+  $('approveWho').textContent = a.who;
+  $('approveWhy').textContent = a.why;
+
+  const lo = 300, hi = 900;
+  $('gaugePin').style.left = clamp((q.effective - lo)/(hi - lo)*100, 0, 100) + '%';
+  const fb = $('floorBadge');
+  fb.className = 'badge ' + (q.floorState === 'ok' ? 'ok' : q.floorState === 'warn' ? 'warn' : 'bad');
+  $('floorTxt').textContent = q.floorState === 'ok' ? 'Healthy margin'
+    : q.floorState === 'warn' ? 'Approaching floor' : 'Below margin floor — Deal Desk required';
+  $('floorRate').textContent = money2(q.effective);
+
+  $('dList').textContent = money(q.annualList);
+  $('dTerm').textContent = q.termAmt ? '−'+money(q.termAmt)+'  ('+(q.termPct*100)+'%)' : '—';
+  $('dNeg').textContent  = q.negAmt ? '−'+money(q.negAmt)+'  ('+pct(q.negPct*100)+')' : '—';
+  $('dNet').textContent  = money(q.annualNet);
+  $('dTcv').textContent  = money(q.tcv);
+  $('dGive').textContent = money((q.annualList - q.annualNet) * S.termYears);
+
+  const steps = [0,5,10,15,20,25,30,35];
+  if (!steps.includes(+S.discount)) { steps.push(+S.discount); steps.sort((x,y)=>x-y); }
+  $('ladderTable').tBodies[0].innerHTML = steps.map(d=>{
+    const sim = calc({ ...S, discount:d });
+    const cur = Math.abs(d - S.discount) < 1e-9;
+    const badge = sim.floorState === 'ok' ? '<span class="badge ok"><span class="d"></span>Healthy</span>'
+      : sim.floorState === 'warn' ? '<span class="badge warn"><span class="d"></span>Near floor</span>'
+      : '<span class="badge bad"><span class="d"></span>Below floor</span>';
+    return `<tr class="${cur?'hi':''}">
+      <td class="r num t-main">${pct(d)}${cur?' <span style="color:var(--accent);font-size:10px">◀ current</span>':''}</td>
+      <td class="r num">${money(sim.annualNet)}</td>
+      <td class="r num">${money(sim.tcv)}</td>
+      <td class="r num">${money2(sim.effective)}</td>
+      <td>${badge}</td>
+      <td style="color:var(--muted)">${sim.approval.who}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ---------- 7f. TCO ---------- */
+function renderStack(){
+  const focus = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.f : null;
+  $('stackList').innerHTML = S.stack.map((r,i)=>`
+    <div class="stackrow ${r.included?'':'off'}">
+      <div class="stackrow-top">
+        <label class="chk"><input type="checkbox" data-si="${i}" data-k="included" ${r.included?'checked':''}></label>
+        <span class="cat">${esc(r.cat)}</span>
+        <label class="chk"><input type="checkbox" data-si="${i}" data-k="retained" ${r.retained?'checked':''}> Retained with Northwind</label>
+        <button class="rm no-print" data-rm="${i}" title="Remove row">×</button>
+      </div>
+      <div class="stackrow-bd">
+        <div>
+          <div class="mini-lbl">Vendor</div>
+          <input type="text" data-si="${i}" data-k="vendor" data-f="v${i}" value="${esc(r.vendor)}">
+        </div>
+        <div>
+          <div class="mini-lbl">Annual cost</div>
+          <input type="number" data-si="${i}" data-k="cost" data-f="c${i}" value="${r.cost}" step="1000" min="0">
+          <div class="bench">${r.basis ? esc(r.basis)+' · ' : ''}benchmark ${money(r.benchmark)}</div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  $('stackList').querySelectorAll('input').forEach(el=>{
+    const i = +el.dataset.si, k = el.dataset.k;
+    if (el.type === 'checkbox') el.onchange = () => { S.stack[i][k] = el.checked; renderAll(); };
+    else el.oninput = () => { S.stack[i][k] = el.type === 'number' ? (+el.value||0) : el.value; renderAll(); };
+  });
+  $('stackList').querySelectorAll('[data-rm]').forEach(b=>{
+    b.onclick = () => { S.stack.splice(+b.dataset.rm,1); renderAll(); };
+  });
+  if (focus){
+    const el = $('stackList').querySelector(`[data-f="${focus}"]`);
+    if (el){ el.focus(); const n = el.value.length; try{ el.setSelectionRange(n,n); }catch(e){} }
+  }
+}
+
+function renderTco(q, t){
+  ['inHc','inLoaded','inManual','inReclaim'].forEach((id,i)=>{
+    const key = ['hc','loaded','manualPct','reclaimPct'][i];
+    if ($(id) !== document.activeElement) $(id).value = S.labor[key];
+  });
+
+  setNum($('lbCur'),  t.curLabor,  money);
+  setNum($('lbAddr'), t.addressable, money);
+  setNum($('lbSave'), t.laborSave, money);
+  setNum($('lbRem'),  t.remLabor,  money);
+  $('lbCurSub').textContent = `${S.labor.hc} FTE × ${money(S.labor.loaded)}`;
+
+  $('tcoLede').textContent = `Annual economics with a ${S.termYears}-year contract view. `
+    + `Retained tools appear on both sides because they stay in place either way.`;
+
+  setNum($('tcoCur'),  t.curTco, money);
+  setNum($('tcoFut'),  t.futTco, money);
+  setNum($('tcoSave'), t.save,   money);
+  setNum($('tcoTerm'), t.termSave, money);
+  $('tcoPct').textContent = (t.save >= 0 ? pct(t.pct)+' TCO reduction' : pct(-t.pct)+' TCO increase');
+  $('tcoTermSub').textContent = `Over ${S.termYears} year${S.termYears>1?'s':''}`;
+
+  const rows = [
+    ['Technology', t.curTech, t.futTech],
+    ['Analytics labor', t.curLabor, t.remLabor],
+    ['Northwind annual fee', 0, q.annualNet]
+  ];
+  $('tcoTable').tBodies[0].innerHTML = rows.map(([k,c,f])=>{
+    const d = f - c;
+    const col = d < 0 ? 'var(--green)' : d > 0 ? 'var(--ink2)' : 'var(--faint)';
+    return `<tr><td class="t-main">${k}</td><td class="r num">${money(c)}</td><td class="r num">${money(f)}</td>
+      <td class="r num" style="color:${col}">${d === 0 ? '—' : (d<0?'−':'+')+money(Math.abs(d))}</td></tr>`;
+  }).join('')
+  + `<tr class="subtotal-row"><td>Total annual TCO</td><td class="r num">${money(t.curTco)}</td>
+     <td class="r num">${money(t.futTco)}</td>
+     <td class="r num" style="color:${t.save>=0?'var(--green)':'var(--red)'}">${t.save>=0?'−':'+'}${money(Math.abs(t.save))}</td></tr>`;
+}
+
+/* ---------- 7g. COMPETITION ---------- */
+function renderCompetition(q, t){
+  $('vsBody').innerHTML = VS_ROWS.map(([a,b])=>`<tr><td class="nw">${a}</td><td class="mk">${b}</td></tr>`).join('');
+
+  const displaced = S.stack.filter(r => r.included && !r.retained);
+  $('mktTable').tBodies[0].innerHTML = displaced.map(r=>`
+    <tr><td><div class="t-main">${esc(r.cat)}</div><div class="t-sub">${esc(r.vendor)}</div></td>
+      <td class="r" style="color:var(--muted);font-size:11.5px">${esc(r.basis||'—')}</td>
+      <td class="r num">${money(r.cost)}</td></tr>`).join('')
+    + `<tr class="subtotal-row"><td colspan="2">Total displaced</td><td class="r num">${money(t.displaced)}</td></tr>`;
+
+  const nwRows = [
+    ['Platform seats', `${q.total.toLocaleString()} seats, tier ${q.tier.tier}`, q.platform],
+    ['Modules', q.modules + q.embedFee ? `${q.licensed.toLocaleString()} licensed seats` : 'None selected', q.modules + q.embedFee],
+    [q.supportName + ' support', q.support ? (q.supportPct*100)+'% of software' : 'Included', q.support],
+    ['Discounts', `Term ${(q.termPct*100)}% + negotiated ${pct(q.negPct*100)}`, -(q.termAmt + q.negAmt)]
+  ];
+  $('nwTable').tBodies[0].innerHTML = nwRows.map(([k,b,v])=>`
+    <tr><td class="t-main">${k}</td>
+      <td class="r" style="color:var(--muted);font-size:11.5px">${b}</td>
+      <td class="r num" style="${v<0?'color:var(--green)':''}">${v<0?'−'+money(-v):money(v)}</td></tr>`).join('')
+    + `<tr class="subtotal-row"><td colspan="2">Annual net</td><td class="r num">${money(q.annualNet)}</td></tr>`;
+
+  const delta = t.displaced - q.annualNet;
+  setNum($('cmpMkt'), t.displaced, money);
+  setNum($('cmpNw'),  q.annualNet, money);
+  setNum($('cmpDelta'), Math.abs(delta), money);
+  $('cmpPct').textContent = t.displaced
+    ? (delta >= 0 ? pct(delta/t.displaced*100)+' less than the stack it replaces'
+                  : pct(-delta/t.displaced*100)+' more than the stack it replaces')
+    : 'No displaced tools configured';
+
+  const MKT_VIEWER = 780;
+  const nwV = q.viewer * q.rViewer, mkV = q.viewer * MKT_VIEWER;
+  $('viewerTable').tBodies[0].innerHTML = `
+    <tr><td><div class="t-main">Northwind Viewer</div><div class="t-sub">${q.viewer.toLocaleString()} read-only users</div></td>
+      <td class="r num">${rate(q.rViewer)}</td><td class="r num t-main">${money(nwV)}</td></tr>
+    <tr><td><div class="t-main">Typical market read-only seat</div><div class="t-sub">Illustrative benchmark, billed near full price</div></td>
+      <td class="r num">${money(MKT_VIEWER)}</td><td class="r num">${money(mkV)}</td></tr>
+    <tr class="subtotal-row"><td colspan="2">Difference on read-only users alone</td>
+      <td class="r num" style="color:var(--green)">${money(mkV - nwV)}</td></tr>`;
+}
+
+/* ---------- 7h. FAQ ---------- */
+const FAQ_CATS = [...new Set(FAQS.map(f=>f.c))];
+let faqCat = 'All', faqQuery = '', faqOpen = new Set(), faqAllOpen = false;
+
+function renderFaq(){
+  $('faqChips').innerHTML = ['All', ...FAQ_CATS].map(c=>
+    `<button class="chip ${faqCat===c?'on':''}" data-cat="${esc(c)}">${esc(c)}</button>`).join('');
+  $('faqChips').querySelectorAll('[data-cat]').forEach(b=>{
+    b.onclick = () => { faqCat = b.dataset.cat; renderFaq(); };
+  });
+
+  const qy = faqQuery.trim().toLowerCase();
+  const hits = FAQS.filter(f =>
+    (faqCat === 'All' || f.c === faqCat) &&
+    (!qy || f.q.toLowerCase().includes(qy) || f.a.join(' ').toLowerCase().includes(qy) || f.c.toLowerCase().includes(qy))
+  );
+
+  if (!hits.length){
+    $('faqList').innerHTML = `<p style="color:var(--muted);padding:22px 0;text-align:center">
+      No questions match “${esc(faqQuery)}”. Try a broader term, or send it to Deal Desk below.</p>`;
+    return;
+  }
+
+  let html = '', cur = null;
+  hits.forEach(f=>{
+    if (f.c !== cur){ cur = f.c; html += `<div class="faq-cat">${esc(cur)}</div>`; }
+    const key = f.q;
+    const open = faqAllOpen || faqOpen.has(key);
+    html += `<div class="qa ${open?'open':''}">
+      <button class="qa-q" data-q="${esc(key)}">${esc(f.q)}<span class="ar">▶</span></button>
+      <div class="qa-a">${f.a.map(p=>`<p>${p}</p>`).join('')}</div></div>`;
+  });
+  $('faqList').innerHTML = html;
+  $('faqList').querySelectorAll('[data-q]').forEach(b=>{
+    b.onclick = () => {
+      const k = b.dataset.q;
+      if (faqAllOpen){ faqAllOpen = false; faqOpen = new Set(FAQS.map(f=>f.q)); }
+      faqOpen.has(k) ? faqOpen.delete(k) : faqOpen.add(k);
+      renderFaq();
+    };
+  });
+  $('btnExpandAll').textContent = faqAllOpen ? 'Collapse all' : 'Expand all';
+}
+
+/* ---------- 7i. SUMMARY ---------- */
+function renderSummary(q, t){
+  const d = new Date();
+  const valid = new Date(d.getTime() + 30*864e5);
+  const fmt = x => x.toLocaleDateString('en-US',{ month:'long', day:'numeric', year:'numeric' });
+  if (!$('cDate').value) $('cDate').value = fmt(d);
+  if (!$('cValid').value) $('cValid').value = fmt(valid);
+  $('sumQuoteNo').textContent = 'Quote NW-' + d.getFullYear() + '-' +
+    String(1000 + (q.total % 9000)).padStart(4,'0');
+
+  $('sumConfig').innerHTML = [
+    ['Edition', S.edition === 'essentials' ? 'Northwind Essentials' : 'Northwind Platform'],
+    ['Contract term', S.termYears + ' year' + (S.termYears>1?'s':'') + (q.termPct?` · ${(q.termPct*100)}% term discount`:'')],
+    ['Total seats', `${q.total.toLocaleString()} · tier ${q.tier.tier} (${q.tier.label})`],
+    ['Seat mix', `${q.creator} Creator · ${q.explorer} Explorer · ${q.viewer} Viewer`],
+    ['Modules', MODULE_KEYS.filter(k=>S.modules[k] && allowedModules(S.edition).includes(k)).map(k=>MODULES[k].name).join(', ') || 'None'],
+    ['Support tier', q.supportName],
+    ['Negotiated discount', pct(q.negPct*100) + ' · approval: ' + q.approval.who],
+    ['Effective rate', money2(q.effective) + ' per seat per year']
+  ].map(([k,v])=>`<div class="kv"><span class="k">${k}</span><span class="v">${esc(v)}</span></div>`).join('');
+
+  $('sumTable').tBodies[0].innerHTML = quoteRowsHtml(q);
+  $('sumTerm').innerHTML = `<div class="termbox" style="margin-top:0"><div class="th">Flat annual pricing across term</div>${termRowsHtml(q)}</div>`;
+
+  $('sumTco').innerHTML = [
+    ['Current annual technology + labor', money(t.curTco)],
+    ['Future annual technology + labor + Northwind', money(t.futTco)],
+    ['Annual savings', money(t.save) + '  (' + pct(t.pct) + ' reduction)'],
+    ['Savings across ' + S.termYears + '-year term', money(t.termSave)]
+  ].map(([k,v])=>`<div class="kv"><span class="k">${k}</span><span class="v">${v}</span></div>`).join('');
+}
+
+/* ---------- 8. MASTER RENDER ---------- */
+function renderAll(){
+  if (S.edition === 'essentials' && S.totalSeats > ESSENTIALS_CAP) S.totalSeats = ESSENTIALS_CAP;
+  const q = calc();
+  const t = calcTco(q);
+  renderProducts(q);
+  renderConfigure(q);
+  renderDiscounts(q);
+  renderStack();
+  renderTco(q, t);
+  renderCompetition(q, t);
+  renderSummary(q, t);
+}
+
+function syncSeg(id, val){
+  [...$(id).children].forEach(b => b.classList.toggle('on', b.dataset.v === val));
+}
+
+/* ---------- 9. EVENTS ---------- */
+function initEvents(){
+  // tabs
+  $('tabbar').addEventListener('click', e=>{
+    const b = e.target.closest('.tab'); if (!b) return;
+    showTab(b.dataset.tab);
+  });
+
+  $('segEdition').addEventListener('click', e=>{
+    const b = e.target.closest('button'); if (!b) return;
+    S.edition = b.dataset.v;
+    if (S.edition === 'essentials'){
+      S.supportTier = 'standard';
+      MODULE_KEYS.forEach(k=>{ if (k !== 'modeler') S.modules[k] = false; });
+    }
+    renderAll();
+  });
+  $('segTerm').addEventListener('click', e=>{
+    const b = e.target.closest('button'); if (!b) return;
+    S.termYears = +b.dataset.v; renderAll();
+  });
+  $('segSupport').addEventListener('click', e=>{
+    const b = e.target.closest('button'); if (!b || b.disabled) return;
+    S.supportTier = b.dataset.v; renderAll();
+  });
+  $('inSeats').addEventListener('input', ()=>{
+    S.totalSeats = clamp(+$('inSeats').value || 1, 1, 25000); renderAll();
+  });
+
+  const setDisc = v => { S.discount = clamp(+v || 0, 0, 60); renderAll(); };
+  $('inDisc').addEventListener('input', e => setDisc(e.target.value));
+  $('rngDisc').addEventListener('input', e => setDisc(e.target.value));
+
+  ['inHc','inLoaded','inManual','inReclaim'].forEach((id,i)=>{
+    const key = ['hc','loaded','manualPct','reclaimPct'][i];
+    $(id).addEventListener('input', ()=>{ S.labor[key] = +$(id).value || 0; renderAll(); });
+  });
+
+  $('btnAddTool').onclick = ()=>{
+    S.stack.push({ cat:'Additional tool', vendor:'', cost:0, benchmark:0, included:true, retained:false, basis:'' });
+    renderAll();
+  };
+
+  $('faqSearch').addEventListener('input', e=>{ faqQuery = e.target.value; renderFaq(); });
+  $('btnExpandAll').onclick = ()=>{ faqAllOpen = !faqAllOpen; faqOpen.clear(); renderFaq(); };
+  $('btnAsk').onclick = ()=>{
+    const v = $('askBox').value.trim();
+    toast(v ? 'Question routed to Deal Desk (demo only)' : 'Type a question first');
+    if (v) $('askBox').value = '';
+  };
+
+  $('btnReset').onclick = ()=>{
+    S = deepClone(DEFAULTS);
+    ['cDate','cValid'].forEach(id=>$(id).value='');
+    $('cName').value = DEFAULTS.customer.name; $('cBy').value = DEFAULTS.customer.by;
+    lastTier = null; renderAll(); toast('Reset to demo defaults');
+  };
+  $('btnJump').onclick = ()=> showTab('configure');
+  $('btnGoSummary').onclick = ()=> showTab('summary');
+  $('btnPrint').onclick = ()=> window.print();
+  $('btnPrintTco').onclick = ()=> window.print();
+  $('btnCsvQuote').onclick = ()=> exportCsv('lineitems');
+  $('btnCsvTco').onclick   = ()=> exportCsv('tco');
+  $('btnCsvAll').onclick   = ()=> exportCsv('full');
+}
+
+function showTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab === name));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active', p.id === 'p-'+name));
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+/* ---------- 10. CSV EXPORT ---------- */
+function csvCell(v){
+  const s = String(v ?? '');
+  return /[",\n]/.test(s) ? '"' + s.replace(/"/g,'""') + '"' : s;
+}
+function exportCsv(kind){
+  const q = calc(), t = calcTco(q);
+  const rows = [];
+  const push = (...r) => rows.push(r);
+
+  push('Northwind Analytics — Pricing Quote (illustrative, fictional vendor)');
+  push('Generated', new Date().toLocaleString('en-US'));
+  push('Prepared for', $('cName').value);
+  push('');
+
+  if (kind === 'lineitems' || kind === 'full'){
+    push('CONFIGURATION');
+    push('Edition', S.edition === 'essentials' ? 'Northwind Essentials' : 'Northwind Platform');
+    push('Contract term (years)', S.termYears);
+    push('Total seats', q.total);
+    push('Creator seats', q.creator); push('Explorer seats', q.explorer); push('Viewer seats', q.viewer);
+    push('Seat tier', q.tier.tier); push('Support tier', q.supportName);
+    push('');
+    push('LINE ITEMS');
+    push('Billing element','Quantity','Rate','Amount (USD)');
+    q.lines.forEach(l => push(l.k, l.q, l.r, l.amt.toFixed(2)));
+    push('Software subtotal','','', q.software.toFixed(2));
+    push(q.supportName+' support','1 annual', (q.supportPct*100)+'%', q.support.toFixed(2));
+    push('Annual list','','', q.annualList.toFixed(2));
+    push('Term discount','', (q.termPct*100)+'%', (-q.termAmt).toFixed(2));
+    push('Negotiated discount','', (q.negPct*100)+'%', (-q.negAmt).toFixed(2));
+    push('Annual net','','', q.annualNet.toFixed(2));
+    push('Total contract value','', S.termYears+' yr', q.tcv.toFixed(2));
+    push('Effective rate per seat per year','','', q.effective.toFixed(2));
+    push('Approval required','','', q.approval.who);
+    push('');
+  }
+
+  if (kind === 'tco' || kind === 'full'){
+    push('CURRENT TECHNOLOGY STACK');
+    push('Category','Vendor','Annual cost','Included','Retained with Northwind');
+    S.stack.forEach(r => push(r.cat, r.vendor, (+r.cost||0).toFixed(2), r.included?'Yes':'No', r.retained?'Yes':'No'));
+    push('');
+    push('ANALYTICS LABOR');
+    push('Headcount', S.labor.hc);
+    push('Loaded cost per head', (+S.labor.loaded).toFixed(2));
+    push('Manual reporting share', S.labor.manualPct+'%');
+    push('Reclaimed share', S.labor.reclaimPct+'%');
+    push('Current labor', t.curLabor.toFixed(2));
+    push('Modeled savings', t.laborSave.toFixed(2));
+    push('Remaining labor', t.remLabor.toFixed(2));
+    push('');
+    push('TCO COMPARISON');
+    push('Component','Current','Future');
+    push('Technology', t.curTech.toFixed(2), t.futTech.toFixed(2));
+    push('Analytics labor', t.curLabor.toFixed(2), t.remLabor.toFixed(2));
+    push('Northwind annual fee', '0.00', q.annualNet.toFixed(2));
+    push('Total annual TCO', t.curTco.toFixed(2), t.futTco.toFixed(2));
+    push('Annual savings', t.save.toFixed(2));
+    push('TCO reduction', t.pct.toFixed(1)+'%');
+    push('Term savings ('+S.termYears+' yr)', t.termSave.toFixed(2));
+  }
+
+  const csv = rows.map(r => r.map(csvCell).join(',')).join('\n');
+  const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'northwind-quote-' + kind + '.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+  toast('CSV downloaded');
+}
+
+/* ---------- 11. BOOT ---------- */
+initMixSlider();
+initEvents();
+renderFaq();
+renderAll();
+lastTier = calc().tier.tier;
+
+/* expose for automated verification */
+window.__nw = { calc, calcTco, get S(){ return S; }, set S(v){ S = v; }, renderAll };
+</script>
+</body>
+</html>
