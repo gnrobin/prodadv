@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Greg Robin — Positioning One-Pager</title>
+<style>
+  :root {
+    --navy: #1E2761;
+    --navy-light: #3A4487;
+    --accent-bg: #F4F5FA;
+    --border: #E0E2EE;
+    --text: #21242E;
+    --muted: #5B6070;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Google Sans", "Helvetica Neue", Arial, sans-serif;
+    color: var(--text); margin: 0; background: #fff;
+    font-size: 16px; line-height: 1.55;
+  }
+  .container { max-width: 880px; margin: 0 auto; padding: 48px 24px 64px; }
+  .kicker { text-transform: uppercase; letter-spacing: 0.14em; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  h1 { color: var(--navy); font-size: 32px; margin: 0 0 4px; border-bottom: 4px solid var(--navy); padding-bottom: 14px; }
+  .subtitle { color: var(--muted); font-size: 15px; margin: 10px 0 0; }
+  h2 { color: var(--navy); font-size: 20px; margin: 40px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--border); }
+  p { margin: 10px 0; }
+  .hero {
+    background: var(--navy); color: #fff; border-radius: 6px;
+    padding: 26px 30px; margin: 28px 0; font-size: 19px; line-height: 1.5;
+  }
+  .hero strong { color: #fff; }
+  .callout { background: var(--accent-bg); border-left: 4px solid var(--navy); padding: 14px 18px; margin: 16px 0; font-size: 15px; }
+  .callout strong { color: var(--navy); }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 15px; }
+  th { background: var(--navy); color: #fff; text-align: left; padding: 10px 14px; font-weight: 600; }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: var(--accent-bg); }
+  .ladder { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
+  .rung { border: 1px solid var(--border); border-top: 4px solid var(--navy); border-radius: 4px; padding: 16px 18px; }
+  .rung h3 { margin: 0 0 6px; color: var(--navy-light); font-size: 15px; }
+  .rung .step { display: inline-block; background: var(--navy); color: #fff; font-size: 11px; padding: 2px 9px; border-radius: 999px; margin-bottom: 8px; }
+  .rung p { font-size: 14px; margin: 6px 0; }
+  ul.compact { padding-left: 20px; }
+  ul.compact li { margin-bottom: 7px; }
+  .proof { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0; }
+  .proof-box { background: var(--accent-bg); border-radius: 4px; padding: 14px 16px; font-size: 14px; }
+  .proof-box strong { color: var(--navy); display: block; margin-bottom: 4px; }
+  .footnote { font-size: 13px; color: var(--muted); font-style: italic; margin-top: 32px; }
+  @media (max-width: 640px) { .ladder, .proof { grid-template-columns: 1fr; } }
+  @media print { .container { padding: 0; } body { font-size: 13px; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Greg Robin</h1>
+  <p class="subtitle">Revenue Operations &amp; GTM Systems Consulting &middot; San Francisco Bay Area &middot; Productivity Advisors</p>
+
+  <div class="hero">
+    Helping B2B revenue teams build Salesforce orgs that match how they actually sell. <strong>I sit with your stakeholders to articulate what they need</strong>, confirm it back until every requirement is agreed and aligned across the group, then plan and prioritize the build with your team.
+  </div>
+
+  <h2>Who It&rsquo;s For</h2>
+  <p>Companies at one of three moments with Salesforce:</p>
+  <ul class="compact">
+    <li><strong>Implement.</strong> You&rsquo;ve outgrown spreadsheets or a starter org that was stood up quickly and never designed. The sales motion is real now and the system needs to reflect it.</li>
+    <li><strong>Re-implement.</strong> The org carries years of accumulated config built for a motion you no longer run. Every change touches three things nobody documented, and reps have quietly routed around it.</li>
+    <li><strong>Expand.</strong> Sales is on Salesforce and the rest of the revenue org isn&rsquo;t &mdash; renewals, CS, quote-to-cash, partner, or marketing operations still live in tools and spreadsheets that don&rsquo;t connect back.</li>
+  </ul>
+  <p>Common thread: someone needs to own the blueprint before anyone opens Setup.</p>
+
+  <h2>Why Me</h2>
+  <div class="proof">
+    <div class="proof-box"><strong>I&rsquo;ve run the function</strong>Owned the GTM stack at Udemy through a $5M &rarr; $150M+ ARR scale-up, 10 to 350 reps. I know what breaks at $10M, $30M, and $100M because I&rsquo;ve fixed it at each stage.</div>
+    <div class="proof-box"><strong>I blueprint before I build</strong>New functions get designed on paper first &mdash; objects, stages, ownership, handoffs, what each role sees on a Monday morning. Then the config follows the blueprint instead of the other way around.</div>
+    <div class="proof-box"><strong>I build with AI, not around it</strong>Connected Salesforce to Claude over MCP for conversational read/write. Explored conversational intelligence motions, built prompt libraries so sellers run their own prospect discovery, and use AI to draft requirements docs and enablement material.</div>
+  </div>
+
+  <h2>How I Work</h2>
+  <p>Every engagement runs the same three beats, at whatever scale the work requires.</p>
+  <div class="callout">
+    <strong>Collaborate.</strong> A listening tour first &mdash; stakeholder interviews, reverse demos, sitting in on pipeline reviews. I understand your motion before I have an opinion about it.<br>
+    <strong>Align.</strong> Current state written down, problems separated from symptoms, priorities ranked by impact against your team&rsquo;s real capacity. Leadership signs off on the order of operations.<br>
+    <strong>Build.</strong> I implement with your team, not for them &mdash; pairing on the hard configurations, documenting as we go, and coaching them to own and extend it.
+  </div>
+  <p>The order matters because that&rsquo;s exactly where these systems break down. Leadership will tell you Salesforce is strategic, then run the Monday sales meeting off a spreadsheet someone rebuilt Sunday night. That gap isn&rsquo;t a training problem or a data problem &mdash; it&rsquo;s a system that was configured before anyone agreed on how the team actually runs. Skip the collaborate step and you build the wrong thing well. Skip the align step and you build the right thing for one stakeholder while three others keep their workarounds. Adoption isn&rsquo;t something you drive after go-live; it&rsquo;s decided in the two steps before the build.</p>
+
+  <h2>Ways to Work Together</h2>
+  <div class="ladder">
+    <div class="rung">
+      <span class="step">Step 1</span>
+      <h3>RevOps Diagnostic</h3>
+      <p>Two-week fixed-fee assessment: Salesforce org audit, process review across lead-to-cash, stakeholder interviews, data quality read. You get a written current-state assessment, a prioritized roadmap, 30-day quick wins, and a readout to your leadership team.</p>
+    </div>
+    <div class="rung">
+      <span class="step">Step 2</span>
+      <h3>Strategic Implementation</h3>
+      <p>Three to six months on a specific high-impact build: a new org or a re-architecture, CPQ and quoting workflow, comp plan and territory design, pipeline and forecast redesign, or the lead-to-customer journey end to end. Built with your team, documented for handoff.</p>
+    </div>
+    <div class="rung">
+      <span class="step">Step 3</span>
+      <h3>Advisory Retainer</h3>
+      <p>Monthly strategic counsel for your RevOps or Sales Ops leader &mdash; roadmap planning, prioritization, pressure-testing decisions, coaching the team, ad-hoc support. Your team does the work; I make the calls easier to get right.</p>
+    </div>
+    <div class="rung">
+      <span class="step">Step 4</span>
+      <h3>Fractional RevOps</h3>
+      <p>For teams without the function yet. I own revenue operations on a part-time basis &mdash; cadence design, system roadmap, administration, reporting, and enablement &mdash; and build toward the day you hire someone full-time.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Start with a conversation.</strong> A 30-minute call: I&rsquo;ll listen to what&rsquo;s breaking, share two or three things you can act on immediately, and help you decide whether working together makes sense. No obligation.
+  </div>
+
+
+</div>
+</body>
+</html>
