@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTM Prompt Builder · Productivity Advisors</title>
+<meta name="description" content="A guided wizard that turns sales frameworks into sharp, ready-to-use AI prompts for SDRs, AEs and Customer Success.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code&display=swap" rel="stylesheet">
+<style>:root{
+  --navy:#0B1F3A; --navy2:#13305A; --navy3:#1E4478;
+  --accent:#2F6FED; --accent-pale:#EAF1FF;
+  --gold:#C9A227;
+  --ink:#0F172A; --ink2:#334155; --muted:#64748B;
+  --line:#E2E8F0; --bg:#F4F6FA; --card:#FFFFFF;
+  --ok:#15803D; --ok-pale:#E7F6EC; --warn:#B45309; --warn-pale:#FEF3E2; --bad:#B91C1C;
+  --ph:#FFF4D6; --ph-ink:#8A5A00;
+  --r:14px;
+  --font:'Google Sans','Google Sans Text','Product Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+  --mono:'Google Sans Code','SFMono-Regular',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);font-size:15px;line-height:1.55}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:1240px;margin:0 auto;padding-left:24px;padding-right:24px}
+
+/* header */
+.top{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 70%,var(--navy3) 100%);color:#fff;padding:22px 0 26px;position:relative;overflow:hidden}
+.top::after{content:"";position:absolute;right:-120px;top:-140px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(47,111,237,.35),transparent 70%)}
+.tophead{display:flex;align-items:center;justify-content:space-between;gap:16px;position:relative;z-index:1}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{width:44px;height:44px;border-radius:12px;background:#fff;color:var(--navy);display:grid;place-items:center;font-weight:700;letter-spacing:.02em;box-shadow:inset 0 -3px 0 var(--gold)}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);font-weight:500}
+.top h1{font-size:26px;font-weight:700;letter-spacing:-.01em;line-height:1.15}
+.herosub{position:relative;z-index:1;margin-top:14px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.herosub p{max-width:640px;color:rgba(255,255,255,.78);font-size:15px}
+.stats{display:flex;gap:18px;font-size:13px;color:rgba(255,255,255,.65)}
+.stats b{color:#fff;font-size:18px;margin-right:4px}
+.profilebtn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:999px;padding:8px 14px;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;white-space:nowrap}
+.profilebtn:hover{background:rgba(255,255,255,.18)}
+.profilebtn .dot{width:8px;height:8px;border-radius:50%;background:#F59E0B}
+.profilebtn .dot.ok{background:#34D399}
+.profilebtn .pc{opacity:.6;font-size:12px}
+
+/* stepper */
+.stepper{display:flex;align-items:center;gap:6px;margin-top:-18px;position:relative;z-index:2;background:var(--card);border-radius:var(--r);box-shadow:0 6px 24px rgba(11,31,58,.10);padding:10px 14px;max-width:1192px;overflow-x:auto}
+.st{display:flex;align-items:center;gap:8px;background:none;border:0;padding:6px 8px;border-radius:10px;cursor:pointer;white-space:nowrap;color:var(--muted);font-weight:500;font-size:14px}
+.st:disabled{cursor:not-allowed;opacity:.5}
+.st .n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--bg);font-size:13px;font-weight:700;border:1px solid var(--line)}
+.st.on{color:var(--navy)}
+.st.on .n{background:var(--navy);color:#fff;border-color:var(--navy)}
+.st.done .n{background:var(--ok-pale);color:var(--ok);border-color:#BBE5C8}
+.st:not(:disabled):hover{background:var(--bg)}
+.stepper .bar{flex:1;min-width:12px;height:2px;background:var(--line);border-radius:2px}
+
+/* layout */
+.layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:22px;margin-top:22px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r)}
+.wizard{padding:28px 30px 22px}
+.side{position:sticky;top:16px;padding:18px;max-height:calc(100vh - 32px);display:flex;flex-direction:column}
+.q{font-size:22px;font-weight:700;color:var(--navy);letter-spacing:-.01em;margin-bottom:6px}
+.hint{color:var(--muted);font-size:14px;margin-bottom:18px}
+.hint.small{font-size:13px;margin-top:8px}
+.sub{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:22px 0 10px}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:18px;border-top:1px solid var(--line)}
+
+/* buttons */
+.btn{border:1px solid transparent;border-radius:10px;padding:10px 16px;font-weight:500;cursor:pointer;font-size:14px;transition:background .15s,border-color .15s,transform .05s}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--navy);color:#fff}
+.btn.primary:hover{background:var(--navy3)}
+.btn.primary:disabled{background:#94A3B8;cursor:not-allowed}
+.btn.ghost{background:#fff;border-color:var(--line);color:var(--navy)}
+.btn.ghost:hover{border-color:var(--navy);}
+.btn.ai{background:var(--accent-pale);color:var(--navy);border-color:#CFE0FF}
+.btn.ai:hover{border-color:var(--accent)}
+.btn.tiny{padding:5px 12px;font-size:13px;border-radius:8px}
+.linkbtn{background:none;border:0;color:var(--accent);font-weight:500;cursor:pointer;font-size:13px;padding:4px 6px}
+.linkbtn:hover{text-decoration:underline}
+.linkbtn.danger{color:var(--bad)}
+
+/* role cards */
+.rolegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.rolecard{text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:18px;cursor:pointer;display:flex;flex-direction:column;gap:6px;transition:border-color .15s,box-shadow .15s}
+.rolecard:hover{border-color:var(--navy3);box-shadow:0 4px 18px rgba(11,31,58,.08)}
+.rolecard.sel{border-color:var(--navy);box-shadow:0 0 0 3px rgba(11,31,58,.12)}
+.ri{width:38px;height:38px;border-radius:10px;background:var(--accent-pale);color:var(--navy);display:grid;place-items:center;font-size:18px;margin-bottom:4px}
+.rt{font-weight:700;font-size:16px;color:var(--navy)}
+.rd{font-size:13px;color:var(--ink2)}
+.rc{font-size:12px;color:var(--muted);margin-top:4px}
+.profilecta{margin-top:22px;display:flex;justify-content:space-between;align-items:center;gap:16px;background:var(--warn-pale);border:1px solid #F7D9A8;border-radius:var(--r);padding:16px 18px}
+.profilecta.good{background:var(--ok-pale);border-color:#BBE5C8}
+.profilecta p{font-size:13px;color:var(--ink2);margin-top:2px}
+
+/* plays */
+.filters{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.fl{display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:600;color:var(--ink2);min-width:200px}
+.fl.grow{flex:1}
+select,input[type=text],input[type=search],textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff;font-size:14px;font-weight:400;outline:none;transition:border-color .15s,box-shadow .15s}
+select:focus,input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(47,111,237,.15)}
+textarea{resize:vertical;min-height:84px;line-height:1.5}
+.playgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.play{text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:14px 15px;cursor:pointer;display:flex;flex-direction:column;gap:4px;transition:border-color .15s,box-shadow .15s}
+.play:hover{border-color:var(--navy3);box-shadow:0 3px 14px rgba(11,31,58,.07)}
+.play.sel{border-color:var(--navy);box-shadow:0 0 0 3px rgba(11,31,58,.12)}
+.pt{font-weight:700;color:var(--navy);font-size:14.5px}
+.pb{font-size:13px;color:var(--ink2)}
+.pm{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.tag,.fwtag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--bg);color:var(--ink2);border:1px solid var(--line)}
+.fwtag{background:var(--navy);color:#fff;border-color:var(--navy)}
+.tag.web{background:#E8F7F5;color:#0F766E;border-color:#BFE8E2}
+.sub.grp{color:var(--navy);display:flex;gap:8px;align-items:center}
+.sub.grp span{font-weight:500;color:var(--muted)}
+.empty{color:var(--muted);padding:20px 0}
+.play.mini{padding:12px}
+
+/* form */
+.form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:var(--ink2)}
+.field.wide{grid-column:1/-1}
+.req{font-style:normal;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);background:var(--accent-pale);padding:1px 6px;border-radius:6px;margin-left:6px}
+.fwnote{display:flex;gap:10px;align-items:flex-start;background:var(--bg);border-radius:10px;padding:10px 12px;margin-bottom:18px;font-size:13px;color:var(--ink2)}
+.fwnote .fwtag{flex-shrink:0;margin-top:1px}
+.sellerbox{margin-top:18px;font-size:13px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:12px;border-radius:10px;background:var(--warn-pale);border:1px solid #F7D9A8}
+.sellerbox.good{background:var(--ok-pale);border-color:#BBE5C8}
+.chip{font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink2)}
+.chip.on{border-color:#9FD5B0;color:var(--ok)}
+.chip.toggle{cursor:pointer}
+.chip.toggle.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.privacy{font-size:12px;color:var(--muted);margin-top:16px}
+.phx{background:var(--ph);color:var(--ph-ink);border-radius:4px;padding:0 3px}
+
+/* tune */
+.tunegrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tunegrid .fl{min-width:0}
+.cbs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cb{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:11px 12px;cursor:pointer}
+.cb:hover{border-color:var(--navy3)}
+.cb input{margin-top:3px;accent-color:var(--navy);width:16px;height:16px;flex-shrink:0}
+.cb strong{display:block;font-size:13.5px;color:var(--navy)}
+.cb em{font-style:normal;font-size:12px;color:var(--muted)}
+
+/* result */
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.final{font-family:var(--mono);font-size:13px;line-height:1.65;background:#FBFCFE;border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:10px;padding:18px;white-space:pre-wrap;word-break:break-word}
+.fwexplain{margin-top:14px;font-size:13px;color:var(--ink2);background:var(--bg);border-radius:10px;padding:12px}
+.nextgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tips{padding-left:18px;font-size:13.5px;color:var(--ink2)}
+.tips li{margin-bottom:6px}
+
+/* side */
+.sidehead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.sidet{font-weight:700;color:var(--navy);font-size:15px}
+.sidebtns{display:flex;gap:6px;align-items:center}
+.meter{margin-bottom:12px}
+.mhead{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--ink2);margin-bottom:6px}
+.mscore.strong{color:var(--ok)} .mscore.ok{color:var(--warn)} .mscore.weak{color:var(--bad)}
+.mbar{height:8px;background:var(--bg);border-radius:999px;overflow:hidden}
+.mfill{height:100%;border-radius:999px;transition:width .35s ease}
+.mfill.strong{background:linear-gradient(90deg,#22C55E,var(--ok))}
+.mfill.ok{background:linear-gradient(90deg,#FBBF24,#F59E0B)}
+.mfill.weak{background:linear-gradient(90deg,#F87171,#DC2626)}
+.mchecks{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:8px}
+.mc{font-size:11.5px;color:var(--muted)}
+.mc.ok{color:var(--ok)} .mc.part{color:var(--warn)}
+.mtips{list-style:none;margin-top:8px;font-size:12px;color:var(--ink2);background:var(--warn-pale);border-radius:8px;padding:8px 10px}
+.mtips li+li{margin-top:3px}
+.mmeta{font-size:11.5px;color:var(--muted);margin-top:8px}
+.preview{overflow:auto;flex:1;min-height:180px;border:1px solid var(--line);border-radius:10px;background:#FBFCFE}
+.pv{font-family:var(--mono);font-size:12.5px;line-height:1.6;padding:14px;white-space:pre-wrap;word-break:break-word;color:var(--ink)}
+.pv .k,.final .k{color:var(--navy3)}
+.pvempty{text-align:center;padding:48px 20px;color:var(--muted)}
+.pvempty .big{font-size:34px;color:var(--line);margin-bottom:8px}
+.pvempty .small{font-size:12px;margin-top:4px}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(11,31,58,.55);display:none;align-items:flex-start;justify-content:center;padding:32px 16px;z-index:50;overflow:auto}
+.modal.open{display:flex}
+.mbox{background:#fff;border-radius:16px;max-width:760px;width:100%;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.mtop{display:flex;justify-content:space-between;gap:12px;margin-bottom:18px}
+.mtop h3{font-size:20px;color:var(--navy)}
+.mtop p{font-size:13px;color:var(--muted);margin-top:2px}
+.x{background:none;border:0;font-size:28px;line-height:1;color:var(--muted);cursor:pointer;padding:0 4px}
+.mfoot{display:flex;justify-content:space-between;align-items:center;margin-top:20px;padding-top:16px;border-top:1px solid var(--line);gap:10px;flex-wrap:wrap}
+.mfoot .left,.mfoot .right{display:flex;gap:8px;align-items:center}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:all .25s;z-index:60;max-width:calc(100% - 32px)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);padding-top:28px;padding-bottom:36px}
+.foot b{color:var(--navy)}
+
+@media (max-width:980px){
+  .layout{grid-template-columns:1fr}
+  .side{position:static;max-height:none}
+  .preview{max-height:420px}
+}
+@media (max-width:680px){
+  .wrap{padding-left:16px;padding-right:16px}
+  .top h1{font-size:21px}
+  .herosub p{font-size:14px}
+  .wizard{padding:20px 16px}
+  .rolegrid,.playgrid,.form,.tunegrid,.cbs,.nextgrid{grid-template-columns:1fr}
+  .profilecta{flex-direction:column;align-items:flex-start}
+  .st .l{display:none}
+  .st.on .l{display:inline}
+  .stepper{margin-left:16px;margin-right:16px;padding:8px}
+  .profilebtn .pc{display:none}
+  .fl{min-width:0;width:100%}
+}
+@media print{
+  .top,.stepper,.side,.nav,.actions,.foot{display:none}
+  .layout{display:block}
+  .panel{border:0}
+}
+
+.final-step .preview{display:none}
+.final-step .side{max-height:none}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap tophead">
+    <div class="brand">
+      <div class="logo">PA</div>
+      <div>
+        <div class="eyebrow">Productivity Advisors</div>
+        <h1>GTM Prompt Builder</h1>
+      </div>
+    </div>
+    <button class="profilebtn" id="profileBtn" aria-label="Edit company profile"></button>
+  </div>
+  <div class="wrap herosub">
+    <p>Answer a few questions. Get a sharp, framework-backed prompt for research, outreach, deals and renewals, ready for Claude, ChatGPT or Gemini.</p>
+    <div class="stats"><span><b id="statPlays">60</b> plays</span><span><b>5</b> frameworks</span><span><b>3</b> GTM roles</span></div>
+  </div>
+</header>
+
+<nav class="stepper wrap" id="stepper" aria-label="Wizard steps"></nav>
+
+<main class="wrap layout">
+  <section class="panel wizard">
+    <div id="stepBody"></div>
+    <div class="nav" id="nav"></div>
+  </section>
+  <aside class="panel side">
+    <div class="sidehead">
+      <span class="sidet">Live prompt</span>
+      <span class="sidebtns"><button class="linkbtn" id="clearDetails" title="Clear prospect details">Clear details</button><button class="btn tiny primary" id="copyMini">Copy</button></span>
+    </div>
+    <div id="meter" class="meter"></div>
+    <div id="preview" class="preview"></div>
+  </aside>
+</main>
+
+<footer class="foot wrap">
+  <span><b>GTM Prompt Builder</b> · Productivity Advisors</span>
+  <span>Frameworks: R-T-C-O-C · CRAFT · Sales-Specific · 5W+H · Expert. Your inputs stay in this browser.</span>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="ptitle">
+  <div class="mbox">
+    <div class="mtop">
+      <div><h3 id="ptitle">Your company profile</h3><p>Filled once, added to every prompt. Saved only in this browser. Managers: export a profile and share the file with your team.</p></div>
+      <button class="x" id="pclose" aria-label="Close">×</button>
+    </div>
+    <div class="form" id="pform"></div>
+    <div class="mfoot">
+      <div class="left">
+        <button class="linkbtn" id="pexport">Export</button>
+        <label class="linkbtn">Import<input type="file" id="pimport" accept="application/json,.json" hidden></label>
+        <button class="linkbtn danger" id="pclear">Clear</button>
+      </div>
+      <div class="right"><button class="btn ghost" id="pcancel">Cancel</button><button class="btn primary" id="psave">Save profile</button></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>/* ============================================================
+   GTM Prompt Builder — data layer
+   Plays are rewritten/adapted from common sales-prompt patterns
+   (R-T-C-O-C, CRAFT, Sales-Specific, 5W+H, Expert) and the
+   Productivity Advisors GTM AI Prompt Library.
+   Tokens: {company} {contactTitle} {contactName} {industry}
+           {competitor} {who} {persona} {product} {myCompany} {category}
+   Fields: "name*" = required.
+   ============================================================ */
+
+const ROLES = {
+  sdr: { label: 'SDR / BDR', desc: 'Prospecting, first touches, booking meetings', icon: '◎' },
+  ae:  { label: 'Account Executive', desc: 'Discovery, deal strategy, competitive, closing', icon: '◆' },
+  csm: { label: 'Customer Success / AM', desc: 'Onboarding, adoption, renewals, expansion', icon: '♺' }
+};
+
+const STAGES = {
+  research:  'Research & account intel',
+  email:     'Cold email',
+  linkedin:  'LinkedIn',
+  call:      'Cold calls',
+  followup:  'Follow-up & re-engage',
+  prep:      'Call prep & discovery',
+  objection: 'Objection handling',
+  position:  'Messaging & positioning',
+  close:     'Negotiation & close',
+  cs:        'Customer success plays',
+  practice:  'Role-play practice'
+};
+
+const FW = {
+  rtcoc:  { name: 'R-T-C-O-C', long: 'Role · Task · Context · Output · Constraints',
+            why: 'The all-purpose structure. Best for everyday research and writing tasks with a clear deliverable.' },
+  craft:  { name: 'CRAFT', long: 'Context · Role · Action · Format · Tone',
+            why: 'Puts tone front and center. Best when the wording is delicate: objections, persona rewrites, sensitive notes.' },
+  sales:  { name: 'Sales-Specific', long: 'Role · Objective · Customer · Product · Task · Requirements · Output',
+            why: 'Adds explicit Customer and Product blocks. Best when the output is tied to a specific prospect or deal.' },
+  w5h:    { name: '5W + H', long: 'Who · What · Why · Where · When · How',
+            why: 'Anchors timing and channel. Best for sequence steps where the moment in the cycle changes the message.' },
+  expert: { name: 'Expert', long: 'Role · Goal · Context · Instructions · Constraints · Output · Success criteria',
+            why: 'Adds numbered instructions and success criteria. Best for multi-part analysis, plans and role-plays.' }
+};
+
+const FIELDS = {
+  company:        { label: 'Company name', ph: 'e.g., Northwind Freight' },
+  website:        { label: 'Company website', ph: 'e.g., northwindfreight.com' },
+  contactName:    { label: 'Contact name', ph: 'e.g., Jordan Lee' },
+  contactTitle:   { label: 'Contact title', ph: 'e.g., VP of Operations' },
+  industry:       { label: 'Industry', ph: 'e.g., 3PL / freight logistics' },
+  companySize:    { label: 'Company size', type: 'select', options: ['1–50 employees', '51–200 employees', '201–1,000 employees', '1,001–5,000 employees', '5,000+ employees'] },
+  pain:           { label: 'Likely pain / challenge', type: 'area', ph: 'What you believe is hurting them, from your research' },
+  trigger:        { label: 'Trigger event / signals', type: 'area', ph: 'Paste funding news, leadership change, launch, expansion, hiring surge…' },
+  linkedin:       { label: 'LinkedIn profile or activity', type: 'area', ph: 'Paste headline, About section, recent posts or comments' },
+  post:           { label: 'Their post / content', type: 'area', ph: 'Paste the post or describe the topic' },
+  jobPosting:     { label: 'Job posting', type: 'area', ph: 'Paste the job description' },
+  template:       { label: 'Your current email / template', type: 'area', ph: 'Paste your template' },
+  testimonial:    { label: 'Customer testimonial or result', type: 'area', ph: 'Paste the quote or result' },
+  priorEmail:     { label: 'Your previous email(s)', type: 'area', ph: 'Paste what you already sent' },
+  notes:          { label: 'Notes / CRM history / transcript', type: 'area', ph: 'Paste call notes, CRM activity, email thread or transcript' },
+  lastInteraction:{ label: 'Last interaction / where it stalled', type: 'area', ph: 'What they said, what they wanted, where it stopped' },
+  timeSince:      { label: 'Time since last contact', ph: 'e.g., 6 weeks' },
+  sharedContext:  { label: 'Shared context', ph: 'Mutual connection, same event, same group, similar post…' },
+  competitor:     { label: 'Competitor / current vendor', ph: 'e.g., Acme CRM' },
+  priority:       { label: 'What the buyer cares about most', type: 'select', options: ['Ease of use', 'Scalability', 'Price / total cost', 'Integrations', 'Security & compliance', 'Support & service', 'Time to value', 'Reporting & visibility'] },
+  pricePoint:     { label: 'Price / deal value', ph: 'e.g., $48K ARR' },
+  concern:        { label: 'Their main concern', type: 'select', options: ['Budget', 'Internal approval', 'Competing offer', 'Timing', 'Risk of switching', 'Implementation effort'] },
+  terms:          { label: 'Agreed terms', type: 'area', ph: 'Pricing, scope, start date, conditions' },
+  stakeholders:   { label: 'Stakeholders / buying committee', type: 'area', ph: 'e.g., VP Sales (champion), CFO (budget), Head of IT (security)…' },
+  accountList:    { label: 'Account list', type: 'area', ph: 'Paste rows: Account | Industry | Size | Last activity | Notes' },
+  arr:            { label: 'ARR / contract value', ph: 'e.g., $120K' },
+  renewalDate:    { label: 'Renewal date', ph: 'e.g., March 31' },
+  health:         { label: 'Health signals', type: 'area', ph: 'Usage trend, escalations, champion status, NPS, meeting cadence…' },
+  successMetrics: { label: 'Success metrics they defined', type: 'area', ph: 'What success looks like for them' },
+  wins:           { label: 'Wins / results delivered', type: 'area', ph: 'Milestones, usage stats, outcomes achieved' },
+  openIssues:     { label: 'Open issues / risks', type: 'area', ph: 'Slow adoption, open tickets, skeptical stakeholder…' },
+  currentProducts:{ label: 'Products they have today', ph: 'e.g., Core platform, 50 seats' },
+  changeNote:     { label: 'What is changing', type: 'area', ph: 'e.g., 7% price increase at renewal; new packaging' },
+  meetingLength:  { label: 'Meeting length', type: 'select', options: ['30 minutes', '45 minutes', '60 minutes', '90 minutes'] },
+  goal:           { label: 'Your goal for this', ph: 'e.g., renewal commitment + expansion conversation' },
+  targetDate:     { label: 'Target signature date', ph: 'e.g., June 28' }
+};
+
+const PROFILE_FIELDS = [
+  ['myCompany',  'Your company', 'e.g., Productivity Advisors'],
+  ['product',    'Product / offering', 'e.g., RevOps AI Accelerator'],
+  ['what',       'What it does (1–2 sentences)', 'The problem it solves and for whom', 'area'],
+  ['category',   'Product category', 'e.g., revenue operations consulting'],
+  ['buyer',      'Target buyer titles', 'e.g., VP Sales, CRO, RevOps leader'],
+  ['industries', 'Target industries / ICP', 'e.g., B2B SaaS and logistics, 100–2,000 employees'],
+  ['benefits',   'Key benefits / outcomes', 'Top 2–3 outcomes customers get', 'area'],
+  ['diff',       'Differentiators', 'Why you vs. alternatives', 'area'],
+  ['proof',      'Proof points', 'Customer results you can cite, e.g., "cut forecast prep 60% at Acme"', 'area'],
+  ['competitors','Main competitors', 'e.g., in-house team, big SIs'],
+  ['pricing',    'Pricing model', 'e.g., fixed-fee sprints; per-seat'],
+  ['sender',     'Your name & role', 'e.g., Greg, Founder'],
+  ['voice',      'House voice', 'e.g., plain English, no hype, short sentences', 'area']
+];
+const PROFILE_LABELS = { myCompany: 'Our company', product: 'Product', what: 'What it does', category: 'Category',
+  buyer: 'Target buyers', industries: 'ICP', benefits: 'Key benefits', diff: 'Differentiators', proof: 'Proof points',
+  competitors: 'Competitors', pricing: 'Pricing model', sender: 'Sender' };
+
+const TONES = ['Direct & confident', 'Consultative', 'Casual, peer-to-peer', 'Warm & friendly', 'Executive & formal', 'Empathetic', 'Technical & precise', 'Crisp & analytical'];
+const CTAS  = ['A question that invites a reply', 'A soft interest check ("worth a look?")', 'A specific 15-minute meeting ask', 'An offer to send a useful resource', 'No CTA'];
+const AVOIDS = ['Jargon & buzzwords', 'Exclamation marks', '"Just checking in" / "circling back"', '"Hope this finds you well"', 'Generic compliments', 'Fake urgency', 'Em dashes', 'Emojis', 'Pitching in the first line'];
+
+/* ---------- Play library ---------- */
+const PLAYS = [
+/* ===== RESEARCH ===== */
+{ id: 'r1', stage: 'research', roles: 'sdr ae csm', fw: 'rtcoc', kind: 'brief', web: true,
+  title: 'Account brief: business model & pains', blurb: 'A 5-minute brief with pains you can reference in a first line.',
+  role: 'a B2B sales researcher', goal: 'get a specific, usable read on {company} before outreach',
+  task: 'Research {company} and give me a brief I can use to personalize outreach to {persona}.',
+  steps: ['What they sell and who they sell to', 'How they make money', 'Their 3 most likely operational pains, given their model and size', 'Two specific details I could reference in a cold email'],
+  out: 'Short labeled bullets. No intro, no fluff.', len: 200, tone: 'Crisp & analytical',
+  fields: 'company* website industry contactTitle companySize', seller: 'product what buyer', next: ['e1', 'l1', 'c2'] },
+
+{ id: 'r2', stage: 'research', roles: 'sdr ae', fw: 'rtcoc', kind: 'brief', web: true,
+  title: 'Industry trends → outreach hooks', blurb: 'Three trends changing how your buyers buy, each turned into a hook.',
+  role: 'a market analyst who understands B2B buying cycles', goal: 'find timely trend-based hooks for {industry} outreach',
+  task: 'Identify the top 3 trends in {industry} right now that are changing how companies buy {category}.',
+  steps: ['For each trend: the business pressure it creates', 'One way I could reference it in a cold email to {persona}'],
+  out: 'Numbered list, one trend per item, 2–3 sentences each.', len: 220, tone: 'Crisp & analytical',
+  fields: 'industry* contactTitle', seller: 'product category buyer', next: ['e4'] },
+
+{ id: 'r3', stage: 'research', roles: 'sdr ae', fw: 'rtcoc', kind: 'brief', web: true,
+  title: 'Competitive pressure on the prospect', blurb: "Who they compete with and the pressure you can help relieve.",
+  role: 'a competitive intelligence analyst', goal: 'sound informed about {company}\'s market in a sales conversation',
+  task: 'Map the competitive landscape around {company} in {industry}.',
+  steps: ['Their top 3–4 competitors and what each competes on (price, features, focus, speed)', 'One competitive pressure {company} is likely facing that {product} could help with', 'How I could raise it with {persona}'],
+  out: 'A short table of competitors, then 3 bullets on the pressure and angle.', len: 220, tone: 'Crisp & analytical',
+  rules: ['Be specific; not a Wikipedia summary.'],
+  fields: 'company* industry contactTitle', seller: 'product what diff', next: ['s1'] },
+
+{ id: 'r4', stage: 'research', roles: 'sdr ae', fw: 'expert', kind: 'brief',
+  title: 'Buying committee map', blurb: 'Who initiates, evaluates, funds, signs and blocks.',
+  role: 'an enterprise deal strategist', goal: 'Multi-thread {company} from day one instead of single-threading one contact',
+  task: 'Map the likely buying committee for {category} at {company}.',
+  steps: ['Who initiates the search, who evaluates vendors, who controls budget, who signs', 'Typical titles for each role at a company this size', 'Who is most likely to block the deal, and why', 'The order I should engage them in, starting from {contactTitle}'],
+  out: 'Table: Role in decision | Likely title | What they care about | How to engage. Then 2 bullets on the likely blocker.',
+  success: ['Titles are realistic for the company size and industry', 'Each stakeholder has a distinct priority', 'Gives a clear engagement sequence'],
+  tone: 'Crisp & analytical', fields: 'company* industry companySize contactTitle', seller: 'product category', next: ['s3', 'r10'] },
+
+{ id: 'r5', stage: 'research', roles: 'sdr ae', fw: 'rtcoc', kind: 'brief',
+  title: 'LinkedIn activity → personalization hooks', blurb: 'Priorities and natural hooks from what they post.',
+  role: 'a B2B personalization specialist', goal: 'personalize outreach to {who} without sounding like a stalker',
+  task: 'Analyze the LinkedIn activity provided for {who}.',
+  steps: ['Their top 3 professional priorities', 'Topics they care about publicly', 'Two personalization hooks for a cold email, one sentence each'],
+  out: 'Three short labeled sections.', len: 180, tone: 'Crisp & analytical',
+  rules: ['Hooks must feel natural, not like I studied their profile.'],
+  fields: 'linkedin* contactName contactTitle company', seller: 'product', next: ['e1', 'l3', 'c3'] },
+
+{ id: 'r6', stage: 'research', roles: 'sdr ae', fw: 'rtcoc', kind: 'brief',
+  title: 'Job posting → pains & angles', blurb: 'Hiring is a buying signal. Decode it.',
+  role: 'a B2B sales researcher', goal: 'turn a {company} job posting into outreach angles',
+  task: 'Read the job posting from {company} provided and tell me what it reveals.',
+  steps: ['The business problems they are trying to solve with this hire', 'Initiatives they are likely staffing for', 'Two outreach angles connecting {product} to those problems, one sentence each'],
+  out: 'Three labeled sections, bullets.', len: 180, tone: 'Crisp & analytical',
+  fields: 'jobPosting* company contactTitle', seller: 'product what', next: ['e3'] },
+
+{ id: 'r7', stage: 'research', roles: 'sdr ae', fw: 'expert', kind: 'brief',
+  title: 'Score buying readiness (fit + timing)', blurb: 'Should you sell to them, and should you sell now?',
+  role: 'a pipeline analyst who prioritizes outbound lists', goal: 'Decide whether to prioritize {company} in my outbound list this week',
+  task: 'Score {company} for {category} using the signals provided.',
+  steps: ['Score Fit (should I sell to them?) 1–10', 'Score Timing (should I sell now?) 1–10', 'Explain each score in 2–3 sentences', 'Recommend: prioritize now, nurture, or skip'],
+  out: 'Two scores with reasoning, then a one-line recommendation.',
+  success: ['Scores are tied to specific signals, not general optimism', 'Separates fit from timing clearly', 'Ends with a decision'],
+  tone: 'Crisp & analytical', fields: 'company* trigger* industry companySize', seller: 'category buyer industries', next: ['e3', 'r1'] },
+
+{ id: 'r8', stage: 'research', roles: 'sdr ae csm', fw: 'expert', kind: 'brief',
+  title: 'Prioritize my target list', blurb: 'Tier a pasted account list against your ICP.',
+  role: 'a territory planning analyst', goal: 'Focus this week\'s effort on the accounts most likely to convert',
+  task: 'Rank the account list provided against our ICP.',
+  steps: ['Tier each account: Prioritize now / Engage soon / Deprioritize', 'For the top 5: why they rank high and a specific outreach angle', 'Flag accounts where I should re-engage an old conversation rather than start cold', 'Flag accounts that need more research before outreach'],
+  out: 'Tiered table (Account | Tier | Reason), then the top-5 angles as bullets.',
+  success: ['Every tier decision is justified by ICP fit or a signal', 'Top-5 angles are specific to each account', 'Nothing important is left unranked'],
+  tone: 'Crisp & analytical', fields: 'accountList*', seller: 'product buyer industries', next: ['r1', 'r7'] },
+
+{ id: 'r9', stage: 'research', roles: 'sdr ae csm', fw: 'rtcoc', kind: 'brief', web: true,
+  title: 'News & signals scan (last 6 months)', blurb: 'Funding, launches, leadership moves, and what they mean for you.',
+  role: 'a B2B research analyst', goal: 'catch what changed at {company} recently',
+  task: 'Find notable news and signals for {company} from the last 6 months.',
+  steps: ['Funding, M&A, product launches, leadership changes, expansion, layoffs, hiring surges', 'For each: date, one-line summary, and what it likely means for a seller of {category}', 'The single best "why now" angle'],
+  out: 'Dated bullet list, newest first, then one bolded "why now" line.', len: 220, tone: 'Crisp & analytical',
+  fields: 'company* website', seller: 'category', next: ['e3', 's1'] },
+
+{ id: 'r10', stage: 'research', roles: 'sdr ae', fw: 'sales', kind: 'brief',
+  title: 'Multithreading: who else to engage', blurb: 'When one contact is stuck, find the next personas and angles.',
+  role: 'an enterprise SDR team lead', goal: 'unlock {company} by engaging additional personas',
+  task: 'Recommend 2–3 other personas to engage at {company}, and write a short opener for each.',
+  steps: ['Why each persona is worth engaging', 'A message under 80 words for each, with an angle different from what I have tried', 'Whether to reference my outreach to the first contact or approach cold'],
+  out: 'One section per persona: why, then the message.', tone: 'Direct & confident',
+  fields: 'company* contactTitle lastInteraction industry companySize', seller: 'product what benefits', next: ['e1'] },
+
+/* ===== EMAIL ===== */
+{ id: 'e1', stage: 'email', roles: 'sdr ae', fw: 'sales', kind: 'message', where: 'Email',
+  title: 'Cold email: lead with their challenge', blurb: 'Open on their problem, not your product.',
+  role: 'a B2B cold email copywriter', goal: 'start a conversation with {who}',
+  task: 'Write a first-touch cold email to {who}.',
+  steps: ['Open with the challenge provided in line one, without mentioning our product', 'Introduce {product} in one sentence', 'Close with a question that invites a conversation, not a commitment'],
+  out: 'Email body only (no subject line).', len: 80, tone: 'Direct & confident', cta: 0,
+  fields: 'contactTitle* company* pain* contactName industry', seller: 'product what proof', next: ['e7', 'f1'] },
+
+{ id: 'e2', stage: 'email', roles: 'sdr', fw: 'sales', kind: 'message', where: 'Email',
+  title: 'Cold email: empathy for frontline managers', blurb: 'Peer-to-peer tone for managers and ICs.',
+  role: 'a cold email writer who understands frontline pressure', goal: 'earn a reply from {who}',
+  task: 'Write a cold email to {who}.',
+  steps: ['Lead with empathy about a specific daily frustration (provided)', 'Acknowledge the problem before introducing {product}', 'End with a soft CTA'],
+  out: 'Email body only.', len: 75, tone: 'Casual, peer-to-peer', cta: 1,
+  fields: 'contactTitle* company pain*', seller: 'product what', next: ['f1'] },
+
+{ id: 'e3', stage: 'email', roles: 'sdr ae', fw: 'sales', kind: 'message', where: 'Email',
+  title: 'Trigger-event email', blurb: 'Funding, launch, new exec: use the built-in "why now."',
+  role: 'a B2B outbound specialist', goal: 'use a recent event at {company} to open a timely conversation',
+  task: 'Write a cold email to {who} anchored on the event provided.',
+  steps: ['Reference the event in line one, with no generic congratulations', 'Connect it to a challenge {product} solves', 'Close with a low-pressure question'],
+  out: 'Email body only.', len: 85, tone: 'Direct & confident', cta: 0,
+  rules: ['The event reference should feel natural, not forced.'],
+  fields: 'trigger* contactTitle* company* contactName', seller: 'product what proof', next: ['e7', 'f1'] },
+
+{ id: 'e4', stage: 'email', roles: 'sdr ae', fw: 'craft', kind: 'message', where: 'Email',
+  title: 'Industry-trend email', blurb: 'Lead with their market, not your list.',
+  role: 'a B2B cold email specialist', goal: 'position me as someone who follows {industry}',
+  task: 'Write a cold email to {persona}.',
+  steps: ['Open with a specific trend affecting {industry} right now', 'Sentence two connects that trend to a challenge they likely face', 'Introduce {product} as one way to address it'],
+  out: 'Email body only.', len: 80, tone: 'Consultative', cta: 0,
+  rules: ['No statistics unless I provide them.'],
+  fields: 'industry* contactTitle* pain companySize', seller: 'product what', next: ['f1'] },
+
+{ id: 'e5', stage: 'email', roles: 'sdr ae csm', fw: 'craft', kind: 'message', where: 'Email',
+  title: 'Rewrite my template for a persona', blurb: 'Same structure, language that fits this buyer.',
+  role: 'a B2B copy editor who specializes in persona messaging', goal: 'adapt a proven template to {persona}',
+  task: 'Rewrite my template provided for {persona}.',
+  steps: ['Replace generic value props with outcomes this persona cares about', 'Keep the structure and CTA', 'Match how this buyer talks about their priorities'],
+  out: 'The rewritten email, then 3 bullets on what changed.', len: 85, tone: 'Direct & confident',
+  fields: 'template* contactTitle* industry companySize', seller: 'product benefits', next: ['e7'] },
+
+{ id: 'e6', stage: 'email', roles: 'sdr ae', fw: 'craft', kind: 'message', where: 'Email',
+  title: 'Turn a testimonial into prospect proof', blurb: "Translate a customer's result into this prospect's world.",
+  role: 'a B2B copywriter who turns proof into relevance', goal: 'make a customer result feel relevant to {persona}',
+  task: 'Turn the testimonial provided into a cold email value prop for {persona}.',
+  steps: ["Connect the customer's result to the prospect's likely problem", 'Do not quote the testimonial directly', 'End with a CTA'],
+  out: 'Email body only.', len: 80, tone: 'Consultative', cta: 0,
+  fields: 'testimonial* contactTitle* industry companySize', seller: 'product', next: ['f1'] },
+
+{ id: 'e7', stage: 'email', roles: 'sdr ae csm', fw: 'rtcoc', kind: 'brief',
+  title: 'Subject line variations', blurb: 'Five angles to test per email.',
+  role: 'an email deliverability and copy expert', goal: 'find the subject line that gets opened',
+  task: 'Write 5 subject lines for the email provided.',
+  steps: ["One based on the prospect's pain", 'One referencing their industry', 'One phrased as a question', 'One deliberately short (3–4 words)', 'One that reads like an internal forward'],
+  out: 'Numbered list, labeled by angle.', tone: 'Direct & confident',
+  rules: ['No clickbait, no exclamation marks, no "quick," "exciting" or "just checking in."'],
+  fields: 'priorEmail* industry', seller: '' },
+
+/* ===== LINKEDIN ===== */
+{ id: 'l1', stage: 'linkedin', roles: 'sdr ae csm', fw: 'w5h', kind: 'message',
+  title: 'Connection request (no pitch)', blurb: 'Get accepted. That is the only job.',
+  role: 'a LinkedIn networking coach', goal: 'get my connection request to {who} accepted',
+  task: 'Write a LinkedIn connection request.',
+  why: 'To get accepted and build familiarity, not to sell.', where: 'LinkedIn connection request (300-character limit).', when: 'First touch, before any outreach.',
+  steps: ['Reference our shared context naturally'],
+  out: 'The request text only.', len: 280, unit: 'characters', tone: 'Warm & friendly', cta: 4,
+  rules: ['Do not mention my product, my company, or anything that sounds like a pitch.'],
+  fields: 'contactName contactTitle* company sharedContext*', seller: '', next: ['l2', 'l4'] },
+
+{ id: 'l2', stage: 'linkedin', roles: 'sdr ae', fw: 'w5h', kind: 'message',
+  title: 'First DM after connecting', blurb: 'Open a conversation with one real question.',
+  role: 'a social selling coach', goal: 'start a genuine conversation with {who}',
+  task: 'Write a short LinkedIn DM that opens a conversation without pitching.',
+  why: 'To start a real dialogue that could lead to a meeting later.', where: 'LinkedIn direct message.', when: 'Right after they accepted my connection request.',
+  steps: ['Reference something specific about their role, company or a common challenge in their industry', 'Ask one genuine question'],
+  out: 'The DM text only.', len: 70, tone: 'Casual, peer-to-peer', cta: 0,
+  rules: ['No links, no attachments, no call request.'],
+  fields: 'contactName contactTitle* company industry', seller: 'category', next: ['f1'] },
+
+{ id: 'l3', stage: 'linkedin', roles: 'sdr ae', fw: 'craft', kind: 'message',
+  title: 'InMail referencing their post', blurb: 'Proof you actually read their content.',
+  role: 'a peer in their field, not a vendor', goal: 'turn their post into a relevant conversation',
+  task: 'Write a LinkedIn InMail to {who} that references their post provided.',
+  steps: ['First line: a specific observation about the post (not "great post")', 'Connect the topic to a challenge {product} helps solve', 'End with a question, not a meeting request'],
+  out: 'InMail text only.', len: 100, tone: 'Casual, peer-to-peer', cta: 0,
+  fields: 'post* contactName contactTitle* company', seller: 'product what', next: ['f1'] },
+
+{ id: 'l4', stage: 'linkedin', roles: 'sdr ae csm', fw: 'craft', kind: 'message',
+  title: 'Value-adding comment on their post', blurb: 'Be visible and credible before you DM.',
+  role: 'a respected practitioner in {industry}', goal: 'be recognized by {who} before I reach out',
+  task: 'Write a comment on the LinkedIn post provided.',
+  steps: ['Add value: a relevant data point, a contrasting view, or a specific example from {industry}'],
+  out: 'The comment only.', len: 40, tone: 'Consultative', cta: 4,
+  rules: ['Do not mention my product or pitch.'],
+  fields: 'post* contactTitle company industry', seller: '', next: ['l2'] },
+
+/* ===== CALLS ===== */
+{ id: 'c1', stage: 'call', roles: 'sdr ae', fw: 'craft', kind: 'script', where: 'Phone',
+  title: 'Cold call openers (5 styles)', blurb: 'Pattern interrupts that earn the next 30 seconds.',
+  role: 'a B2B cold calling coach', goal: 'get past the first 10 seconds with {persona}',
+  task: 'Write 5 cold call openers for {persona}.',
+  steps: ['One using honesty/transparency', 'One referencing a trigger event', 'One leading with a relevant question', 'One peer-level', 'One acknowledging the interruption directly'],
+  out: 'Numbered list, labeled by style.', len: 25, each: true, tone: 'Casual, peer-to-peer',
+  rules: ['Skip "do you have a minute" and "I\'m calling because."', 'Must sound spoken, not read.'],
+  fields: 'contactTitle* industry trigger company', seller: 'product what', next: ['c2'] },
+
+{ id: 'c2', stage: 'call', roles: 'sdr ae', fw: 'sales', kind: 'script', where: 'Phone',
+  title: 'Pain-discovery call script', blurb: 'Uncover one pain and earn a follow-up. No pitch.',
+  role: 'a top-performing SDR', goal: 'book a 15-minute follow-up with {who}',
+  task: 'Write a short cold call script for {who}.',
+  steps: ['Opener: a pattern interrupt under 20 words', 'One permission-based transition question', '2 pain-discovery questions specific to {industry} and the role', 'Close by asking for a 15-minute follow-up instead of pitching'],
+  out: 'Script with labeled sections.', len: 150, tone: 'Casual, peer-to-peer',
+  rules: ['No jargon. No turn longer than 2 sentences.'],
+  fields: 'contactTitle* company industry* contactName pain', seller: 'product what', next: ['c1'] },
+
+{ id: 'c3', stage: 'call', roles: 'sdr ae', fw: 'rtcoc', kind: 'script', where: 'Phone',
+  title: 'Ice-breakers from their LinkedIn', blurb: 'Show you did your homework in 15 seconds.',
+  role: 'a cold calling coach', goal: 'open a call with {who} on something personal and relevant',
+  task: 'Write 3 ice-breaker questions for the first 15 seconds of a call with {who}, based on the profile provided.',
+  steps: ['One about their role', 'One about their company', 'One about a topic they recently posted about or engaged with'],
+  out: 'Numbered list.', len: 15, each: true, tone: 'Casual, peer-to-peer',
+  rules: ['Natural, not rehearsed.'],
+  fields: 'linkedin* contactName contactTitle* company', seller: '', next: ['c2'] },
+
+{ id: 'c4', stage: 'call', roles: 'sdr', fw: 'w5h', kind: 'message',
+  title: 'Voicemail + follow-up email pair', blurb: 'A 20-second voicemail and the email that backs it up.',
+  role: 'an outbound sales coach', goal: 'get a callback or reply from {who}',
+  task: 'Write a voicemail script and a matching follow-up email.',
+  why: 'Voicemails rarely get returned alone; the pair lifts reply rates.', where: 'Phone voicemail, then email sent within 5 minutes.', when: 'After an unanswered cold call.',
+  steps: ['Voicemail: under 20 seconds spoken, one specific reason for calling', 'Email: references the voicemail, same reason, under 60 words'],
+  out: 'Two labeled sections: Voicemail, Email.', tone: 'Direct & confident', cta: 0,
+  fields: 'contactName contactTitle* company pain trigger', seller: 'product what', next: ['f1'] },
+
+/* ===== FOLLOW-UP ===== */
+{ id: 'f1', stage: 'followup', roles: 'sdr ae', fw: 'w5h', kind: 'message',
+  title: 'Day 3 follow-up: new angle', blurb: 'Add something new. Never "just following up."',
+  role: 'an outbound sequence strategist', goal: 'earn a reply from {who} on the second touch',
+  task: 'Write a follow-up email that does not repeat my original pitch.',
+  why: 'Replies usually come on touches 2–5, but only if each adds something new.', where: 'Email, same thread.', when: '3 days after the first email, no reply.',
+  steps: ['Lead with a new angle: a relevant insight, an industry observation, or a result a similar company achieved'],
+  out: 'Email body only.', len: 60, tone: 'Direct & confident', cta: 1,
+  fields: 'priorEmail* contactTitle* company industry', seller: 'product proof', next: ['f2'] },
+
+{ id: 'f2', stage: 'followup', roles: 'sdr ae', fw: 'w5h', kind: 'message',
+  title: 'Day 7 follow-up: lead with value', blurb: 'Something useful for them, not persistence.',
+  role: 'an outbound sequence strategist', goal: 'be useful to {who} after two unanswered emails',
+  task: 'Write a follow-up email that leads with a useful resource or insight for their role.',
+  why: 'Shift from "why should I reply" to "this is actually relevant."', where: 'Email.', when: 'Day 7, after 2 unanswered emails.',
+  steps: ['Offer a relevant benchmark, framework, report or trend', 'Mention {product} only if it connects naturally'],
+  out: 'Email body only.', len: 65, tone: 'Warm & friendly', cta: 3,
+  fields: 'contactTitle* company industry', seller: 'product', next: ['f3'] },
+
+{ id: 'f3', stage: 'followup', roles: 'sdr ae', fw: 'w5h', kind: 'message',
+  title: 'Breakup email', blurb: 'Close the sequence gracefully; often gets the reply.',
+  role: 'an outbound sequence strategist', goal: 'close the loop with {who} without burning the relationship',
+  task: 'Write a short breakup email.',
+  why: 'Removing pressure makes it safe for them to reply.', where: 'Email.', when: 'Day 13, after 3 unanswered emails.',
+  steps: ['Acknowledge the silence without guilt-tripping', 'Say I won\'t follow up again unless they\'re interested', 'Leave the door open'],
+  out: 'Email body only.', len: 50, tone: 'Warm & friendly', cta: 4,
+  rules: ['No passive-aggression.'],
+  fields: 'contactTitle* company', seller: '', next: ['f5'] },
+
+{ id: 'f4', stage: 'followup', roles: 'sdr ae csm', fw: 'craft', kind: 'message',
+  title: 'Re-engage after going dark', blurb: 'They were interested, then silent.',
+  role: 'a seasoned account executive', goal: 'restart a stalled conversation with {who}',
+  task: 'Write a re-engagement email to {who}.',
+  steps: ['Reference our last conversation (provided) without sounding desperate', 'Acknowledge the gap', 'Offer one new reason to revisit: a product update, new result, or change in their industry'],
+  out: 'Email body only.', len: 70, tone: 'Casual, peer-to-peer', cta: 0,
+  fields: 'lastInteraction* contactName contactTitle company* timeSince', seller: 'product proof', next: ['f5'] },
+
+{ id: 'f5', stage: 'followup', roles: 'sdr ae', fw: 'sales', kind: 'message',
+  title: 'Re-engage on a new trigger', blurb: 'Something changed. That is your reason.',
+  role: 'a B2B outbound specialist', goal: 'reopen {company} with a timely reason',
+  task: 'Write a re-engagement email to {who} anchored on the new event provided.',
+  steps: ['Open with the event and connect it to my original reason for reaching out', "Don't mention that they ignored earlier emails"],
+  out: 'Email body only.', len: 75, tone: 'Direct & confident', cta: 0,
+  fields: 'trigger* contactName contactTitle* company*', seller: 'product what', next: ['f1'] },
+
+{ id: 'f6', stage: 'followup', roles: 'ae csm sdr', fw: 'rtcoc', kind: 'message',
+  title: 'Post-meeting recap email', blurb: 'Recap in their words, lock the next step.',
+  role: 'a disciplined account executive', goal: 'lock in momentum after a meeting with {who}',
+  task: 'Write a recap email to {who} from the notes provided.',
+  steps: ['Their top priorities, in their own words', 'What we agreed', 'Next step with owner and date'],
+  out: 'Short email with 3 bolded mini-headers.', len: 150, tone: 'Direct & confident', cta: 2,
+  fields: 'notes* contactName contactTitle company', seller: 'product', next: ['n3'] },
+
+/* ===== PREP & DISCOVERY ===== */
+{ id: 'p1', stage: 'prep', roles: 'ae sdr csm', fw: 'rtcoc', kind: 'brief', web: true,
+  title: 'Pre-call brief (3-minute read)', blurb: 'Walk in informed; ask better questions.',
+  role: 'a B2B sales researcher', goal: 'show up to my call with {who} fully prepared',
+  task: 'Build a pre-call brief for my call with {who}.',
+  steps: ['What the company does, who they sell to, their revenue model', 'News or announcements from the last 6 months', '2 talking points connecting their situation to {product}', '3 smart questions to ask'],
+  out: 'Skimmable bullets under short headers.', len: 200, tone: 'Crisp & analytical',
+  fields: 'company* contactName contactTitle* industry website', seller: 'product what benefits', next: ['p3'] },
+
+{ id: 'p2', stage: 'prep', roles: 'ae csm', fw: 'rtcoc', kind: 'brief',
+  title: 'CRM notes → prep sheet', blurb: 'Turn scattered history into a one-pager.',
+  role: 'a sales chief of staff', goal: 'know exactly where things left off with {company}',
+  task: 'Turn the notes provided into a prep sheet for my next call with {who}.',
+  steps: ['What we discussed previously', 'Pain points they mentioned', 'Open questions', 'Commitments either side made', 'The logical next topic'],
+  out: 'Organized by section, not chronologically.', len: 150, tone: 'Crisp & analytical',
+  fields: 'notes* contactName company*', seller: '', next: ['p4'] },
+
+{ id: 'p3', stage: 'prep', roles: 'ae sdr', fw: 'sales', kind: 'brief',
+  title: 'Discovery questions for a persona', blurb: "Start in the buyer's world, not your product.",
+  role: 'a discovery coach', goal: 'uncover real pain with {persona}',
+  task: 'Write 7 open-ended discovery questions for {persona}.',
+  steps: ["What isn't working in their current process", 'How long the problem has existed', "What they've already tried", 'What happens if nothing changes'],
+  out: 'Numbered list, grouped by those 4 themes.', tone: 'Consultative',
+  rules: ["Conversational. Nothing that sounds like a qualification checklist."],
+  fields: 'contactTitle* industry companySize pain', seller: 'product what', next: ['p4', 'x2'] },
+
+{ id: 'p4', stage: 'prep', roles: 'ae', fw: 'sales', kind: 'brief',
+  title: 'Quantify impact, budget & authority', blurb: 'Put a cost on the problem they admitted.',
+  role: 'a value-selling coach', goal: 'build a business case with {who}',
+  task: 'Write 5 follow-up questions for {who} about the pain provided.',
+  steps: ['How much time or revenue it costs', 'Who else is affected', 'Whether budget is allocated', 'Who would approve a purchase'],
+  out: 'Numbered questions with a one-line note on what each uncovers.', tone: 'Consultative',
+  rules: ['Should feel like a natural follow-up, not a budget interrogation.'],
+  fields: 'pain* contactTitle* company', seller: 'product', next: ['s1'] },
+
+{ id: 'p5', stage: 'prep', roles: 'ae sdr csm', fw: 'expert', kind: 'brief',
+  title: 'Call summary: pains, objections, next steps', blurb: "Lock it in while it's fresh.",
+  role: 'a sales operations analyst', goal: 'Capture what {who} said, what was agreed and what happens next',
+  task: 'Summarize the call transcript/notes provided.',
+  steps: ["Top 3 pains in the prospect's own words", 'Objections or concerns raised', 'Commitments made by either side', 'Agreed next step with timing', 'CRM-ready one-line summary'],
+  out: 'Labeled sections with bullets.', len: 200,
+  success: ["Uses the prospect's language, not sales jargon", 'Every commitment has an owner', 'Next step is specific and dated'],
+  tone: 'Crisp & analytical', fields: 'notes* contactName contactTitle company', seller: '', next: ['f6'] },
+
+/* ===== OBJECTIONS ===== */
+{ id: 'o1', stage: 'objection', roles: 'ae', fw: 'craft', kind: 'script',
+  title: '"Your price is too high"', blurb: 'Reframe on value; never lead with a discount.',
+  role: 'a sales negotiation coach', goal: 'handle a price objection from {persona}',
+  task: 'A prospect just said "your price is too high." Give me 3 responses.',
+  steps: ['One reframing price around ROI with a specific business outcome', 'One on the cost of doing nothing', "One question that uncovers what they're comparing us to"],
+  out: 'Three labeled options.', len: 40, each: true, tone: 'Consultative',
+  rules: ['No defensiveness.'],
+  fields: 'pricePoint contactTitle* industry', seller: 'product benefits proof pricing', next: ['o2'] },
+
+{ id: 'o2', stage: 'objection', roles: 'ae', fw: 'craft', kind: 'script',
+  title: 'Budget stall: flex without discounting', blurb: 'Make it easier, not cheaper.',
+  role: 'a deal desk strategist', goal: 'keep a budget-stalled deal moving at full price',
+  task: 'The prospect likes {product} but the deal is stalling on budget. Give me 4 talking points that offer flexibility without lowering price.',
+  steps: ['Consider phased rollout, quarterly billing, smaller starting scope, or milestone-based payment'],
+  out: 'Four talking points, 1–2 sentences each.', tone: 'Consultative',
+  fields: 'pricePoint concern company', seller: 'product pricing', next: ['n2'] },
+
+{ id: 'o3', stage: 'objection', roles: 'sdr ae', fw: 'craft', kind: 'script',
+  title: '"We\'re happy with our current vendor"', blurb: 'Reduce the risk of switching without attacking.',
+  role: 'a respectful, experienced seller', goal: 'keep the door open with a satisfied prospect',
+  task: 'A prospect just said "we\'re happy with {competitor}." Give me 3 responses.',
+  steps: ['Acknowledge and ask what would need to change for them to look at alternatives', 'Introduce a likely capability gap without being aggressive', 'Plant a specific comparison point to think about later'],
+  out: 'Three labeled options.', len: 40, each: true, tone: 'Consultative',
+  fields: 'competitor* industry contactTitle', seller: 'product diff', next: ['o5'] },
+
+{ id: 'o4', stage: 'objection', roles: 'ae', fw: 'craft', kind: 'script', web: true,
+  title: '"We\'re evaluating a competitor"', blurb: 'Differentiate on facts, not fear.',
+  role: 'a competitive sales strategist', goal: 'win a head-to-head against {competitor}',
+  task: 'The prospect is evaluating {competitor} alongside {product}. Give me 3 differentiation talking points.',
+  steps: ['Each shows where we are stronger, without trashing them', 'Consider workflow, scalability, pricing model, or a capability they lack'],
+  out: 'Three bullets.', len: 30, each: true, tone: 'Direct & confident',
+  fields: 'competitor* priority company', seller: 'product diff proof', next: ['s2'] },
+
+{ id: 'o5', stage: 'objection', roles: 'sdr ae csm', fw: 'craft', kind: 'script',
+  title: '"Not now" / bad timing', blurb: 'Stay in their world until timing shifts.',
+  role: 'a patient, experienced seller', goal: 'keep {company} warm after a "not now"',
+  task: 'The {contactTitle} at {company} just said "the timing isn\'t right." Give me 3 responses.',
+  steps: ['Ask what would need to change for the timing to be right', 'Offer something useful in the meantime, no commitment', 'Suggest a specific future check-in and let them control the next step'],
+  out: 'Three labeled options.', len: 35, each: true, tone: 'Warm & friendly',
+  fields: 'contactTitle* company industry', seller: 'product', next: ['f2'] },
+
+{ id: 'o6', stage: 'objection', roles: 'sdr ae', fw: 'craft', kind: 'script',
+  title: '"Just send me some info"', blurb: 'Turn a brush-off into a real conversation.',
+  role: 'a cold calling coach', goal: 'turn a brush-off from {persona} into a qualified next step',
+  task: 'A prospect said "just send me some info." Give me 3 responses.',
+  steps: ['Agree, then ask one question to tailor what I send', 'Offer a specific, relevant example instead of a brochure', 'Ask for a short slot to walk through it if it resonates'],
+  out: 'Three labeled options.', len: 35, each: true, tone: 'Casual, peer-to-peer',
+  fields: 'contactTitle* industry', seller: 'product proof', next: ['f1'] },
+
+/* ===== POSITIONING ===== */
+{ id: 's1', stage: 'position', roles: 'ae', fw: 'sales', kind: 'message',
+  title: '"Why us, why now" message', blurb: 'Tie your product to what is happening in their business.',
+  role: 'a strategic account executive', goal: 'create urgency with {who} without pressure',
+  task: 'Write a "Why us, why now" message for {who}, using the context provided.',
+  steps: ['Why us: one capability that matters for their situation', 'Why now: tie to something time-sensitive in their business'],
+  out: 'Two labeled parts, then a combined short version I can send.', len: 100, tone: 'Direct & confident', cta: 0,
+  fields: 'trigger* contactTitle* company* pain', seller: 'product diff proof', next: ['s3'] },
+
+{ id: 's2', stage: 'position', roles: 'ae', fw: 'sales', kind: 'brief', web: true,
+  title: 'Deal-specific battle card', blurb: 'What this buyer cares about vs. this competitor.',
+  role: 'a competitive intelligence lead', goal: 'position {product} as the stronger option against {competitor} at {company}',
+  task: "Analyze {competitor}'s likely weaknesses on the buyer's top priority, using public information, and build a mini battle card.",
+  steps: ['3 differentiation talking points, under 30 words each', 'FUD {competitor} may plant, and how to respond', '2 discovery questions that surface our advantage', 'Landmines to avoid'],
+  out: 'Labeled sections, bullets.', tone: 'Direct & confident',
+  rules: ['No generic claims; each point must be usable in a live conversation.'],
+  fields: 'competitor* priority* company contactTitle', seller: 'product diff proof pricing', next: ['o4'] },
+
+{ id: 's3', stage: 'position', roles: 'ae csm', fw: 'expert', kind: 'brief',
+  title: 'Stakeholder-by-stakeholder messaging', blurb: 'One message per person on the buying committee.',
+  role: 'an enterprise deal strategist', goal: 'Build consensus across the buying committee at {company}',
+  task: 'For each stakeholder provided, write a 2-sentence message on why {product} matters to them.',
+  steps: ['Economic buyers: revenue and cost impact', 'Finance: efficiency and risk', 'IT: security and integration', 'End users: daily workflow', 'Flag which stakeholder is most at risk of blocking and why'],
+  out: 'Table: Stakeholder | What they care about | Message.',
+  success: ["Each message speaks to that person's priorities", 'No two messages repeat the same value prop', 'Blocker risk is called out'],
+  tone: 'Consultative', fields: 'stakeholders* company* industry', seller: 'product benefits diff proof', next: ['n5'] },
+
+{ id: 's4', stage: 'position', roles: 'sdr ae csm', fw: 'rtcoc', kind: 'brief',
+  title: 'Value prop & messaging by persona', blurb: 'Your pitch in their language: pain, outcome, proof.',
+  role: 'a B2B product marketer', goal: 'sharpen how we talk to {persona}',
+  task: 'Build a messaging card for {persona}.',
+  steps: ['Their top 3 pains in their own language', 'The outcome {product} delivers against each', 'The best proof point for each', 'A one-sentence value prop and a 3-sentence elevator pitch', 'Words to avoid with this persona'],
+  out: 'Table: Pain | Outcome | Proof, then the value prop and pitch.', tone: 'Crisp & analytical',
+  fields: 'contactTitle* industry companySize', seller: 'product what benefits diff proof', next: ['e1', 'e5'] },
+
+/* ===== CLOSE ===== */
+{ id: 'n1', stage: 'close', roles: 'ae', fw: 'craft', kind: 'script',
+  title: 'Discount request: protect value', blurb: 'Trade, phase, or reframe; don\'t just cut.',
+  role: 'a deal desk and negotiation expert', goal: 'protect price while keeping the {company} deal moving',
+  task: 'The {contactTitle} at {company} has asked for a discount. Give me 4 talking points.',
+  steps: ['One reframing value around business outcomes', 'One offering a trade (more commitment for better terms)', 'One introducing a phased approach', 'One addressing their main concern directly'],
+  out: 'Four labeled talking points.', len: 35, each: true, tone: 'Direct & confident',
+  fields: 'company* contactTitle pricePoint concern', seller: 'product benefits pricing', next: ['n2'] },
+
+{ id: 'n2', stage: 'close', roles: 'ae', fw: 'craft', kind: 'brief',
+  title: 'Alternative deal structures', blurb: 'A smaller yes today beats a lost deal.',
+  role: 'a deal desk strategist', goal: 'find a way in for a budget-constrained buyer',
+  task: 'Suggest 3 deal structures that reduce upfront cost without discounting, for the buyer described provided.',
+  steps: ['Consider fewer seats/features, a pilot with success criteria, or a different billing cycle', 'For each: what they get and what we protect'],
+  out: 'Three labeled options.', len: 40, each: true, tone: 'Consultative',
+  fields: 'pricePoint* companySize industry notes', seller: 'product pricing', next: ['n3'] },
+
+{ id: 'n3', stage: 'close', roles: 'ae', fw: 'sales', kind: 'message',
+  title: 'Closing email: soft + hard CTA', blurb: 'Recap value in their words, give two ways forward.',
+  role: 'a top-performing closer', goal: 'move {who} to signature',
+  task: 'Write a closing email to {who} using the deal notes provided.',
+  steps: ['Recap the 3 most important value points in their language', 'Hard CTA: a specific next step with a date', 'Soft CTA: an alternative if they need more time'],
+  out: 'Email body only.', len: 120, tone: 'Direct & confident', cta: 4,
+  rules: ['No pressure language.'],
+  fields: 'notes* contactName contactTitle company* targetDate', seller: 'product', next: ['n4'] },
+
+{ id: 'n4', stage: 'close', roles: 'ae', fw: 'w5h', kind: 'message',
+  title: 'Verbal-yes confirmation email', blurb: 'Put it in writing before momentum fades.',
+  role: 'a disciplined account executive', goal: 'lock in the verbal commitment from {who}',
+  task: 'Write a confirmation email restating agreed terms and next steps.',
+  why: "Verbal commitments stall without written confirmation.", where: 'Email.', when: 'Same day as the verbal yes.',
+  steps: ['Restate the terms clearly', 'Confirm the next step (contract, onboarding call, or intro to implementation)', 'Set a specific timeline'],
+  out: 'Email body only.', len: 100, tone: 'Direct & confident', cta: 2,
+  rules: ['No celebratory language like "excited to partner."'],
+  fields: 'terms* contactName contactTitle company*', seller: '', next: ['cs1'] },
+
+{ id: 'n5', stage: 'close', roles: 'ae', fw: 'expert', kind: 'brief',
+  title: 'Mutual action plan', blurb: 'Work back from the signature date with the buyer.',
+  role: 'an enterprise sales leader', goal: 'Get {company} to signature by the target date with no surprises',
+  task: 'Draft a mutual action plan I can share with {who}.',
+  steps: ['Work backward from the target date', 'Include security/legal review, procurement, exec approval and kickoff', 'Assign an owner (us or them) to each step', 'Flag the 2 steps most likely to slip'],
+  out: 'Table: Date | Milestone | Owner | Status, then 2 risk bullets.',
+  success: ['Realistic timing for the company size', 'Every step has an owner', 'Buyer-side steps are explicit'],
+  tone: 'Crisp & analytical', fields: 'company* targetDate* stakeholders contactName contactTitle companySize', seller: 'product', next: ['n3'] },
+
+/* ===== PRACTICE ===== */
+{ id: 'x1', stage: 'practice', roles: 'sdr ae csm', fw: 'expert', kind: 'roleplay',
+  title: 'Skeptical buyer role-play', blurb: 'Practice objections before they cost you a deal.',
+  role: 'a skeptical buyer: {persona}', goal: 'Sharpen my pitch and objection handling in a safe setting',
+  task: 'Stay in character while I pitch {product}. Push back realistically throughout.',
+  steps: ['Challenge claims and ask for proof', 'Bring up competitors and question pricing', 'Raise implementation concerns', "If my answer is weak, say why and make me try again"],
+  out: 'Conversational role-play. Wait for my first line.',
+  success: ['Stays in character the whole time', 'Objections are realistic for the role', 'Tough but fair; gives a 1–10 score when I say "end"'],
+  tone: 'Direct & confident', fields: 'contactTitle* industry companySize competitor', seller: 'product what pricing', next: ['x2'] },
+
+{ id: 'x2', stage: 'practice', roles: 'ae sdr', fw: 'expert', kind: 'roleplay',
+  title: 'Discovery call simulation', blurb: 'The AI withholds info until you ask good questions.',
+  role: 'the prospect on a 15-minute discovery call: {persona}', goal: 'Build my discovery muscle by earning information with good questions',
+  task: "Play the prospect. You have real but unstated pain related to the area provided.",
+  steps: ["Don't volunteer information", 'Give surface answers to generic questions', 'Open up when I ask specific, role-relevant questions', 'When I say "end," rate my discovery 1–10 and tell me what I missed'],
+  out: 'Conversational role-play. Wait for my first question.',
+  success: ['Rewards specificity and follow-up questions', 'Feedback names the questions I should have asked'],
+  tone: 'Casual, peer-to-peer', fields: 'contactTitle* industry companySize pain', seller: 'product what', next: ['p3'] },
+
+{ id: 'x3', stage: 'practice', roles: 'sdr', fw: 'expert', kind: 'roleplay',
+  title: 'Cold call role-play', blurb: 'A busy prospect who wants to hang up.',
+  role: 'a busy prospect receiving a cold call: {persona}', goal: 'Practice openers and brush-off handling',
+  task: 'Answer my cold call in character. Be busy and skeptical.',
+  steps: ['Use common brush-offs: "not interested," "send me an email," "we have a vendor"', 'Stay on the line only if my opener earns it', 'When I say "end," score me 1–10 on opener, handling and close'],
+  out: 'Conversational role-play. Answer the phone first.',
+  success: ['Realistic brush-offs', 'Specific feedback on each phase'],
+  tone: 'Direct & confident', fields: 'contactTitle* industry', seller: 'product', next: ['c1'] },
+
+/* ===== CUSTOMER SUCCESS ===== */
+{ id: 'cs1', stage: 'cs', roles: 'ae csm', fw: 'rtcoc', kind: 'brief',
+  title: 'AE → CS handoff brief', blurb: 'No context lost at the point of sale.',
+  role: 'a customer success operations lead', goal: 'give CS everything they need to start strong with {company}',
+  task: 'Write a handoff brief for {company} from the deal notes provided.',
+  steps: ['Why they bought: the core pain', 'Success metrics they defined', 'Stakeholders and their roles', 'Commitments made during the sale', 'Risks and sensitivities', 'Suggested kickoff agenda'],
+  out: 'Clearly labeled sections.', tone: 'Crisp & analytical',
+  fields: 'company* notes* stakeholders successMetrics arr', seller: 'product', next: ['cs2', 'cs3'] },
+
+{ id: 'cs2', stage: 'cs', roles: 'csm', fw: 'expert', kind: 'brief',
+  title: '30/60/90 onboarding plan', blurb: 'Faster time to value, early wins built in.',
+  role: 'a senior customer success manager', goal: 'Get {company} to first value fast and build confidence early',
+  task: 'Build an onboarding plan for {company}.',
+  steps: ['Stakeholder summary: who to prioritize and how', '30/60/90-day milestones', '3 early wins to deliver in the first 30 days', 'Risks to watch and how to mitigate'],
+  out: 'Sections with a milestone table.',
+  success: ['Milestones tie to their success metrics', 'Early wins are achievable in 30 days', 'Risks have owners'],
+  tone: 'Crisp & analytical', fields: 'company* successMetrics* stakeholders openIssues arr', seller: 'product what', next: ['cs3'] },
+
+{ id: 'cs3', stage: 'cs', roles: 'csm', fw: 'w5h', kind: 'message',
+  title: 'Welcome & kickoff email', blurb: 'Set expectations and the first meeting.',
+  role: 'a customer success manager', goal: 'start the relationship with {who} on the right foot',
+  task: 'Write a welcome email that sets up our kickoff call.',
+  why: 'To set expectations, restate their goals, and book the kickoff.', where: 'Email.', when: 'Within 48 hours of signature.',
+  steps: ['Restate their goals in their words', 'What happens in the first 30 days', 'Propose kickoff times'],
+  out: 'Email body only.', len: 120, tone: 'Warm & friendly', cta: 2,
+  fields: 'contactName contactTitle company* successMetrics', seller: 'product sender', next: ['cs2'] },
+
+{ id: 'cs4', stage: 'cs', roles: 'csm ae', fw: 'expert', kind: 'brief',
+  title: 'QBR agenda & value narrative', blurb: 'Show value delivered, align on what is next.',
+  role: 'a strategic customer success leader', goal: 'Run a QBR with {company} that proves value and earns the next commitment',
+  task: 'Build a QBR agenda and talking points for {company}.',
+  steps: ['A timed agenda for the meeting length', 'How to frame the wins compellingly', 'How to address open issues honestly without undermining confidence', 'The specific ask to close the meeting'],
+  out: 'Timed agenda table, then talking points by section.',
+  success: ['Wins map to the metrics they defined', 'Issues are addressed, not hidden', 'Ends with one clear ask'],
+  tone: 'Executive & formal', fields: 'company* successMetrics* wins* openIssues meetingLength goal stakeholders', seller: 'product', next: ['cs9'] },
+
+{ id: 'cs5', stage: 'cs', roles: 'csm', fw: 'expert', kind: 'brief',
+  title: 'Account health score', blurb: 'A consistent, defensible health read.',
+  role: 'a customer success analyst', goal: 'Give my manager a defensible health read on {company}',
+  task: 'Score the health of {company} using the signals provided.',
+  steps: ['Score Engagement, Adoption, Satisfaction and Strategic Fit, 1–5 each, with rationale', 'Overall rating: Green / Yellow / Red', 'The 2 changes that would move the score most'],
+  out: 'Scorecard table, then the rating and 2 actions.',
+  success: ['Every score cites a signal', 'Unknowns are flagged, not guessed'],
+  tone: 'Crisp & analytical', fields: 'company* health* arr renewalDate', seller: '', next: ['cs6'] },
+
+{ id: 'cs6', stage: 'cs', roles: 'csm', fw: 'expert', kind: 'brief',
+  title: 'Churn risk & 30-day save plan', blurb: 'Find the root cause, act before renewal.',
+  role: 'a customer retention specialist', goal: 'Stabilize {company} before renewal',
+  task: 'Assess churn risk for {company} and build a save plan.',
+  steps: ['Risk level (High / Medium / Low) with reasoning', 'The 2–3 most likely root causes', 'A 30-day save plan with concrete actions and outreach language', 'What to escalate to my manager, and when'],
+  out: 'Labeled sections; the plan as a dated table.',
+  success: ['Root causes are specific, not "low engagement"', 'Plan has owners and dates', 'Includes ready-to-use outreach lines'],
+  tone: 'Crisp & analytical', fields: 'company* health* renewalDate arr notes', seller: 'product', next: ['cs7'] },
+
+{ id: 'cs7', stage: 'cs', roles: 'csm', fw: 'craft', kind: 'message',
+  title: 'Save outreach to an at-risk exec', blurb: 'Own the issue, propose a path, ask for time.',
+  role: 'a senior customer success leader', goal: 'rebuild trust with {who}',
+  task: 'Write an email to {who} about the issues provided.',
+  steps: ['Acknowledge the issue plainly, without excuses', 'Show what we are already doing about it', 'Ask for a short call to align on a plan'],
+  out: 'Email body only.', len: 120, tone: 'Empathetic', cta: 2,
+  rules: ['No blame, no corporate-speak.'],
+  fields: 'openIssues* contactName contactTitle* company*', seller: 'product sender', next: ['cs6'] },
+
+{ id: 'cs8', stage: 'cs', roles: 'csm ae', fw: 'sales', kind: 'message',
+  title: 'Renewal kickoff email', blurb: 'Open the renewal on value, well before the date.',
+  role: 'a customer success manager', goal: 'start the {company} renewal conversation on value',
+  task: 'Write an email to {who} opening the renewal conversation.',
+  steps: ['Lead with 2–3 results they achieved', 'Preview what the next term could deliver', 'Propose a time to review'],
+  out: 'Email body only.', len: 120, tone: 'Consultative', cta: 2,
+  fields: 'wins* renewalDate* contactName contactTitle company*', seller: 'product', next: ['cs4'] },
+
+{ id: 'cs9', stage: 'cs', roles: 'csm ae', fw: 'sales', kind: 'brief',
+  title: 'Expansion / cross-sell angle', blurb: 'Find the credible next purchase and how to raise it.',
+  role: 'an account manager focused on expansion', goal: 'grow {company} with an offer they will see as value',
+  task: 'Identify the best 1–2 expansion opportunities for {company}.',
+  steps: ['Rationale and business case for each', 'The best timing or trigger to raise it', 'A 2–3 sentence way to bring it up naturally'],
+  out: 'One section per opportunity.', tone: 'Consultative',
+  fields: 'company* currentProducts* wins industry', seller: 'product what benefits', next: ['cs4'] },
+
+{ id: 'cs10', stage: 'cs', roles: 'csm', fw: 'w5h', kind: 'message',
+  title: 'Adoption nudge for a low-usage team', blurb: 'Re-engage users with a quick win, not a guilt trip.',
+  role: 'a customer success manager', goal: 'lift adoption with {who}',
+  task: 'Write an email that helps a low-adoption team get a quick win.',
+  why: 'Low usage is the leading indicator of churn.', where: 'Email.', when: 'When usage has dropped or stalled.',
+  steps: ['Open with a specific quick win relevant to their role', 'Offer a 15-minute working session'],
+  out: 'Email body only.', len: 90, tone: 'Warm & friendly', cta: 2,
+  fields: 'contactTitle* company* health', seller: 'product benefits', next: ['cs5'] },
+
+{ id: 'cs11', stage: 'cs', roles: 'csm ae', fw: 'w5h', kind: 'message',
+  title: 'Reference or case-study ask', blurb: 'Ask happy customers at the right moment.',
+  role: 'a customer marketing manager', goal: 'get {who} to agree to a reference or case study',
+  task: 'Write an email asking for a reference call or case study.',
+  why: 'Customer proof helps us win, and a spotlight can benefit them.', where: 'Email.', when: 'Right after a clear win or strong QBR.',
+  steps: ['Tie the ask to the specific result provided', 'Make it easy: options from 15-minute call to written quote', 'Offer something in return'],
+  out: 'Email body only.', len: 100, tone: 'Warm & friendly', cta: 0,
+  fields: 'wins* contactName contactTitle company*', seller: 'product sender', next: [] },
+
+{ id: 'cs12', stage: 'cs', roles: 'csm ae', fw: 'craft', kind: 'message',
+  title: 'Price increase / change notice', blurb: 'Clear, value-anchored, no surprises.',
+  role: 'a senior account manager', goal: 'communicate a change to {company} without damaging trust',
+  task: 'Write an email to {who} explaining the change provided.',
+  steps: ['State the change plainly in the first 2 lines', 'Anchor it in value delivered and what is coming', 'Offer a call to discuss options'],
+  out: 'Email body only.', len: 150, tone: 'Executive & formal', cta: 2,
+  rules: ['No hedging or burying the news.'],
+  fields: 'changeNote* contactName contactTitle company* wins', seller: 'product sender', next: ['cs8'] },
+
+{ id: 'cs13', stage: 'cs', roles: 'csm', fw: 'w5h', kind: 'message',
+  title: 'Executive sponsor check-in', blurb: 'Keep the exec connected to outcomes.',
+  role: 'a strategic customer success leader', goal: 'keep {who} invested in the partnership',
+  task: 'Write a short executive check-in email.',
+  why: 'Exec sponsors drift unless they see outcomes; losing them is a churn risk.', where: 'Email.', when: 'Quarterly, or after a major milestone.',
+  steps: ['2–3 outcomes in business terms', 'One strategic question about their priorities', 'Offer a 20-minute touchpoint'],
+  out: 'Email body only.', len: 100, tone: 'Executive & formal', cta: 0,
+  fields: 'contactName contactTitle* company* wins* goal', seller: 'product sender', next: ['cs4'] }
+];
+</script>
+<script>/* ============================================================
+   GTM Prompt Builder — engine + UI
+   ============================================================ */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+const PLAY = Object.fromEntries(PLAYS.map(p => [p.id, p]));
+const KEY = 'pa_gtm_prompt_builder_v1';
+
+const S = {
+  step: 1, role: null, stage: 'all', search: '', playId: null,
+  vals: {}, profile: {}, tune: {}
+};
+
+/* ---------- persistence (per-browser convenience only) ---------- */
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify({ role: S.role, vals: S.vals, profile: S.profile })); } catch (e) {}
+}
+function load() {
+  try {
+    const d = JSON.parse(localStorage.getItem(KEY) || '{}');
+    if (d.role) S.role = d.role;
+    if (d.vals) S.vals = d.vals;
+    if (d.profile) S.profile = d.profile;
+  } catch (e) {}
+}
+
+/* ---------- play helpers ---------- */
+function fieldList(p) {
+  return p.fields.split(/\s+/).filter(Boolean).map(f => ({ key: f.replace('*', ''), req: f.endsWith('*') }));
+}
+function sellerKeys(p) { return (p.seller || '').split(/\s+/).filter(Boolean); }
+function v(k) { return (S.vals[k] || '').trim(); }
+function pv(k) { return (S.profile[k] || '').trim(); }
+
+function defaultTune(p) {
+  return {
+    tone: p.tone || 'Direct & confident',
+    len: 'rec',
+    cta: p.cta != null ? p.cta : 0,
+    reading: 'Professional',
+    fmt: 'rec',
+    vars: 1,
+    avoid: p.kind === 'message' ? [0, 1, 2, 3] : [],
+    facts: true,
+    web: !!p.web,
+    clarify: false,
+    explain: false
+  };
+}
+
+/* ---------- token substitution ---------- */
+let USED = new Set();
+function article(s) { return /^[aeiou]/i.test(s) ? 'an ' : 'a '; }
+function ph(k) { return '[' + (FIELDS[k] ? FIELDS[k].label : k) + ']'; }
+function tokWho() {
+  const n = v('contactName'), t = v('contactTitle'), c = v('company');
+  ['contactName', 'contactTitle', 'company'].forEach(k => USED.add(k));
+  if (n && t && c) return `${n}, ${t} at ${c}`;
+  if (n && c) return `${n} at ${c}`;
+  if (t && c) return `the ${t} at ${c}`;
+  if (n && t) return `${n}, ${t}`;
+  if (c) return `a contact at ${c}`;
+  if (t) return article(t) + t;
+  return '[Contact title] at [Company name]';
+}
+function tokPersona() {
+  const t = v('contactTitle') || '[Contact title]', s = v('companySize'), i = v('industry');
+  ['contactTitle', 'companySize', 'industry'].forEach(k => USED.add(k));
+  let out = article(t) + t;
+  if (s || i) {
+    const sz = s ? s.replace(/ employees$/, '-employee') + ' ' : '';
+    out += ' at ' + article(sz || i) + sz + (i ? i + ' ' : '') + 'company';
+  }
+  return out;
+}
+function tok(k) {
+  if (k === 'who') return tokWho();
+  if (k === 'persona') return tokPersona();
+  if (k === 'product') return pv('product') || pv('myCompany') || '[our product]';
+  if (k === 'myCompany') return pv('myCompany') || '[our company]';
+  if (k === 'category') return pv('category') || '[our product category]';
+  if (FIELDS[k]) { USED.add(k); return v(k) || ph(k); }
+  return '{' + k + '}';
+}
+const sub = s => (s || '').replace(/\{(\w+)\}/g, (m, k) => tok(k));
+
+/* ---------- build prompt parts ---------- */
+function parts(p) {
+  USED = new Set();
+  const t = S.tune;
+  const role = sub(p.role), goal = sub(p.goal), task = sub(p.task);
+  const steps = (p.steps || []).map(sub);
+
+  // prospect / account context (skip simple fields already woven into sentences)
+  const prospect = [];
+  fieldList(p).forEach(({ key, req }) => {
+    const val = v(key), f = FIELDS[key];
+    const isArea = f.type === 'area';
+    if (!val) {
+      if (req && !USED.has(key)) prospect.push({ label: f.label, text: ph(key), area: false, missing: true });
+      return;
+    }
+    if (!isArea && USED.has(key)) return;
+    prospect.push({ label: f.label, text: val, area: isArea });
+  });
+
+  // seller context
+  const seller = [];
+  const sk = sellerKeys(p);
+  sk.forEach(k => { if (pv(k)) seller.push({ label: PROFILE_LABELS[k] || k, text: pv(k) }); });
+  if (sk.length && !seller.length && sk.some(k => ['product', 'what'].includes(k)))
+    seller.push({ label: 'What we sell', text: '[our product and the problem it solves]', missing: true });
+
+  // output
+  const fmtMap = { bullets: 'Bullet points.', table: 'A table.', plain: 'Plain paragraphs, no headers.' };
+  const out = t.fmt !== 'rec' && fmtMap[t.fmt] ? fmtMap[t.fmt] : p.out;
+
+  // length
+  let lenLine = '';
+  if (p.len && t.len !== 'none') {
+    const n = t.len === 'short' ? Math.round(p.len * 0.7) : t.len === 'long' ? Math.round(p.len * 1.4) : p.len;
+    lenLine = `Under ${n} ${p.unit || 'words'}${p.each ? ' each' : ''}.`;
+  }
+  const tone = t.tone;
+  const cons = [];
+  (p.rules || []).forEach(r => cons.push(sub(r)));
+  if (lenLine) cons.push(lenLine);
+  if (t.reading !== 'Professional') cons.push(`Reading level: ${t.reading}.`);
+  if (p.kind === 'message' && CTAS[t.cta] && t.cta !== 4) cons.push(`End with ${CTAS[t.cta].charAt(0).toLowerCase() + CTAS[t.cta].slice(1)}.`);
+  if (p.kind === 'message' && t.cta === 4 && !/CTA/i.test((p.rules || []).join(' '))) cons.push('No call to action.');
+  if (t.avoid.length) cons.push('Avoid: ' + t.avoid.map(i => AVOIDS[i]).join(', ') + '.');
+  if (pv('voice') && (p.kind === 'message' || p.kind === 'script')) cons.push('Match our voice: ' + pv('voice'));
+  if (t.vars > 1) cons.push(`Give ${t.vars} versions, each with a different angle.`);
+  if (t.facts) cons.push("Don't invent facts, numbers, names or quotes; use [brackets] for anything you'd need from me.");
+  if (t.web) cons.push('Use web search if available. Cite sources and flag anything unverified.');
+  if (t.clarify) cons.push('If anything critical is missing, ask me up to 3 questions before you start.');
+  if (t.explain) cons.push('After the output, add one line on why this approach should work.');
+
+  return { role, goal, task, steps, prospect, seller, out, tone, cons, lenLine,
+           why: sub(p.why || ''), where: sub(p.where || ''), when: sub(p.when || ''),
+           success: (p.success || []).map(sub) };
+}
+
+/* ---------- framework renderers ---------- */
+function ctxLines(list, indent = '- ') {
+  return list.map(x => x.area ? `${indent}${x.label}:\n"""\n${x.text}\n"""` : `${indent}${x.label}: ${x.text}`).join('\n');
+}
+function numbered(a) { return a.map((s, i) => `${i + 1}. ${s}`).join('\n'); }
+function bullets(a) { return a.map(s => `- ${s}`).join('\n'); }
+
+const RENDER = {
+  rtcoc(P) {
+    const L = [`Role: Act as ${P.role}.`, '', `Task: ${P.task}`];
+    if (P.steps.length) L.push(bullets(P.steps));
+    const ctx = [...P.seller, ...P.prospect];
+    if (ctx.length) L.push('', 'Context:', ctxLines(ctx));
+    L.push('', `Output: ${P.out}`, '', 'Constraints:', bullets([`Tone: ${P.tone}.`, ...P.cons]));
+    return L;
+  },
+  craft(P) {
+    const L = [];
+    const ctx = [...P.seller, ...P.prospect];
+    L.push('Context:', ctx.length ? ctxLines(ctx) : `- Goal: ${cap(P.goal)}.`);
+    if (ctx.length) L.push(`- Goal: ${cap(P.goal)}.`);
+    L.push('', `Role: You are ${P.role}.`, '', `Action: ${P.task}`);
+    if (P.steps.length) L.push(numbered(P.steps));
+    L.push('', `Format: ${P.out}`, '', `Tone: ${P.tone}.`);
+    if (P.cons.length) L.push('', 'Rules:', bullets(P.cons));
+    return L;
+  },
+  sales(P) {
+    const L = [`Role: You are ${P.role}.`, '', `Objective: Help me ${P.goal}.`];
+    if (P.prospect.length) L.push('', 'Customer:', ctxLines(P.prospect));
+    if (P.seller.length) L.push('', 'Product:', ctxLines(P.seller));
+    L.push('', `Task: ${P.task}`);
+    if (P.steps.length) L.push(bullets(P.steps));
+    L.push('', 'Requirements:', bullets([`Tone: ${P.tone}.`, ...P.cons]), '', `Output: ${P.out}`);
+    return L;
+  },
+  w5h(P) {
+    USED = new Set();
+    const who = tokWho();
+    const L = [`You are ${P.role}.`, '', `Who: ${who}`, `What: ${P.task}`];
+    if (P.steps.length) L.push(bullets(P.steps));
+    L.push(`Why: ${P.why || cap(P.goal) + '.'}`);
+    L.push(`Where: ${P.where || 'Email.'}`);
+    L.push(`When: ${P.when || 'Now.'}`);
+    L.push(`How: ${P.out}`, bullets([`Tone: ${P.tone}.`, ...P.cons]));
+    const ctx = [...P.seller, ...P.prospect.filter(x => !['Contact name', 'Contact title', 'Company name'].includes(x.label))];
+    if (ctx.length) L.push('', 'Context:', ctxLines(ctx));
+    return L;
+  },
+  expert(P) {
+    const L = [`ROLE: Act as ${P.role}.`, '', `GOAL: ${cap(P.goal)}.`];
+    if (P.seller.length || P.prospect.length) {
+      L.push('', 'CONTEXT:');
+      if (P.seller.length) L.push('Business (us):', ctxLines(P.seller));
+      if (P.prospect.length) L.push((P.seller.length ? '\n' : '') + 'Account / audience:', ctxLines(P.prospect));
+    }
+    L.push('', 'INSTRUCTIONS:', numbered([P.task, ...P.steps]));
+    L.push('', 'CONSTRAINTS:', bullets([`Tone: ${P.tone}.`, ...P.cons]));
+    L.push('', `OUTPUT FORMAT: ${P.out}`);
+    if (P.success.length) L.push('', 'SUCCESS CRITERIA: The response should:', bullets(P.success));
+    return L;
+  }
+};
+
+function buildPrompt() {
+  const p = PLAY[S.playId];
+  if (!p) return '';
+  const P = parts(p);
+  return RENDER[p.fw](P).join('\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+
+/* ---------- strength meter ---------- */
+function strength() {
+  const p = PLAY[S.playId];
+  if (!p) return { score: 0, checks: [] };
+  const fl = fieldList(p);
+  const req = fl.filter(f => f.req), opt = fl.filter(f => !f.req);
+  const reqDone = req.filter(f => v(f.key)).length;
+  const optDone = opt.filter(f => v(f.key)).length;
+  const sk = sellerKeys(p), skDone = sk.filter(k => pv(k)).length;
+  const t = S.tune;
+  const checks = [
+    { label: 'Role & task', pts: 20, got: 20, tip: '' },
+    { label: 'Required details', pts: 30, got: req.length ? Math.round(30 * reqDone / req.length) : 30,
+      tip: req.filter(f => !v(f.key)).map(f => FIELDS[f.key].label).join(', ') },
+    { label: 'Your company context', pts: 15, got: !sk.length ? 15 : Math.round(15 * Math.min(1, skDone / Math.min(2, sk.length))),
+      tip: 'Fill in your company profile so the AI knows what you sell' },
+    { label: 'Extra specifics', pts: 15, got: !opt.length ? 15 : Math.round(15 * Math.min(1, optDone / Math.min(2, opt.length))),
+      tip: 'Add ' + opt.filter(f => !v(f.key)).slice(0, 2).map(f => FIELDS[f.key].label.toLowerCase()).join(' or ') },
+    { label: 'Output format & length', pts: 10, got: 10, tip: '' },
+    { label: 'Guardrails', pts: 10, got: (t.facts ? 5 : 0) + ((t.avoid && t.avoid.length) || p.kind !== 'message' ? 5 : 0),
+      tip: !t.facts ? 'Turn on "No invented facts"' : 'Pick a few things to avoid' }
+  ];
+  return { score: checks.reduce((a, c) => a + c.got, 0), checks };
+}
+
+/* ---------- rendering: shell ---------- */
+const STEPS = ['Your role', 'The task', 'The details', 'Fine-tune', 'Your prompt'];
+
+function render() {
+  $('#stepper').innerHTML = STEPS.map((s, i) => {
+    const n = i + 1, cls = n === S.step ? 'on' : n < S.step ? 'done' : '';
+    const can = canGo(n);
+    return `<button class="st ${cls}" data-go="${n}" ${can ? '' : 'disabled'}><span class="n">${n < S.step ? '✓' : n}</span><span class="l">${s}</span></button>`;
+  }).join('<span class="bar"></span>');
+  document.body.classList.toggle('final-step', S.step === 5);
+  const fn = [null, step1, step2, step3, step4, step5][S.step];
+  $('#stepBody').innerHTML = fn();
+  bindStep();
+  renderNav();
+  renderPreview();
+  renderProfileChip();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function canGo(n) {
+  if (n <= 1) return true;
+  if (n === 2) return !!S.role;
+  return !!S.role && !!S.playId;
+}
+function renderNav() {
+  const back = S.step > 1 ? `<button class="btn ghost" id="back">← Back</button>` : '<span></span>';
+  let next = '';
+  if (S.step < 5) {
+    const ok = canGo(S.step + 1);
+    const lbl = S.step === 4 ? 'See my prompt →' : S.step === 3 ? 'Fine-tune →' : 'Next →';
+    next = `<button class="btn primary" id="next" ${ok ? '' : 'disabled'}>${lbl}</button>`;
+  } else {
+    next = `<button class="btn ghost" id="restart">Start a new prompt</button>`;
+  }
+  $('#nav').innerHTML = back + next;
+  $('#back') && ($('#back').onclick = () => { S.step--; render(); });
+  $('#next') && ($('#next').onclick = () => { S.step++; render(); });
+  $('#restart') && ($('#restart').onclick = () => { S.playId = null; S.step = 2; render(); });
+}
+
+/* ---------- step 1: role ---------- */
+function step1() {
+  const cards = Object.entries(ROLES).map(([k, r]) => `
+    <button class="rolecard ${S.role === k ? 'sel' : ''}" data-role="${k}">
+      <span class="ri">${r.icon}</span>
+      <span class="rt">${r.label}</span>
+      <span class="rd">${r.desc}</span>
+      <span class="rc">${PLAYS.filter(p => p.roles.split(' ').includes(k)).length} plays</span>
+    </button>`).join('');
+  const filled = PROFILE_FIELDS.filter(f => pv(f[0])).length;
+  return `
+    <h2 class="q">Who are you writing as?</h2>
+    <p class="hint">We'll show the plays that fit your seat. You can switch any time.</p>
+    <div class="rolegrid">${cards}</div>
+    <div class="profilecta ${filled >= 4 ? 'good' : ''}">
+      <div>
+        <strong>${filled >= 4 ? 'Company profile saved' : 'Set up your company profile (2 minutes, once)'}</strong>
+        <p>${filled >= 4 ? `${filled} of ${PROFILE_FIELDS.length} fields filled. It's added to every prompt automatically.` :
+          'Your product, ICP, differentiators and proof points get woven into every prompt, so you never retype them. Stored only in this browser.'}</p>
+      </div>
+      <button class="btn ${filled >= 4 ? 'ghost' : 'primary'}" data-open-profile>${filled >= 4 ? 'Edit profile' : 'Set up profile'}</button>
+    </div>`;
+}
+
+/* ---------- step 2: play ---------- */
+function visiblePlays() {
+  const q = S.search.toLowerCase();
+  return PLAYS.filter(p => p.roles.split(' ').includes(S.role))
+    .filter(p => S.stage === 'all' || p.stage === S.stage)
+    .filter(p => !q || (p.title + ' ' + p.blurb + ' ' + STAGES[p.stage]).toLowerCase().includes(q));
+}
+function step2() {
+  const stagesForRole = Object.keys(STAGES).filter(s => PLAYS.some(p => p.stage === s && p.roles.split(' ').includes(S.role)));
+  const opts = [`<option value="all">All stages</option>`].concat(stagesForRole.map(s =>
+    `<option value="${s}" ${S.stage === s ? 'selected' : ''}>${STAGES[s]}</option>`)).join('');
+  const list = visiblePlays();
+  const card = p => `
+    <button class="play ${S.playId === p.id ? 'sel' : ''}" data-play="${p.id}">
+      <span class="pt">${esc(p.title)}</span>
+      <span class="pb">${esc(p.blurb)}</span>
+      <span class="pm"><span class="fwtag">${FW[p.fw].name}</span>${p.web ? '<span class="tag web">Web research</span>' : ''}</span>
+    </button>`;
+  if (S.stage === 'all' && list.length) {
+    const groups = Object.keys(STAGES).map(s => [s, list.filter(p => p.stage === s)]).filter(g => g[1].length);
+    return `
+    <h2 class="q">What do you need to get done?</h2>
+    <div class="filters">
+      <label class="fl"><span>Stage</span><select id="stageSel">${opts}</select></label>
+      <label class="fl grow"><span>Search</span><input id="search" type="search" placeholder="e.g., renewal, objection, LinkedIn" value="${esc(S.search)}"></label>
+    </div>
+    ${groups.map(([s, ps]) => `<div class="sub grp">${STAGES[s]} <span>${ps.length}</span></div><div class="playgrid">${ps.map(card).join('')}</div>`).join('')}`;
+  }
+  const cards = list.map(p => `
+    <button class="play ${S.playId === p.id ? 'sel' : ''}" data-play="${p.id}">
+      <span class="pt">${esc(p.title)}</span>
+      <span class="pb">${esc(p.blurb)}</span>
+      <span class="pm"><span class="tag">${STAGES[p.stage]}</span><span class="fwtag">${FW[p.fw].name}</span>${p.web ? '<span class="tag web">Web research</span>' : ''}</span>
+    </button>`).join('') || `<p class="empty">No plays match. Try another stage or search.</p>`;
+  return `
+    <h2 class="q">What do you need to get done?</h2>
+    <div class="filters">
+      <label class="fl"><span>Stage</span><select id="stageSel">${opts}</select></label>
+      <label class="fl grow"><span>Search</span><input id="search" type="search" placeholder="e.g., renewal, objection, LinkedIn" value="${esc(S.search)}"></label>
+    </div>
+    <div class="playgrid">${cards}</div>`;
+}
+
+/* ---------- step 3: details ---------- */
+function fieldHTML(key, req) {
+  const f = FIELDS[key], val = S.vals[key] || '';
+  const lab = `<span>${f.label}${req ? ' <em class="req">required</em>' : ''}</span>`;
+  let ctl;
+  if (f.type === 'select') {
+    ctl = `<select data-f="${key}"><option value="">Select…</option>${f.options.map(o => `<option ${o === val ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select>`;
+  } else if (f.type === 'area') {
+    ctl = `<textarea data-f="${key}" rows="4" placeholder="${esc(f.ph || '')}">${esc(val)}</textarea>`;
+  } else {
+    ctl = `<input data-f="${key}" type="text" placeholder="${esc(f.ph || '')}" value="${esc(val)}">`;
+  }
+  return `<label class="field ${f.type === 'area' ? 'wide' : ''}">${lab}${ctl}</label>`;
+}
+function step3() {
+  const p = PLAY[S.playId];
+  const fl = fieldList(p);
+  const ordered = [...fl.filter(f => FIELDS[f.key].type !== 'area'), ...fl.filter(f => FIELDS[f.key].type === 'area')];
+  const sk = sellerKeys(p);
+  const missingSeller = sk.filter(k => !pv(k));
+  return `
+    <h2 class="q">${esc(p.title)}</h2>
+    <p class="hint">${esc(p.blurb)} Fill what you know; blanks become <span class="phx">[placeholders]</span> you can fill later.</p>
+    <div class="fwnote"><span class="fwtag">${FW[p.fw].name}</span> <span>Auto-selected framework: ${FW[p.fw].why}</span></div>
+    <div class="form">${ordered.map(f => fieldHTML(f.key, f.req)).join('')}</div>
+    ${sk.length ? `<div class="sellerbox ${missingSeller.length ? '' : 'good'}">
+      <strong>From your company profile:</strong> ${sk.map(k => `<span class="chip ${pv(k) ? 'on' : ''}">${PROFILE_LABELS[k] || k}${pv(k) ? ' ✓' : ''}</span>`).join('')}
+      ${missingSeller.length ? `<button class="linkbtn" data-open-profile>Fill in missing</button>` : ''}
+    </div>` : ''}
+    <p class="privacy">Tip: if you use a consumer AI tool, swap real names and deal values for placeholders unless your company has approved that tool for customer data.</p>`;
+}
+
+/* ---------- step 4: tune ---------- */
+function step4() {
+  const p = PLAY[S.playId], t = S.tune;
+  const sel = (id, arr, cur, useIdx) => `<select id="${id}">${arr.map((o, i) => {
+    const val = useIdx ? i : o; return `<option value="${esc(val)}" ${String(cur) === String(val) ? 'selected' : ''}>${esc(o)}</option>`; }).join('')}</select>`;
+  const lenOpts = p.len ? `<label class="fl"><span>Length</span><select id="t_len">
+      <option value="rec" ${t.len === 'rec' ? 'selected' : ''}>Recommended (under ${p.len} ${p.unit || 'words'}${p.each ? ' each' : ''})</option>
+      <option value="short" ${t.len === 'short' ? 'selected' : ''}>Shorter (~${Math.round(p.len * 0.7)})</option>
+      <option value="long" ${t.len === 'long' ? 'selected' : ''}>Longer (~${Math.round(p.len * 1.4)})</option>
+      <option value="none" ${t.len === 'none' ? 'selected' : ''}>No limit</option></select></label>` : '';
+  const ctaOpt = p.kind === 'message' ? `<label class="fl"><span>Call to action</span>${sel('t_cta', CTAS, t.cta, true)}</label>` : '';
+  const varOpt = p.kind === 'message' || p.kind === 'script' ? `<label class="fl"><span>Versions</span><select id="t_vars">${[1, 2, 3, 5].map(n => `<option ${t.vars === n ? 'selected' : ''} value="${n}">${n === 1 ? '1 version' : n + ' versions to test'}</option>`).join('')}</select></label>` : '';
+  const avoid = AVOIDS.map((a, i) => `<button class="chip toggle ${t.avoid.includes(i) ? 'on' : ''}" data-avoid="${i}">${esc(a)}</button>`).join('');
+  const cb = (id, on, label, sub) => `<label class="cb"><input type="checkbox" id="${id}" ${on ? 'checked' : ''}><span><strong>${label}</strong><em>${sub}</em></span></label>`;
+  return `
+    <h2 class="q">How should the AI respond?</h2>
+    <p class="hint">Sensible defaults are set for this play. Change only what matters.</p>
+    <div class="tunegrid">
+      <label class="fl"><span>Tone</span>${sel('t_tone', TONES, t.tone)}</label>
+      ${lenOpts}
+      ${ctaOpt}
+      <label class="fl"><span>Reading level</span>${sel('t_read', ['Plain (grade 6–8)', 'Professional', 'Executive-level'], t.reading)}</label>
+      <label class="fl"><span>Format</span><select id="t_fmt">
+        <option value="rec" ${t.fmt === 'rec' ? 'selected' : ''}>Recommended for this play</option>
+        <option value="bullets" ${t.fmt === 'bullets' ? 'selected' : ''}>Bullets</option>
+        <option value="table" ${t.fmt === 'table' ? 'selected' : ''}>Table</option>
+        <option value="plain" ${t.fmt === 'plain' ? 'selected' : ''}>Plain paragraphs</option></select></label>
+      ${varOpt}
+    </div>
+    <div class="sub">Avoid</div>
+    <div class="chips">${avoid}</div>
+    <div class="sub">Guardrails & extras</div>
+    <div class="cbs">
+      ${cb('t_facts', t.facts, 'No invented facts', 'Placeholders instead of made-up stats, names or quotes')}
+      ${cb('t_web', t.web, 'Use web research', 'Ask the AI to search and cite sources')}
+      ${cb('t_clarify', t.clarify, 'Ask me questions first', 'AI asks up to 3 questions if key info is missing')}
+      ${cb('t_explain', t.explain, 'Explain the choice', 'One line on why the output should work')}
+    </div>`;
+}
+
+/* ---------- step 5: result ---------- */
+function step5() {
+  const p = PLAY[S.playId];
+  const nexts = (p.next || []).map(id => PLAY[id]).filter(Boolean).filter(n => n.roles.split(' ').includes(S.role));
+  return `
+    <h2 class="q">Your prompt is ready</h2>
+    <p class="hint">Copy it, or open it straight in your AI tool. Anything in <span class="phx">[brackets]</span> still needs your input.</p>
+    <div class="actions">
+      <button class="btn primary" data-copy>Copy prompt</button>
+      <button class="btn ai" data-open="claude">Open in Claude</button>
+      <button class="btn ai" data-open="chatgpt">Open in ChatGPT</button>
+      <button class="btn ai" data-open="gemini">Open in Gemini</button>
+      ${p.web ? '<button class="btn ai" data-open="perplexity">Open in Perplexity</button>' : ''}
+      <button class="btn ghost" data-download>Download .txt</button>
+    </div>
+    <pre class="final" id="finalPrompt"></pre>
+    <div class="fwexplain"><span class="fwtag">${FW[p.fw].name}</span> <strong>${FW[p.fw].long}.</strong> ${FW[p.fw].why}</div>
+    ${nexts.length ? `<div class="sub">Next plays that pair with this one</div>
+      <div class="nextgrid">${nexts.map(n => `<button class="play mini" data-chain="${n.id}"><span class="pt">${esc(n.title)}</span><span class="pb">${esc(n.blurb)}</span></button>`).join('')}</div>
+      <p class="hint small">Your details carry over, so chained prompts fill themselves in.</p>` : ''}
+    <div class="sub">Get better results</div>
+    <ul class="tips">
+      <li>Read before you send. AI gets you about 80% there; your judgment finishes the first line and the CTA.</li>
+      <li>If the output is a 6/10, refine rather than restart: add context, tighten a constraint, or change the role.</li>
+      <li>Paste real inputs (the post, the notes, the job listing). Specific input produces specific output.</li>
+    </ul>`;
+}
+
+/* ---------- preview ---------- */
+function highlight(text) {
+  return esc(text)
+    .replace(/\[([^\]\n]{1,80})\]/g, '<span class="phx">[$1]</span>')
+    .replace(/^(Role|Task|Context|Output|Constraints|Action|Format|Tone|Rules|Objective|Customer|Product|Requirements|Who|What|Why|Where|When|How|ROLE|GOAL|CONTEXT|INSTRUCTIONS|CONSTRAINTS|OUTPUT FORMAT|SUCCESS CRITERIA|Business \(us\)|Account \/ audience):/gm, '<b class="k">$1:</b>');
+}
+function renderPreview() {
+  const box = $('#preview');
+  const p = PLAY[S.playId];
+  if (!p) {
+    box.innerHTML = `<div class="pvempty"><div class="big">✎</div><p>Your prompt builds here as you answer.</p><p class="small">Pick a role and a play to start.</p></div>`;
+    $('#meter').innerHTML = ''; return;
+  }
+  const txt = buildPrompt();
+  box.innerHTML = `<pre class="pv">${highlight(txt)}</pre>`;
+  const fin = $('#finalPrompt'); if (fin) fin.innerHTML = highlight(txt);
+  const st = strength(), sc = st.score;
+  const lvl = sc >= 80 ? 'strong' : sc >= 55 ? 'ok' : 'weak';
+  const lbl = sc >= 80 ? 'Strong' : sc >= 55 ? 'Good' : 'Needs detail';
+  const tips = st.checks.filter(c => c.got < c.pts && c.tip).slice(0, 3);
+  const words = txt.split(/\s+/).length, phCount = (txt.match(/\[[^\]\n]{1,80}\]/g) || []).length;
+  $('#meter').innerHTML = `
+    <div class="mhead"><span>Prompt strength</span><span class="mscore ${lvl}">${sc} · ${lbl}</span></div>
+    <div class="mbar"><div class="mfill ${lvl}" style="width:${sc}%"></div></div>
+    <div class="mchecks">${st.checks.map(c => `<span class="mc ${c.got >= c.pts ? 'ok' : c.got > 0 ? 'part' : ''}">${c.got >= c.pts ? '✓' : '○'} ${c.label}</span>`).join('')}</div>
+    ${tips.length ? `<ul class="mtips">${tips.map(c => `<li><strong>${c.label}:</strong> ${esc(c.tip)}</li>`).join('')}</ul>` : ''}
+    <div class="mmeta">${words} words · ${phCount} placeholder${phCount === 1 ? '' : 's'} · ${FW[p.fw].name}</div>`;
+}
+
+/* ---------- binding ---------- */
+function bindStep() {
+  $$('[data-role]').forEach(b => b.onclick = () => {
+    S.role = b.dataset.role;
+    if (S.playId && !PLAY[S.playId].roles.split(' ').includes(S.role)) S.playId = null;
+    S.stage = 'all'; save(); S.step = 2; render();
+  });
+  $$('[data-play]').forEach(b => b.onclick = () => selectPlay(b.dataset.play, true));
+  $$('[data-chain]').forEach(b => b.onclick = () => selectPlay(b.dataset.chain, true));
+  const ss = $('#stageSel'); if (ss) ss.onchange = () => { S.stage = ss.value; render(); };
+  const se = $('#search'); if (se) se.oninput = () => {
+    S.search = se.value;
+    const pos = se.selectionStart; $('#stepBody').innerHTML = step2(); bindStep();
+    const n = $('#search'); n.focus(); n.setSelectionRange(pos, pos);
+  };
+  $$('[data-f]').forEach(el => {
+    const h = () => { S.vals[el.dataset.f] = el.value; save(); renderPreview(); };
+    el.oninput = h; el.onchange = h;
+  });
+  // tune
+  const T = S.tune;
+  const on = (id, fn) => { const el = $('#' + id); if (el) el.onchange = () => { fn(el); renderPreview(); }; };
+  on('t_tone', el => T.tone = el.value);
+  on('t_len', el => T.len = el.value);
+  on('t_cta', el => T.cta = +el.value);
+  on('t_read', el => T.reading = el.value);
+  on('t_fmt', el => T.fmt = el.value);
+  on('t_vars', el => T.vars = +el.value);
+  on('t_facts', el => T.facts = el.checked);
+  on('t_web', el => T.web = el.checked);
+  on('t_clarify', el => T.clarify = el.checked);
+  on('t_explain', el => T.explain = el.checked);
+  $$('[data-avoid]').forEach(b => b.onclick = () => {
+    const i = +b.dataset.avoid;
+    T.avoid = T.avoid.includes(i) ? T.avoid.filter(x => x !== i) : [...T.avoid, i];
+    b.classList.toggle('on'); renderPreview();
+  });
+  // result actions
+  $$('[data-copy]').forEach(b => b.onclick = () => copy(buildPrompt(), b));
+  $$('[data-open]').forEach(b => b.onclick = () => openAI(b.dataset.open, b));
+  $$('[data-download]').forEach(b => b.onclick = download);
+}
+function selectPlay(id, advance) {
+  const changed = S.playId !== id;
+  S.playId = id;
+  if (changed) S.tune = defaultTune(PLAY[id]);
+  if (advance) S.step = 3;
+  render();
+}
+
+/* ---------- actions ---------- */
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 2400);
+}
+async function copy(text, btn) {
+  let ok = false;
+  try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {
+    const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+    try { ok = document.execCommand('copy'); } catch (e2) {} ta.remove();
+  }
+  if (btn) { const o = btn.textContent; btn.textContent = ok ? 'Copied ✓' : 'Copy failed'; setTimeout(() => btn.textContent = o, 1800); }
+  return ok;
+}
+async function openAI(which, btn) {
+  const text = buildPrompt();
+  await copy(text);
+  const q = encodeURIComponent(text);
+  const urls = {
+    claude: `https://claude.ai/new?q=${q}`,
+    chatgpt: `https://chatgpt.com/?q=${q}`,
+    perplexity: `https://www.perplexity.ai/search?q=${q}`,
+    gemini: 'https://gemini.google.com/app'
+  };
+  let url = urls[which];
+  if (url.length > 7500 && which !== 'gemini') {
+    url = { claude: 'https://claude.ai/new', chatgpt: 'https://chatgpt.com/', perplexity: 'https://www.perplexity.ai/' }[which];
+    toast('Prompt is long, so it was copied. Paste it in the new tab.');
+  } else if (which === 'gemini') {
+    toast('Copied. Paste it into Gemini.');
+  } else {
+    toast('Opening… (also copied to your clipboard)');
+  }
+  window.open(url, '_blank', 'noopener');
+}
+function download() {
+  const p = PLAY[S.playId];
+  const blob = new Blob([buildPrompt()], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (p.title.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase() || 'prompt') + '.txt';
+  a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+/* ---------- profile modal ---------- */
+function renderProfileChip() {
+  const filled = PROFILE_FIELDS.filter(f => pv(f[0])).length;
+  $('#profileBtn').innerHTML = `<span class="dot ${filled >= 4 ? 'ok' : ''}"></span>${pv('myCompany') ? esc(pv('myCompany')) : 'Company profile'} <span class="pc">${filled}/${PROFILE_FIELDS.length}</span>`;
+}
+function openProfile() {
+  $('#pform').innerHTML = PROFILE_FIELDS.map(([k, label, phText, type]) => `
+    <label class="field ${type === 'area' ? 'wide' : ''}"><span>${label}</span>
+      ${type === 'area' ? `<textarea data-p="${k}" rows="3" placeholder="${esc(phText)}">${esc(S.profile[k] || '')}</textarea>`
+        : `<input data-p="${k}" type="text" placeholder="${esc(phText)}" value="${esc(S.profile[k] || '')}">`}
+    </label>`).join('');
+  $('#modal').classList.add('open');
+  const first = $('#pform [data-p]'); first && first.focus();
+}
+function closeProfile() { $('#modal').classList.remove('open'); }
+function saveProfile() {
+  $$('#pform [data-p]').forEach(el => S.profile[el.dataset.p] = el.value.trim());
+  save(); closeProfile(); toast('Profile saved in this browser'); render();
+}
+function exportProfile() {
+  $$('#pform [data-p]').forEach(el => S.profile[el.dataset.p] = el.value.trim());
+  const blob = new Blob([JSON.stringify({ type: 'pa-gtm-profile', v: 1, profile: S.profile }, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = ((S.profile.myCompany || 'company').replace(/[^a-z0-9]+/gi, '-').toLowerCase()) + '-prompt-profile.json'; a.click();
+}
+function importProfile(file) {
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const d = JSON.parse(r.result); const prof = d.profile || d;
+      PROFILE_FIELDS.forEach(([k]) => { if (typeof prof[k] === 'string') S.profile[k] = prof[k]; });
+      save(); openProfile(); toast('Profile imported');
+    } catch (e) { toast('That file is not a valid profile'); }
+  };
+  r.readAsText(file);
+}
+
+/* ---------- init ---------- */
+function init() {
+  load();
+  if (S.role) S.step = 2;
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-open-profile]'); if (b) openProfile();
+    const g = e.target.closest('[data-go]'); if (g && !g.disabled) { S.step = +g.dataset.go; render(); }
+  });
+  $('#profileBtn').onclick = openProfile;
+  $('#pclose').onclick = closeProfile;
+  $('#pcancel').onclick = closeProfile;
+  $('#psave').onclick = saveProfile;
+  $('#pexport').onclick = exportProfile;
+  $('#pimport').onchange = e => e.target.files[0] && importProfile(e.target.files[0]);
+  $('#pclear').onclick = () => { $$('#pform [data-p]').forEach(el => el.value = ''); };
+  $('#modal').onclick = e => { if (e.target.id === 'modal') closeProfile(); };
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeProfile(); });
+  $('#clearDetails').onclick = () => { S.vals = {}; save(); render(); toast('Prospect details cleared'); };
+  $('#copyMini').onclick = e => { if (S.playId) copy(buildPrompt(), e.currentTarget); };
+  $('#statPlays').textContent = PLAYS.length;
+  render();
+}
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
