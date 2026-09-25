@@ -1,0 +1,611 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>
+<title>Analyst · Productivity Advisors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Google+Sans+Code&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#22304A; --ink2:#3E4C66; --muted:#6B7789; --faint:#98A1B0;
+  --accent:#C2703D; --accent-dk:#A85C2D; --accent-soft:#F7ECE3; --accent-line:#EBCDB4;
+  --bg:#FAF9F7; --card:#FFFFFF; --line:#E6E2DB; --line2:#F0EDE7; --code:#FCFBF9;
+  --green:#2E7D5B; --green-soft:#E7F2EC; --amber:#B7791F; --amber-soft:#FBF2E0;
+  --ph:#FBF2E0; --ph-ink:#8A5A00;
+  --logo:#22304A; --on-logo:#FFFFFF; --btn-primary:#22304A;
+  --r:10px; --r-sm:7px;
+  --shadow:0 1px 2px rgba(34,48,74,.04),0 1px 12px rgba(34,48,74,.05);
+  --font:"Google Sans","Google Sans Text","Product Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"Google Sans Code","SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ink:#E7EAF0; --ink2:#C3CAD6; --muted:#98A2B3; --faint:#7A8497;
+    --accent:#DB8A55; --accent-dk:#E9A274; --accent-soft:#3A2A20; --accent-line:#5C3F2C;
+    --bg:#16191F; --card:#1E222A; --line:#313641; --line2:#272B34; --code:#1A1D24;
+    --green:#5CB88F; --green-soft:#1E3129; --amber:#E0A94A; --amber-soft:#3A2F1C;
+    --ph:#3A2F1C; --ph-ink:#F0C27A;
+    --logo:#E7EAF0; --on-logo:#16191F; --btn-primary:#3A4660;
+    --shadow:0 1px 2px rgba(0,0,0,.2),0 1px 12px rgba(0,0,0,.18);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ink:#E7EAF0; --ink2:#C3CAD6; --muted:#98A2B3; --faint:#7A8497;
+  --accent:#DB8A55; --accent-dk:#E9A274; --accent-soft:#3A2A20; --accent-line:#5C3F2C;
+  --bg:#16191F; --card:#1E222A; --line:#313641; --line2:#272B34; --code:#1A1D24;
+  --green:#5CB88F; --green-soft:#1E3129; --amber:#E0A94A; --amber-soft:#3A2F1C;
+  --ph:#3A2F1C; --ph-ink:#F0C27A;
+  --logo:#E7EAF0; --on-logo:#16191F; --btn-primary:#3A4660;
+  --shadow:0 1px 2px rgba(0,0,0,.2),0 1px 12px rgba(0,0,0,.18);
+}
+*{box-sizing:border-box}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.app{max-width:1240px;margin:0 auto;padding-inline:20px;padding-block:22px 60px}
+h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.012em;line-height:1.25;text-wrap:balance}
+p{margin:0}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:var(--ink)}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+ 
+/* masthead */
+.masthead{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 22px;display:flex;align-items:center;gap:16px;box-shadow:var(--shadow);flex-wrap:wrap}
+.logomark{width:46px;height:46px;border-radius:9px;background:var(--logo);color:var(--on-logo);display:grid;place-items:center;flex:none;font-weight:700;font-size:15px;letter-spacing:.02em}
+.mast-txt{flex:1;min-width:220px}
+.eyebrow{font-size:10.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--faint)}
+.mast-txt h1{font-size:23px;font-weight:500;margin:1px 0 2px}
+.mast-txt p{font-size:13px;color:var(--muted)}
+.mast-stats{display:flex;gap:18px;flex:none}
+.ms{text-align:right}
+.ms b{display:block;font-size:19px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.ms span{font-size:11px;color:var(--faint);letter-spacing:.04em}
+ 
+/* buttons */
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink2);border-radius:var(--r-sm);padding:8px 14px;font-size:12.5px;font-weight:500;transition:.14s;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;gap:7px}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn-primary{background:var(--btn-primary);border-color:var(--btn-primary);color:#fff}
+.btn-primary:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-model{background:var(--accent-soft);border-color:var(--accent-line);color:var(--accent-dk);font-weight:600}
+.btn-model:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-sm{padding:5px 10px;font-size:11.5px}
+.linkbtn{border:none;background:none;color:var(--muted);font-size:11.5px;font-weight:500;padding:3px 4px}
+.linkbtn:hover{color:var(--accent)}
+ 
+/* layout */
+.two-pane{display:grid;grid-template-columns:360px minmax(0,1fr);gap:12px;align-items:start;margin-top:12px}
+.rail{display:flex;flex-direction:column;gap:10px}
+.ctl{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;box-shadow:var(--shadow)}
+.ctl-hd{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.ctl-lbl{font-size:12.5px;font-weight:600;color:var(--ink)}
+.ctl-step{font-size:10px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--faint)}
+.ctl-hint{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.45}
+select,input[type=text],textarea{width:100%;border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 11px;background:var(--card);font-size:13px}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--faint) 50%),linear-gradient(135deg,var(--faint) 50%,transparent 50%);background-position:calc(100% - 16px) 50%,calc(100% - 11px) 50%;background-size:5px 5px;background-repeat:no-repeat;padding-right:30px}
+select:focus,input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+textarea{resize:vertical;min-height:64px;line-height:1.5}
+.big-select{margin-top:9px;font-size:14.5px;font-weight:600;padding:11px 12px}
+.big-input{margin-top:9px;font-size:14px;font-weight:600;padding:11px 12px}
+.blurb{margin-top:11px;font-size:12.5px;color:var(--ink2);line-height:1.5}
+.sections{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.sec{font-size:10.8px;font-weight:500;color:var(--muted);background:var(--bg);border:1px solid var(--line2);border-radius:20px;padding:2px 9px}
+.co-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;min-height:4px}
+.co{font-size:11.5px;font-weight:600;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:3px 10px}
+.warn{margin-top:9px;font-size:11.5px;color:var(--amber);background:var(--amber-soft);border-radius:6px;padding:6px 9px}
+.example-tag{font-size:9.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:2px 7px;border-radius:20px}
+details.more > summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+details.more > summary::-webkit-details-marker{display:none}
+details.more > summary .ar{color:var(--faint);font-size:11px;transition:transform .2s}
+details.more[open] > summary .ar{transform:rotate(90deg)}
+.opt-grid{display:grid;gap:10px;margin-top:12px}
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld > span{font-size:11.5px;font-weight:600;color:var(--ink2)}
+ 
+/* prompt card */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.card-hd{padding:16px 20px;border-bottom:1px solid var(--line2);display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+.card-hd h2{font-size:15.5px}
+.card-hd p{font-size:12.5px;color:var(--muted);margin-top:3px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tag{font-size:10.5px;font-weight:600;letter-spacing:.04em;padding:2px 8px;border-radius:20px;border:1px solid var(--line);color:var(--muted);background:var(--bg)}
+.tag.web{color:var(--green);background:var(--green-soft);border-color:transparent}
+.tag.html{color:var(--accent-dk);background:var(--accent-soft);border-color:transparent}
+.actions{display:flex;flex-wrap:wrap;gap:8px;padding:14px 20px;border-bottom:1px solid var(--line2);align-items:center}
+.actions .sp{flex:1}
+.send-lbl{font-size:10.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--faint);margin-right:2px}
+.prompt-wrap{padding:18px 20px 20px}
+.prompt{font-family:var(--mono);font-size:12.6px;line-height:1.68;background:var(--code);border:1px solid var(--line2);border-left:3px solid var(--accent);border-radius:var(--r-sm);padding:18px 20px;white-space:pre-wrap;word-break:break-word;margin:0;max-height:none;color:var(--ink)}
+.prompt .k{color:var(--accent-dk);font-weight:600}
+.prompt .phx{background:var(--ph);color:var(--ph-ink);border-radius:3px;padding:0 3px}
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.tip{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:13px 15px}
+.tip h3{font-size:12.5px;color:var(--ink)}
+.tip p{font-size:11.8px;color:var(--muted);margin-top:4px;line-height:1.5}
+ 
+.foot{margin-top:26px;text-align:center;font-size:11px;color:var(--faint);line-height:1.7}
+.toast{position:fixed;bottom:calc(22px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%) translateY(90px);background:var(--btn-primary);color:#fff;padding:11px 20px;border-radius:22px;font-size:12.5px;font-weight:500;box-shadow:0 6px 24px rgba(34,48,74,.28);transition:transform .28s cubic-bezier(.4,0,.2,1);z-index:99;max-width:calc(100% - 32px);text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+ 
+@media (max-width:980px){
+  .two-pane{grid-template-columns:1fr}
+  .tips{grid-template-columns:1fr}
+}
+@media (max-width:620px){
+  .app{padding-inline:16px;padding-block:14px 40px}
+  .mast-stats{display:none}
+  .actions .sp{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+ 
+<div class="app">
+  <header class="masthead">
+    <div class="logomark" aria-hidden="true">PA</div>
+    <div class="mast-txt">
+      <div class="eyebrow">Productivity Advisors</div>
+      <h1>Analyst</h1>
+      <p>Pick an analysis, name the companies, and send an analyst-grade research prompt to Claude, ChatGPT, Gemini or Perplexity.</p>
+    </div>
+    <div class="mast-stats">
+      <div class="ms"><b>6</b><span>analyses</span></div>
+      <div class="ms"><b>HTML</b><span>report output</span></div>
+    </div>
+  </header>
+ 
+  <div class="two-pane">
+    <aside class="rail">
+      <div class="ctl">
+        <div class="ctl-hd"><span class="ctl-lbl">Analysis</span><span class="ctl-step">Step 1</span></div>
+        <select id="analysis" class="big-select" aria-label="Analysis"></select>
+        <p class="blurb" id="blurb"></p>
+        <div class="sections" id="sections"></div>
+      </div>
+ 
+      <div class="ctl">
+        <div class="ctl-hd"><label class="ctl-lbl" for="companies" id="primaryLbl">Company</label><span class="ctl-step">Step 2</span></div>
+        <input id="companies" class="big-input" type="text" autocomplete="off">
+        <p class="ctl-hint" id="primaryHint"></p>
+        <div class="co-chips" id="coChips"></div>
+        <div id="warn"></div>
+      </div>
+ 
+      <details class="ctl more" id="more" open>
+        <summary><span class="ctl-lbl">More options</span><span class="ar">▶</span></summary>
+        <p class="ctl-hint">All optional. Blank fields are left out or the model states its assumption.</p>
+        <div class="opt-grid" id="opts"></div>
+      </details>
+    </aside>
+ 
+    <main>
+      <section class="card">
+        <div class="card-hd">
+          <div>
+            <h2 id="promptTitle">Your prompt</h2>
+            <p id="promptSub"></p>
+            <div class="meta" id="meta"></div>
+          </div>
+          <button class="linkbtn" id="clearBtn" type="button">Clear inputs</button>
+        </div>
+        <div class="actions">
+          <span class="send-lbl">Step 3 · Send to</span>
+          <a class="btn btn-model" id="openClaude" target="_blank" rel="noopener" href="https://claude.ai/new">Claude</a>
+          <a class="btn btn-model" id="openChatgpt" target="_blank" rel="noopener" href="https://chatgpt.com/">ChatGPT</a>
+          <a class="btn btn-model" id="openGemini" target="_blank" rel="noopener" href="https://gemini.google.com/app">Gemini</a>
+          <a class="btn btn-model" id="openPerplexity" target="_blank" rel="noopener" href="https://www.perplexity.ai/">Perplexity</a>
+          <span class="sp"></span>
+          <button class="btn btn-primary" id="copyBtn" type="button">Copy prompt</button>
+        </div>
+        <div class="prompt-wrap">
+          <pre class="prompt" id="prompt"></pre>
+        </div>
+      </section>
+ 
+      <div class="tips">
+        <div class="tip"><h3>Turn on web search</h3><p>These prompts depend on current filings, pricing and news. Use a model with search or research mode enabled.</p></div>
+        <div class="tip"><h3>Attach what you have</h3><p>Pitch decks, 10-Ks, RFPs or call notes sharpen the output. Mention them in Extra context.</p></div>
+        <div class="tip"><h3>Check the numbers</h3><p>Open the cited sources for any figure you plan to reuse. Treat estimates marked "(est.)" as directional.</p></div>
+      </div>
+    </main>
+  </div>
+ 
+  <footer class="foot">Analyst · Productivity Advisors · Inputs stay in this browser. Reports are research aids, not investment advice.</footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+ 
+<script>
+/* ---------------- fields ---------------- */
+const F = {
+  ticker:   { label: 'Ticker', ph: 'e.g., SNOW' },
+  website:  { label: 'Website', ph: 'e.g., snowflake.com' },
+  listing:  { label: 'Public or private', type: 'select', options: ['Not sure', 'Public', 'Private'] },
+  purpose:  { label: 'Purpose', type: 'select', options: ['Investment screening', 'Partnership evaluation', 'Competitive intelligence', 'Sales account research', 'M&A target screen'] },
+  peers:    { label: 'Peers to consider', ph: 'e.g., Datadog, MongoDB, Elastic' },
+  asOf:     { label: 'As-of date', ph: 'Blank = latest market close' },
+  implied:  { label: 'Implied share price', type: 'select', options: ['No, multiples only', 'Yes, add an implied value range'] },
+  category: { label: 'Software category', ph: 'e.g., marketing automation' },
+  scale:    { label: 'Your scale', ph: 'e.g., 50K contacts, 120 users' },
+  stack:    { label: 'Existing stack', ph: 'e.g., Salesforce, Snowflake, Okta' },
+  reqs:     { label: 'Hard requirements', type: 'area', ph: 'e.g., native Salesforce sync, SSO, EU data residency' },
+  budget:   { label: 'Budget ceiling', ph: 'e.g., $60K per year' },
+  market:   { label: 'Market definition', ph: 'e.g., cloud data warehousing' },
+  geo:      { label: 'Geography', type: 'select', options: ['Global', 'North America', 'United States', 'Europe', 'APAC'] },
+  segment:  { label: 'Customer segment', ph: 'e.g., mid-market B2B, 200–2,000 employees' },
+  horizon:  { label: 'Forecast horizon', type: 'select', options: ['5 years', '3 years', '10 years'] },
+  axes:     { label: 'Positioning axes', ph: 'e.g., SMB → Enterprise vs. point tool → platform' },
+  industry: { label: 'Industry name', ph: 'e.g., freight brokerage' },
+  audience: { label: 'Audience', type: 'select', options: ['Investor', 'Operator / GTM leader', 'Executive briefing', 'New to the industry'] },
+  context:  { label: 'Extra context', type: 'area', ph: 'Your angle, documents you will attach, what matters most' }
+};
+ 
+/* ---------------- shared prompt blocks ---------------- */
+const list = a => a.length <= 1 ? (a[0] || '') : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1];
+const bullets = a => a.filter(Boolean).map(s => '- ' + s).join('\n');
+const numbered = a => a.filter(Boolean).map((s, i) => (i + 1) + '. ' + s).join('\n');
+const ph = s => '[' + s + ']';
+ 
+function house(orient) {
+  return bullets([
+    'Deliver one self-contained, print-ready HTML file. Put all CSS in one <style> block and use no external scripts.',
+    'Typography: Google Sans from Google Fonts with an Arial/Helvetica fallback. Body text 15–16px with a clear heading scale.',
+    'Branding: a navy (#0B2545) header band and navy section headings on a white page, with one restrained accent for highlights.',
+    'Header band: report title, subject, "As of [date]", and "Prepared with AI-assisted research".',
+    'Tables: a header row, light alternating row shading, right-aligned numbers with tabular figures, units and periods in the headers. Wrap each table in an overflow-x container.',
+    'Use CSS grid for side-by-side boxes (KPI tiles, two-column notes). Collapse to one column under 760px.',
+    'Print CSS: @page { size: letter ' + orient + '; margin: 0.5in }. Keep tables and boxes from splitting across pages.',
+    'End with a numbered Sources section with links and publication dates, and cite them inline as superscript footnotes.',
+    'Return the complete HTML as an artifact or in a single code block.'
+  ]);
+}
+function guard(extra) {
+  return bullets([
+    'Use web search. Prefer primary sources (filings, earnings releases, company sites, pricing pages) over aggregators, and use the most recent data available.',
+    'Never invent figures, names or quotes. Mark estimates "(est.)" and state the basis in a footnote.',
+    'Show "n/a" or "Not disclosed" instead of leaving a cell blank.',
+    'If an input I left out matters, state your assumption at the top of the report and proceed rather than stopping to ask.',
+    ...(extra || [])
+  ]);
+}
+function ctx(v, keys) {
+  const rows = keys.map(k => {
+    const val = (v[k] || '').trim();
+    if (!val || val === 'Not sure') return '';
+    return F[k].type === 'area' ? `${F[k].label}:\n"""\n${val}\n"""` : `${F[k].label}: ${val}`;
+  }).filter(Boolean);
+  return rows.length ? rows.map(r => '- ' + r).join('\n') : '';
+}
+function assemble(parts) {
+  return parts.filter(p => p && p[1]).map(([h, b]) => (h ? h + ':\n' : '') + b).join('\n\n');
+}
+ 
+/* ---------------- analyses ---------------- */
+const A = [
+{
+  id: 'tearsheet', name: 'Company tearsheet',
+  blurb: 'A one-stop profile of a software company: overview, products, financials, SWOT, competitors and risks.',
+  sections: ['Executive summary', 'Overview', 'Products', 'Financial snapshot', 'SWOT', 'Competitors', 'Recent developments', 'Risks'],
+  primary: { label: 'Company', ph: 'e.g., Snowflake', hint: 'One company, or several separated by commas for one tearsheet each.', min: 1 },
+  fields: ['website', 'listing', 'purpose', 'context'], orient: 'portrait', web: true,
+  build(c, v) {
+    const who = c.length ? list(c) : ph('Company');
+    const multi = c.length > 1;
+    return assemble([
+      ['ROLE', 'Act as a senior equity research analyst who covers software and SaaS companies.'],
+      ['GOAL', `Produce a ${multi ? 'tearsheet for each of ' + who : 'tearsheet on ' + who} for ${(v.purpose || 'investment screening').toLowerCase()}. It should be thorough enough for a first-pass decision and quick to scan.`],
+      ['CONTEXT', ctx(v, ['website', 'listing', 'context'])],
+      ['RESEARCH', numbered([
+        'Search the last 6–12 months. Use 5–8 high-quality sources: company site and blog, investor relations, tech and financial press, analyst commentary.',
+        'Public companies: pull the latest 10-K/10-Q, earnings release and guidance. Private companies: funding announcements, press, hiring signals and credible revenue estimates.',
+        'Where attached documents disagree with public information, show both and cite each. Do not pick a winner.'
+      ])],
+      ['REPORT STRUCTURE', numbered([
+        'Executive summary: 2–3 sentences on what the company is, how it is performing and the main question it faces.',
+        'Company overview table: founded, HQ, employees, listing or funding stage, total raised or market cap, CEO and key executives.',
+        'Products and services: core offerings, target customers and segments, key differentiators, notable AI capabilities.',
+        'Financial snapshot table: revenue with its period, YoY growth, gross margin, operating margin or profitability, net revenue retention if disclosed, latest valuation or market cap and EV. Label every period.',
+        'SWOT as a four-quadrant grid. Keep it balanced and not promotional.',
+        'Competitive positioning: a table of 3–5 competitors (positioning, target segment, scale), then a short narrative on where the company wins and loses.',
+        'Recent developments: dated list of launches, deals, leadership changes and funding, newest first.',
+        'Key risks: business model, competition, execution and macro, each with one or two sentences of explanation.'
+      ].concat(multi ? ['Put all tearsheets in one HTML file with a jump link to each company at the top.'] : []))],
+      ['OUTPUT FORMAT', house('portrait')],
+      ['GUARDRAILS', guard(['Include a line stating the report is for research purposes and is not investment advice.'])]
+    ]);
+  }
+},
+{
+  id: 'comps', name: 'Comparable company valuation',
+  blurb: 'Trading comps and precedent M&A with Street-style normalization, summary statistics and valuation notes.',
+  sections: ['Summary', 'Trading comps', 'TIC bridge', 'Normalizations', 'Precedent M&A', 'Valuation notes', 'Sources'],
+  primary: { label: 'Target company', ph: 'e.g., Salesforce', hint: 'The public company to value.', min: 1 },
+  fields: ['ticker', 'peers', 'asOf', 'implied', 'context'], orient: 'landscape', web: true,
+  build(c, v) {
+    const t = c[0] || ph('Target company');
+    const tk = v.ticker ? ` (${v.ticker.trim()})` : '';
+    const implied = /^Yes/.test(v.implied || '');
+    return assemble([
+      ['ROLE', 'Act as an investment banking associate building a relative valuation for a senior banker.'],
+      ['GOAL', `Value ${t}${tk} using trading comparables and precedent transactions, with Street-style normalization. ${implied ? 'After the multiples, derive an implied value range per share from the median and interquartile multiples.' : 'Show multiples tables only. Do not compute an implied share price.'}`],
+      ['CONTEXT', ctx(v, ['peers', 'asOf', 'context'])],
+      ['INSTRUCTIONS', numbered([
+        `Profile the target from its latest 10-Q/10-K and earnings release: revenue, GAAP and non-GAAP operating income, D&A and acquired-intangible amortization, SBC, non-GAAP diluted EPS, cash and short-term investments, debt, preferred, minority interest, diluted shares, guidance. Note the fiscal year end.`,
+        'Select 6 ± 2 comparable companies that sell similar products at comparable normalized margins (roughly within ±10 points of operating margin), with similar growth and scale. List notable exclusions and why. Keep a strategically relevant near-miss only if flagged as an outlier.',
+        'For every comp gather: price (same date ±2 trading days; state the as-of date), diluted shares, debt excluding operating leases, preferred, minority interest, cash and ST investments, LTM revenue, LTM non-GAAP operating income, depreciation, LTM non-GAAP EPS, NTM consensus EPS, latest YoY revenue growth. LTM = last fiscal year + current YTD − prior-year YTD, or the sum of the last four quarters.',
+        'Normalize like the Street: remove restructuring, impairments, litigation, divestiture and investment gains, valuation-allowance releases and deal costs. For software, use company non-GAAP (ex-SBC, ex-intangible amortization) consistently and say so. Note SBC when it exceeds ~10% of revenue. Log every adjustment per company.',
+        'Compute (with code, not by hand): TIC = equity value + debt + preferred + minority interest − cash & ST investments. P/E (LTM adj. EPS), P/FE (NTM consensus EPS), TIC/Sales, TIC/EBIT, TIC/EBITDA (adj. EBIT + depreciation; do not add back intangible amortization twice).',
+        'Summary rows excluding the target: High, 75th percentile, Mean, Trimmed mean, Median, 25th percentile, Low. Then the target row and its premium/(discount) to the median.',
+        'Precedent M&A: 6 ± 2 comparable deals from roughly the last 5 years, newest first. Columns: announced date, target with one-line description, acquirer, transaction TIC, target LTM revenue, TIC/Sales, TIC/EBIT, TIC/EBITDA, premium, comparability note. Grey out deals that fail the margin test and exclude them from stats (Mean, Median, High, Low). Note that control premiums make deal and trading multiples non-comparable one-for-one.',
+        'Valuation notes in two columns: company-specific (growth, AI/products, GAAP vs. adjusted gap, capital structure, FX, M&A, management) and comp-set context (closest comps, outliers, exclusions, sector re-rating, M&A read-through).',
+        'Open the report with 3–4 summary bullets on where the target trades versus peers and why.'
+      ])],
+      ['REPORT LAYOUT', bullets([
+        'Header band with company, ticker, as-of date, "$ in millions except per share", and six KPI tiles: price, TIC, LTM revenue, adj. EBIT margin, P/E, TIC/EBIT.',
+        'Section 1: trading comps table with grouped headers (Market data | LTM operating profile | Valuation multiples). Shade the multiple columns, bold the median row, highlight the target row in gold. Definitions footnote below.',
+        'Two-up boxes: TIC bridge for the target and the normalization adjustments log.',
+        'Section 2: precedent M&A table with stats and footnotes. Section 3: valuation notes. Then data sources and caveats.',
+        'Use large, readable type: 15px table body cells and 13.5px headers on screen.'
+      ])],
+      ['OUTPUT FORMAT', house('landscape')],
+      ['GUARDRAILS', guard(['Rebuild TIC yourself; aggregator sites often miss preferred stock and mix in leases.', 'State that the report is illustrative and not investment advice.'])]
+    ]);
+  }
+},
+{
+  id: 'vendor', name: 'Software vendor selection',
+  blurb: 'An opinionated comparison of software vendors at your scale: features, integrations, real pricing and a recommendation.',
+  sections: ['Executive summary', 'Requirements', 'Vendor deep dives', 'Feature matrix', 'Pricing at scale', 'Use cases', 'Recommendation'],
+  primary: { label: 'Vendors to compare', ph: 'e.g., HubSpot, Marketo, Braze', hint: 'Separate vendors with commas. Three to five works best.', min: 2 },
+  fields: ['category', 'scale', 'stack', 'reqs', 'budget', 'context'], orient: 'portrait', web: true,
+  build(c, v) {
+    const who = c.length ? list(c) : ph('Vendor A, Vendor B, Vendor C');
+    const scale = (v.scale || '').trim() || ph('your scale: users / contacts / records');
+    return assemble([
+      ['ROLE', 'Act as a B2B software buyer’s advisor who has run dozens of procurement evaluations.'],
+      ['GOAL', `Compare ${who}${v.category ? ' for ' + v.category.trim() : ''} and recommend one for a buyer at ${scale}. Be opinionated: the buyer wants a decision, not a feature spreadsheet.`],
+      ['BUYER SCENARIO', ctx(v, ['category', 'scale', 'stack', 'reqs', 'budget', 'context'])],
+      ['RESEARCH PER VENDOR', numbered([
+        'Core functionality and typical buyer profile.',
+        '6–10 key features that matter in this category.',
+        'Integration capabilities, especially with the systems in the existing stack: native vs. third-party, sync latency, real-time vs. batch, and which tier unlocks it.',
+        `Pricing at ${scale}. Search for pricing at that scale; do not extrapolate from entry tiers. Name the tier explicitly.`,
+        'Which tier satisfies each hard requirement. This is where pricing surprises hide.'
+      ])],
+      ['REPORT STRUCTURE', numbered([
+        'Executive summary: 5–8 bullets, no prose.',
+        'Introduction: category context and the buyer’s requirements as a numbered list.',
+        'One section per vendor with four parts: overview (one paragraph plus bullets), key features, integration capabilities, pricing at the buyer’s scale. Use bold lead-in labels on bullets.',
+        'Comparative analysis: a feature matrix with vendors as columns. Put hard requirements first, then features that actually differentiate. Skip rows where every vendor is the same. Then price comparison at scale and one ideal use case per vendor.',
+        'Conclusion: a one-line verdict per vendor, then a primary recommendation paragraph with explicit tradeoffs.'
+      ])],
+      ['STYLE', bullets([
+        'Lead with what kills the deal: tier-gated integrations, latency, architectural mismatches.',
+        'Cite tier names ("ActiveCampaign Enterprise", not "ActiveCampaign").',
+        'Bullets over prose. If a section would be filler, say so in one line.',
+        'Flag quote-only pricing and published ranges clearly.'
+      ])],
+      ['OUTPUT FORMAT', house('portrait')],
+      ['GUARDRAILS', guard(['Pricing and feature gating change often. Verify each against the vendor’s current pricing page and date it.'])]
+    ]);
+  }
+},
+{
+  id: 'sizing', name: 'Market sizing (TAM / SAM / SOM)',
+  blurb: 'Sizes the market these companies compete in, top-down and bottom-up, with a reconciliation and sensitivity grid.',
+  sections: ['KPI summary', 'Market definition', 'Top-down', 'Bottom-up', 'Reconciliation', 'SAM & SOM', 'Growth drivers', 'Sensitivity'],
+  primary: { label: 'Company or companies', ph: 'e.g., Toast, Olo, SpotOn', hint: 'The companies whose market you want sized. Add a market definition below to be precise.', min: 1 },
+  fields: ['market', 'geo', 'segment', 'horizon', 'context'], orient: 'portrait', web: true,
+  build(c, v) {
+    const who = c.length ? list(c) : ph('Company');
+    const mkt = (v.market || '').trim();
+    const geo = v.geo || 'Global';
+    const hz = v.horizon || '5 years';
+    return assemble([
+      ['ROLE', 'Act as a market strategy consultant who builds defensible market models for investors and boards.'],
+      ['GOAL', `Size ${mkt ? 'the ' + mkt + ' market' : 'the market that ' + who + ' compete' + (c.length > 1 ? '' : 's') + ' in'} (${geo}) with TAM, SAM and SOM, and forecast growth over ${hz}.${mkt && c.length ? ' Use ' + who + ' as reference companies.' : ''}`],
+      ['CONTEXT', ctx(v, ['segment', 'context'])],
+      ['INSTRUCTIONS', numbered([
+        'Define the market precisely: what is in and out of scope, who the buyer is, and the unit of spend (licenses, seats, transactions, services). State the currency and base year.',
+        'Top-down: find at least two independent third-party estimates (analyst firms, industry bodies, public-company disclosures). Put them in a table with source, year, figure, scope and notes. Explain why they differ.',
+        'Bottom-up: number of target customers by segment × adoption or penetration rate × annual spend per customer. Show the formula, every input, and its source.',
+        'Reconcile: compare the two methods, explain the gap, and choose a base-case TAM with reasoning.',
+        'SAM: the part of TAM reachable given geography, segment and product scope. SOM: a realistic share within ' + hz + ', sanity-checked against the revenue of the reference companies and the market leaders.',
+        'Growth: historical and forecast CAGR, with 3–5 drivers and 3–5 headwinds, each tied to evidence.',
+        'Segment breakdown: split TAM by the 2–3 most useful dimensions (customer size, vertical, region, product).',
+        c.length ? `Show each reference company’s revenue as a share of TAM and SAM.` : '',
+        'Sensitivity: a grid of base-case TAM under ±20% changes in the two most uncertain inputs (for example adoption rate and price).',
+        'Do all arithmetic with code and show the results, not hand estimates.'
+      ])],
+      ['REPORT STRUCTURE', bullets([
+        'KPI tiles at the top: TAM, SAM, SOM, and forecast CAGR, each with its year.',
+        'Sections: market definition, top-down estimates table, bottom-up build table, reconciliation, SAM/SOM funnel (a simple CSS or inline-SVG funnel), segment breakdown, growth drivers and headwinds, sensitivity grid, key assumptions and risks, sources.'
+      ])],
+      ['OUTPUT FORMAT', house('portrait')],
+      ['GUARDRAILS', guard(['Label every figure with its year and currency.', 'State that the model is illustrative and not investment advice.'])]
+    ]);
+  }
+},
+{
+  id: 'landscape', name: 'Competitive landscape / market map',
+  blurb: 'Maps every meaningful player in the category, groups them into segments and plots where each one competes.',
+  sections: ['Summary', 'Category definition', 'Market map', 'Player table', '2×2 positioning', 'Head-to-head', 'Funding & M&A', 'Whitespace'],
+  primary: { label: 'Company or companies', ph: 'e.g., Gong, Clari', hint: 'The first company is treated as the anchor for the head-to-head section.', min: 1 },
+  fields: ['category', 'segment', 'geo', 'axes', 'context'], orient: 'landscape', web: true,
+  build(c, v) {
+    const who = c.length ? list(c) : ph('Company');
+    const anchor = c[0] || ph('Company');
+    const cat = (v.category || '').trim();
+    return assemble([
+      ['ROLE', 'Act as a competitive intelligence lead at a growth-equity firm.'],
+      ['GOAL', `Map the competitive landscape ${cat ? 'for ' + cat + ', anchored on ' + who : 'around ' + who}${v.geo && v.geo !== 'Global' ? ' in ' + v.geo : ''}, and explain who is winning, why, and where the openings are.`],
+      ['CONTEXT', ctx(v, ['segment', 'axes', 'context'])],
+      ['INSTRUCTIONS', numbered([
+        'Define the category boundaries: the core job to be done, adjacent categories, and what you excluded.',
+        'Identify 12–25 relevant players across incumbents, challengers, emerging startups and adjacent platforms moving in.',
+        'For each player: HQ, founded, public or private, revenue or ARR (est. if needed), total funding or market cap, target segment, pricing model, and core differentiator in one line.',
+        'Group players into 3–6 segments that reflect how buyers actually shop the category.',
+        `Build a 2×2 positioning matrix${v.axes ? ' on these axes: ' + v.axes.trim() : ' on the two axes that best separate the players (explain your choice)'}. Draw it as inline SVG with labeled axes and every player plotted.`,
+        `Head-to-head: compare ${anchor} with its 5 closest competitors on product, target customer, pricing, go-to-market, momentum and weaknesses.`,
+        'Funding and M&A activity in the last 24 months, dated, with what each move signals.',
+        'Trends and whitespace: 4–6 shifts reshaping the category and the underserved segments or use cases.',
+        'Summary at the top: 3–5 bullets on the state of competition and the one thing a reader should remember.'
+      ])],
+      ['REPORT STRUCTURE', bullets([
+        'Summary bullets, category definition, market map (a CSS grid of segment columns, each listing its players as tiles; names only, no logos), full player table, 2×2 matrix, head-to-head table, funding and M&A timeline, trends and whitespace, sources.'
+      ])],
+      ['OUTPUT FORMAT', house('landscape')],
+      ['GUARDRAILS', guard(['Date every funding and revenue figure.'])]
+    ]);
+  }
+},
+{
+  id: 'primer', name: 'Industry primer',
+  blurb: 'A deep-dive briefing on an industry: how it works, how money flows, who matters, which KPIs to watch.',
+  sections: ['Key takeaways', 'Definition', 'Size & growth', 'Value chain', 'Business models', 'Key players', 'KPIs', 'Regulation', 'Trends', 'Bull vs. bear', 'Glossary'],
+  primary: { label: 'Company or companies', ph: 'e.g., C.H. Robinson, RXO, Uber Freight', hint: 'Companies that define the industry. Name the industry below for a sharper scope.', min: 1 },
+  fields: ['industry', 'audience', 'geo', 'context'], orient: 'portrait', web: true,
+  build(c, v) {
+    const who = c.length ? list(c) : ph('Company');
+    const ind = (v.industry || '').trim();
+    const aud = v.audience || 'Investor';
+    return assemble([
+      ['ROLE', 'Act as a senior industry analyst writing a primer for someone who needs to get fluent fast.'],
+      ['GOAL', `Write an industry primer on ${ind ? ind : 'the industry that ' + who + (c.length > 1 ? ' operate' : ' operates') + ' in'}${ind && c.length ? ', featuring ' + who : ''}${v.geo && v.geo !== 'Global' ? ', focused on ' + v.geo : ''}. The reader is: ${aud}. After reading it they should be able to hold their own in a conversation with an industry veteran.`],
+      ['CONTEXT', ctx(v, ['context'])],
+      ['REPORT STRUCTURE', numbered([
+        'Key takeaways: 5 bullets.',
+        'Industry definition and scope, including sub-sectors and what is excluded.',
+        'Market size and growth: headline figures with sources and years, plus historical context (how the industry got here).',
+        'Value chain: how money and product flow from suppliers to end customers. Draw it as an inline-SVG flow diagram and show typical margins at each step where available.',
+        'Business models and unit economics: how the main player types make money, with a table of revenue model, typical gross margin and key cost drivers.',
+        'Key players by segment: a table with scale, positioning and recent momentum' + (c.length ? ', making sure ' + who + ' are covered' : '') + '.',
+        'KPIs and how to read them: a table with each metric, its definition, a typical benchmark range, and what good looks like.',
+        'Regulatory and policy environment, and any pending changes.',
+        '5–7 trends reshaping the industry, each with evidence.',
+        'Bull vs. bear: the main debates, presented side by side.',
+        'What to watch in the next 12–24 months.',
+        'Glossary of terms of art.'
+      ])],
+      ['AUDIENCE FIT', bullets([
+        aud === 'Investor' ? 'Emphasize economics, margins, cyclicality, valuation drivers and public comps.' :
+        aud === 'Operator / GTM leader' ? 'Emphasize buyer personas, buying process, sales cycles, channels and where software and services create value.' :
+        aud === 'Executive briefing' ? 'Keep it tight: lead with implications and decisions, and move detail to tables.' :
+        'Assume no background. Define terms on first use and favor examples over jargon.'
+      ])],
+      ['OUTPUT FORMAT', house('portrait')],
+      ['GUARDRAILS', guard(['Date every statistic and name its source.'])]
+    ]);
+  }
+}
+];
+const BY = Object.fromEntries(A.map(a => [a.id, a]));
+ 
+/* ---------------- state ---------------- */
+const KEY = 'pa_analyst_v1';
+const S = { id: 'tearsheet', companies: 'Snowflake', vals: { listing: 'Public', purpose: 'Investment screening' }, example: true };
+try {
+  const d = JSON.parse(localStorage.getItem(KEY) || 'null');
+  if (d && BY[d.id]) Object.assign(S, d, { example: false });
+} catch (e) {}
+function save() { try { localStorage.setItem(KEY, JSON.stringify({ id: S.id, companies: S.companies, vals: S.vals })); } catch (e) {} }
+ 
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const parseCos = s => s.split(/[,;\n]+/).map(x => x.trim()).filter(Boolean);
+ 
+/* ---------------- render ---------------- */
+function renderControls() {
+  const a = BY[S.id];
+  $('#analysis').innerHTML = A.map(x => `<option value="${x.id}" ${x.id === S.id ? 'selected' : ''}>${esc(x.name)}</option>`).join('');
+  $('#blurb').textContent = a.blurb;
+  $('#sections').innerHTML = a.sections.map(s => `<span class="sec">${esc(s)}</span>`).join('');
+  $('#primaryLbl').textContent = a.primary.label;
+  const inp = $('#companies');
+  inp.placeholder = a.primary.ph;
+  if (inp.value !== S.companies) inp.value = S.companies;
+  $('#primaryHint').textContent = a.primary.hint;
+  $('#opts').innerHTML = a.fields.map(k => {
+    const f = F[k], val = S.vals[k] || '';
+    let ctl;
+    if (f.type === 'select') ctl = `<select id="f_${k}" data-f="${k}">${f.options.map(o => `<option ${o === val ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select>`;
+    else if (f.type === 'area') ctl = `<textarea id="f_${k}" data-f="${k}" rows="3" placeholder="${esc(f.ph)}">${esc(val)}</textarea>`;
+    else ctl = `<input id="f_${k}" data-f="${k}" type="text" placeholder="${esc(f.ph)}" value="${esc(val)}">`;
+    return `<label class="fld" for="f_${k}"><span>${f.label}</span>${ctl}</label>`;
+  }).join('');
+  document.querySelectorAll('[data-f]').forEach(el => {
+    const h = () => { S.vals[el.dataset.f] = el.value; S.example = false; save(); renderPrompt(); };
+    el.addEventListener('input', h); el.addEventListener('change', h);
+  });
+  renderPrompt();
+}
+ 
+let CURRENT = '';
+function highlight(t) {
+  return esc(t)
+    .replace(/\[([^\]\n]{1,60})\]/g, '<span class="phx">[$1]</span>')
+    .replace(/^([A-Z][A-Z &()/]+[A-Z)]):/gm, '<span class="k">$1:</span>');
+}
+function renderPrompt() {
+  const a = BY[S.id];
+  const cos = parseCos(S.companies);
+  $('#coChips').innerHTML = cos.map(c => `<span class="co">${esc(c)}</span>`).join('');
+  const w = $('#warn');
+  if (!cos.length) w.innerHTML = `<div class="warn">Add ${a.primary.min > 1 ? 'at least two vendors' : 'a company'} to finish the prompt.</div>`;
+  else if (cos.length < a.primary.min) w.innerHTML = `<div class="warn">Add at least ${a.primary.min} vendors for a useful comparison.</div>`;
+  else w.innerHTML = '';
+ 
+  const vals = {};
+  a.fields.forEach(k => { vals[k] = S.vals[k] || (F[k].type === 'select' ? F[k].options[0] : ''); });
+  CURRENT = a.build(cos, vals);
+  $('#prompt').innerHTML = highlight(CURRENT);
+  $('#promptTitle').innerHTML = esc(a.name) + (S.example ? ' <span class="example-tag">Example</span>' : '');
+  $('#promptSub').textContent = cos.length ? 'For ' + list(cos) : 'Add a company in Step 2';
+  const words = CURRENT.split(/\s+/).length;
+  $('#meta').innerHTML = `<span class="tag web">Web research</span><span class="tag html">HTML report · ${a.orient}</span><span class="tag">${words.toLocaleString()} words</span>`;
+  updateLinks();
+}
+ 
+/* ---------------- send / copy ---------------- */
+const MAXURL = 8000;
+function updateLinks() {
+  const q = encodeURIComponent(CURRENT);
+  const set = (id, base, withQ) => { $(id).href = withQ && (base + q).length < MAXURL ? base + q : base.replace(/\?q=$/, ''); };
+  set('#openClaude', 'https://claude.ai/new?q=', true);
+  set('#openChatgpt', 'https://chatgpt.com/?q=', true);
+  set('#openPerplexity', 'https://www.perplexity.ai/search?q=', true);
+  $('#openGemini').href = 'https://gemini.google.com/app';
+}
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 2800);
+}
+function copyText(text) {
+  try {
+    return navigator.clipboard.writeText(text).then(() => true, () => fallbackCopy());
+  } catch (e) { return Promise.resolve(fallbackCopy()); }
+}
+function fallbackCopy() {
+  const r = document.createRange(); r.selectNodeContents($('#prompt'));
+  const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+  let ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+  return ok;
+}
+$('#copyBtn').addEventListener('click', e => {
+  const b = e.currentTarget;
+  copyText(CURRENT).then(ok => {
+    b.textContent = ok ? 'Copied ✓' : 'Selected, press ⌘C';
+    setTimeout(() => b.textContent = 'Copy prompt', 1800);
+  });
+});
+[['#openClaude', 'Claude'], ['#openChatgpt', 'ChatGPT'], ['#openGemini', 'Gemini'], ['#openPerplexity', 'Perplexity']].forEach(([id, name]) => {
+  $(id).addEventListener('click', e => {
+    const prefilled = e.currentTarget.href.includes('?q=');
+    copyText(CURRENT);
+    toast(prefilled ? `Opening ${name}. The prompt is also on your clipboard.` : `Prompt copied. Paste it into ${name}.`);
+  });
+});
+ 
+/* ---------------- inputs ---------------- */
+$('#analysis').addEventListener('change', e => { S.id = e.target.value; save(); renderControls(); });
+$('#companies').addEventListener('input', e => { S.companies = e.target.value; S.example = false; save(); renderPrompt(); });
+$('#clearBtn').addEventListener('click', () => { S.companies = ''; S.vals = {}; S.example = false; $('#companies').value = ''; save(); renderControls(); toast('Inputs cleared'); });
+ 
+renderControls();
+</script>
+</body></html>
