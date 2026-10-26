@@ -1,0 +1,449 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Parachuting In</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap">
+<style>
+/* Layout: a letter-size consulting brief. Screen shows it as a sheet on a soft ground; print drops the ground and paginates on letter with a running header and footer. */
+:root {
+  --navy: #1F3A5E;
+  --navy-2: #4A5278;
+  --ink: #23262E;
+  --muted: #5E6475;
+  --rule: #D5DCE8;
+  --band: #F2F5FA;
+  --accent: #669840;
+  --paper: #FFFFFF;
+  --ground: #E9EDF4;
+  --on-navy: #FFFFFF;
+  --font: "Google Sans", "Product Sans", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --navy: #9DB8E0; --navy-2: #A9B0D4; --ink: #E4E7EE; --muted: #A4AABA;
+    --rule: #33405A; --band: #1C2638; --accent: #8DC064; --paper: #141B28;
+    --ground: #0C111A; --on-navy: #0C111A; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --navy: #9DB8E0; --navy-2: #A9B0D4; --ink: #E4E7EE; --muted: #A4AABA;
+  --rule: #33405A; --band: #1C2638; --accent: #8DC064; --paper: #141B28;
+  --ground: #0C111A; --on-navy: #0C111A; color-scheme: dark;
+}
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.5;
+  padding-block: 32px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  max-width: 8.5in;
+  margin: 0 auto;
+  background: var(--paper);
+  padding: 56px 64px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(20, 30, 50, .08), 0 8px 28px rgba(20, 30, 50, .08);
+}
+h1, h2, h3 { color: var(--navy); text-wrap: balance; margin: 0; }
+h1 { font-size: 40px; font-weight: 700; line-height: 1.05; letter-spacing: -.01em; }
+.sub { font-size: 17px; color: var(--navy-2); margin: 8px 0 0; }
+.thesis {
+  margin: 22px 0 0; padding: 14px 18px; background: var(--band);
+  border-left: 4px solid var(--accent); font-size: 17px; font-weight: 500; color: var(--navy);
+}
+.thesis span { display: block; font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--navy-2); margin-bottom: 2px; }
+p { margin: 0; }
+.lede { margin-top: 18px; max-width: 68ch; }
+.stack { display: grid; gap: 12px; }
+
+/* Ladder */
+.section { margin-top: 30px; }
+.eyebrow { font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--navy-2); margin-bottom: 4px; }
+h2 { font-size: 22px; font-weight: 700; }
+.ladder { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 12px; counter-reset: rung; }
+.rung { border: 1px solid var(--rule); border-top: 3px solid var(--navy); padding: 10px 12px; display: grid; grid-template-rows: auto 1fr auto; gap: 6px; min-width: 0; }
+.rung h3 { font-size: 15px; font-weight: 700; }
+.rung h3::before { counter-increment: rung; content: counter(rung) "  "; color: var(--accent); }
+.rung p { font-size: 13px; color: var(--ink); }
+.gate { font-size: 12.5px; color: var(--navy); background: var(--band); padding: 6px 8px; }
+.gate b { font-weight: 700; }
+
+/* Phases */
+.phase { margin-top: 30px; }
+.phase-bar {
+  display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+  background: var(--navy); color: var(--on-navy); padding: 9px 14px;
+}
+.phase-bar .days { font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; opacity: .85; font-variant-numeric: tabular-nums; }
+.phase-bar h2 { color: var(--on-navy); font-size: 20px; }
+.phase-bar .goal { font-size: 14px; opacity: .9; margin-left: auto; }
+.cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 14px; }
+.cols.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.col { min-width: 0; }
+.col h3 { font-size: 14px; font-weight: 700; padding-bottom: 4px; border-bottom: 1px solid var(--rule); margin-bottom: 6px; }
+ul { margin: 0; padding-left: 1.1em; }
+li { margin: 0 0 4px; font-size: 13.5px; }
+li::marker { color: var(--accent); }
+.exit {
+  margin-top: 14px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: baseline;
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 8px 0; font-size: 13.5px;
+}
+.exit b { color: var(--navy); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.note { font-size: 13.5px; margin-top: 12px; }
+.note b { color: var(--navy); }
+
+/* Tables */
+.tbl-wrap { overflow-x: auto; margin-top: 10px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: var(--navy); color: var(--on-navy); text-align: left; font-weight: 500; padding: 6px 10px; font-size: 12.5px; }
+td { padding: 6px 10px; vertical-align: top; border-bottom: 1px solid var(--rule); }
+tbody tr:nth-child(even) td { background: var(--band); }
+td:first-child { font-weight: 500; color: var(--navy); }
+
+/* Pages: on screen a plain stack; in print each .pg is one letter page */
+.pg + .pg { margin-top: 40px; padding-top: 32px; border-top: 1px dashed var(--rule); }
+.glance { margin-top: 30px; }
+
+/* Toolkit */
+.checks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 12px; }
+.checks ul { list-style: none; padding: 0; }
+.checks li { position: relative; padding-left: 20px; font-size: 12.5px; }
+.checks li::before { content: ""; position: absolute; left: 0; top: .2em; width: 11px; height: 11px; border: 1.5px solid var(--navy-2); border-radius: 2px; }
+
+.close { margin-top: 32px; background: var(--navy); color: var(--on-navy); border-left: 6px solid var(--accent); border-radius: 4px; padding: 22px 28px; }
+.close .eyebrow { color: var(--on-navy); opacity: .8; margin-bottom: 8px; }
+.close p { font-size: 17px; line-height: 1.6; font-weight: 500; text-align: justify; text-justify: inter-word; hyphens: auto; -webkit-hyphens: auto; }
+
+@media (max-width: 760px) {
+  .sheet { padding: 28px 20px; }
+  h1 { font-size: 32px; }
+  .ladder, .checks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cols, .cols.two { grid-template-columns: minmax(0, 1fr); }
+  .phase-bar .goal { margin-left: 0; flex-basis: 100%; }
+}
+@media (max-width: 440px) {
+  .ladder, .checks { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Print: letter, house template margins, running header and numbered footer */
+@page {
+  size: letter;
+  margin: 0.7in 0.85in 0.65in;
+  @bottom-center { content: "Page " counter(page) " of " counter(pages); font-family: "Google Sans", "Product Sans", Roboto, Arial, sans-serif; font-style: italic; font-size: 8pt; color: #5E6475; }
+}
+@media print {
+  :root {
+    --navy: #1F3A5E; --navy-2: #4A5278; --ink: #23262E; --muted: #5E6475;
+    --rule: #D5DCE8; --band: #F2F5FA; --accent: #669840; --paper: #FFFFFF; --ground: #FFFFFF; --on-navy: #FFFFFF;
+    color-scheme: light;
+  }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { padding: 0; font-size: 9.5pt; line-height: 1.4; background: #fff; }
+  .sheet { max-width: none; padding: 0; box-shadow: none; border-radius: 0; }
+  h1 { font-size: 26pt; }
+  .sub { font-size: 11.5pt; margin-top: 4pt; }
+  .thesis { font-size: 11.5pt; margin-top: 12pt; padding: 8pt 12pt; }
+  .thesis span { font-size: 7.5pt; }
+  .lede { margin-top: 9pt; font-size: 9.25pt; }
+  .section, .phase, .glance { margin-top: 13pt; }
+  .pg > :first-child { margin-top: 0; }
+  .pg { padding-top: 8pt; }
+  /* Page 2 has two phases only, so it gets roomier type and spacing to fill the sheet */
+  .pg-2 .phase + .phase { margin-top: 20pt; }
+  .pg-2 .phase-bar { padding: 7pt 12pt; }
+  .pg-2 .phase-bar h2 { font-size: 14pt; }
+  .pg-2 .cols { margin-top: 11pt; gap: 16pt; }
+  .pg-2 .col h3 { font-size: 10pt; margin-bottom: 6pt; }
+  .pg-2 li { font-size: 9.1pt; margin-bottom: 3pt; line-height: 1.42; }
+  .pg-2 .note { font-size: 9.1pt; }
+  .pg-2 table { font-size: 8.8pt; }
+  .pg-2 th { font-size: 8.5pt; padding: 5pt 8pt; }
+  .pg-2 td { padding: 5pt 8pt; }
+  .pg-2 .exit { font-size: 9.1pt; margin-top: 10pt; padding: 6pt 0; }
+  .pg { break-after: page; }
+  .pg:last-of-type { break-after: auto; }
+  .pg + .pg { margin-top: 0; padding-top: 8pt; border-top: 0; }
+  h2 { font-size: 13.5pt; }
+  .eyebrow { font-size: 7.5pt; }
+  .ladder { gap: 6pt; margin-top: 7pt; }
+  .rung { padding: 6pt 8pt; gap: 4pt; }
+  .rung h3 { font-size: 9.5pt; }
+  .rung p { font-size: 8.5pt; }
+  .gate { font-size: 8pt; padding: 4pt 6pt; }
+  .phase-bar { padding: 5pt 10pt; }
+  .phase-bar h2 { font-size: 12.5pt; }
+  .phase-bar .days { font-size: 7.5pt; }
+  .phase-bar .goal { font-size: 9pt; }
+  .cols { gap: 12pt; margin-top: 8pt; }
+  .col h3 { font-size: 9pt; margin-bottom: 4pt; }
+  li { font-size: 8.6pt; margin-bottom: 2pt; }
+  .exit, .note { font-size: 8.75pt; margin-top: 8pt; }
+  .exit { padding: 5pt 0; }
+  .exit b { font-size: 7.5pt; }
+  table { font-size: 8.5pt; }
+  th { font-size: 8pt; padding: 4pt 7pt; }
+  td { padding: 4pt 7pt; }
+  .tbl-wrap { margin-top: 6pt; overflow: visible; }
+  .checks { gap: 10pt; margin-top: 7pt; }
+  .checks li { font-size: 8.25pt; padding-left: 14pt; }
+  .checks li::before { width: 8pt; height: 8pt; }
+  .close { margin-top: 16pt; padding: 12pt 16pt; }
+  .close .eyebrow { margin-bottom: 4pt; }
+  .close p { font-size: 10.5pt; line-height: 1.5; }
+  .phase, .section, .rung, tr, .cols, .close, .exit, table { break-inside: avoid; }
+  .phase-bar, h2, .eyebrow { break-after: avoid; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<main class="sheet">
+  <div class="pg">
+  <header>
+    <h1>Parachuting In</h1>
+    <p class="sub">A first-90-days playbook for GTM operators taking on a new role, client or project</p>
+    <p class="thesis"><span>The thesis</span>Data, then automation, then AI. In that order, with a gate between each.</p>
+    <p class="lede">Whether it is a full-time seat, a fractional engagement or a single project, your first 90 days decide how people see you for the next two years. Everyone will want to talk about AI. The operators who do well start somewhere less exciting: they find out which numbers can be trusted, fix the hand-offs, and only then build AI on a foundation that can hold it. Here is the sequence I use.</p>
+  </header>
+
+  <section class="section">
+    <div class="eyebrow">The ladder</div>
+    <h2>Four steps, each with a gate you have to pass</h2>
+    <div class="ladder">
+      <div class="rung">
+        <h3>Foundation</h3>
+        <p>One data model. Shared definitions for stage, bookings and ARR. Field and object governance. A data quality score.</p>
+        <div class="gate"><b>Gate:</b> pipeline and bookings reconcile to Finance.</div>
+      </div>
+      <div class="rung">
+        <h3>Automation</h3>
+        <p>Map lead-to-cash, then automate the rule-based parts with flows, integrations and approvals.</p>
+        <div class="gate"><b>Gate:</b> hand-offs between Sales, Delivery and Finance run without spreadsheets.</div>
+      </div>
+      <div class="rung">
+        <h3>AI-assisted</h3>
+        <p>Copilots that draft, summarize, score and flag, with a person approving the output.</p>
+        <div class="gate"><b>Gate:</b> each use case beats its baseline on an agreed metric.</div>
+      </div>
+      <div class="rung">
+        <h3>Agentic</h3>
+        <p>Agents that act on their own inside guardrails: permissions, audit trail, rollback.</p>
+        <div class="gate"><b>Gate:</b> an eval set and an error budget for every agent.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="phase">
+    <div class="phase-bar">
+      <span class="days">Days 1 to 30</span>
+      <h2>Diagnose</h2>
+      <span class="goal">Listen and measure before you change anything</span>
+    </div>
+    <div class="cols">
+      <div class="col">
+        <h3>Who to meet</h3>
+        <ul>
+          <li>Leaders in Sales, Marketing, CS, Delivery, Finance and Legal. Ask each for their top three system pains and the report they do not trust.</li>
+          <li>The admins and whoever built the CRM. They know why things are the way they are.</li>
+          <li>Three to five reps and managers. Watch them work a deal; do not just ask.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Which numbers to trust</h3>
+        <ul>
+          <li>Put pipeline, bookings, ARR and forecast next to Finance's numbers. Where they differ, find the definition that differs.</li>
+          <li>Score data quality on the fields the forecast depends on: amount, close date, stage, owner.</li>
+          <li>Treat any number nobody can trace back to records as a hypothesis.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Where lead-to-cash breaks</h3>
+        <ul>
+          <li>Walk one real deal from first touch to cash collected. List every system, hand-off and spreadsheet.</li>
+          <li>Mark where data is retyped, where approvals stall and where Finance redoes the work.</li>
+          <li>Those marks become your roadmap.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exit"><b>By day 30</b><span>One intake channel with a weekly triage, plus a written readout: systems map, data quality scorecard, top ten issues ranked, and what you will not touch yet.</span></div>
+  </section>
+
+  </div>
+
+  <div class="pg pg-2">
+  <section class="phase">
+    <div class="phase-bar">
+      <span class="days">Days 30 to 60</span>
+      <h2>Stabilize</h2>
+      <span class="goal">Fix the foundation and earn trust</span>
+    </div>
+    <div class="cols two">
+      <div class="col">
+        <h3>Fix the data and the definitions</h3>
+        <ul>
+          <li>Publish a one-page glossary (stage, bookings, recurring vs. one-time revenue, churn) signed off by Finance and Sales leadership.</li>
+          <li>Enforce it in the system with validation rules, picklists and required fields, so the definitions hold after you leave the room.</li>
+          <li>Clean the fields the forecast depends on first. Retire unused fields and automations in waves, with usage counts behind each removal.</li>
+          <li>Fix the worst hand-off on your lead-to-cash map.</li>
+          <li>Draft the systems roadmap and a vendor renewal calendar, with a build vs. buy view for each tool.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Pick two or three quick wins</h3>
+        <p class="note" style="margin-top:0;margin-bottom:4px">Visible, low risk, shipped in under two weeks. Good ones look like this:</p>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Quick win</th><th>Who notices</th></tr></thead>
+            <tbody>
+              <tr><td>A forecast view that matches Finance</td><td>CRO and CFO; ends the "whose number" debate</td></tr>
+              <tr><td>Quote, contract and billing check before the first invoice</td><td>Finance; fewer credits and rebills</td></tr>
+              <tr><td>Next steps and contacts filled from call notes</td><td>Reps and managers; time back for selling</td></tr>
+              <tr><td>Request intake with status updates</td><td>Every stakeholder; they feel heard</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="exit"><b>By day 60</b><span>Agreed definitions, a cleaner baseline with a quality score, two or three shipped wins, and a draft roadmap.</span></div>
+  </section>
+
+  <section class="phase">
+    <div class="phase-bar">
+      <span class="days">Days 60 to 90</span>
+      <h2>Scale</h2>
+      <span class="goal">Automate first, then pilot AI and prove it</span>
+    </div>
+    <div class="cols two">
+      <div class="col">
+        <h3>How to choose and run pilots</h3>
+        <ul>
+          <li>Automate the rule-based work first. Use a flow when the rule is clear and an LLM when the input is messy. Most first-year wins are the first kind.</li>
+          <li>Score every AI idea on two things: build effort and adoption effort. Many GTM AI projects are easy to build and hard to adopt. Start with ideas low on both.</li>
+          <li>Check the AI already in your current tools before building anything new.</li>
+          <li>Give each pilot a baseline taken before launch, a small golden set of real examples, a rubric to grade the output, and a named owner who uses it every week.</li>
+          <li>Report against the baseline. Scale the winner and stop the loser.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Pilots worth starting with</h3>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Pilot</th><th>How you measure it</th></tr></thead>
+            <tbody>
+              <tr><td>CRM hygiene from calls and email</td><td>Share of open deals with a current next step and contact roles; admin time per rep</td></tr>
+              <tr><td>Deal risk signals and a weekly forecast narrative</td><td>Forecast accuracy against prior quarters; time spent in forecast calls</td></tr>
+              <tr><td>Contract term extraction</td><td>Fields filled without rework; non-standard clauses caught</td></tr>
+              <tr><td>Ops request triage</td><td>Time to first response; duplicate requests</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="exit"><b>By day 90</b><span>An approved 12-month roadmap, a release cadence with notes for stakeholders and Enablement, and pilot results with numbers.</span></div>
+  </section>
+
+  </div>
+
+  <div class="pg">
+  <section class="section">
+    <div class="eyebrow">Toolkit</div>
+    <h2>Diagnostic checklist</h2>
+    <div class="checks">
+      <div class="col">
+        <h3>Data</h3>
+        <ul>
+          <li>Pipeline, bookings and forecast reconcile to Finance</li>
+          <li>Stage definitions written down and enforced</li>
+          <li>Quality score on forecast-critical fields</li>
+          <li>Account and contact duplicate rate known</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Systems</h3>
+        <ul>
+          <li>Systems map with an owner for every tool</li>
+          <li>Field and automation usage audited</li>
+          <li>Integration users on least privilege</li>
+          <li>Renewal date and cost for every vendor</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Process</h3>
+        <ul>
+          <li>One real deal traced from lead to cash</li>
+          <li>Every manual hand-off and spreadsheet listed</li>
+          <li>One intake channel for requests</li>
+          <li>A release cadence with change notes</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>AI readiness</h3>
+        <ul>
+          <li>Rules for customer data in AI tools agreed with Legal and Security</li>
+          <li>Native AI in current tools reviewed</li>
+          <li>Baselines captured before any pilot</li>
+          <li>A business owner for each use case</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Red flags and what they usually mean</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th style="width:38%">What you see</th><th>What it usually means</th></tr></thead>
+        <tbody>
+          <tr><td>Three versions of the pipeline number</td><td>Definitions were never agreed, and Sales and Finance do not trust each other's data</td></tr>
+          <tr><td>"We tried AI and it didn't work"</td><td>It was built on dirty data or placed outside the daily workflow</td></tr>
+          <tr><td>Hundreds of custom fields, half of them empty</td><td>No governance; every request got a new field</td></tr>
+          <tr><td>The real reports live in spreadsheets</td><td>The CRM does not reflect how deals actually work</td></tr>
+          <tr><td>One admin who "knows how it all works"</td><td>A single point of failure and undocumented automation</td></tr>
+          <tr><td>New tools bought every quarter</td><td>Overlapping features and no one owning renewals</td></tr>
+          <tr><td>No one can say what success looks like at six months</td><td>The role or project is not scoped yet. Get that answered before anything else</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Questions to ask</h2>
+    <div class="cols two">
+      <div class="col">
+        <h3>In the interview or kickoff</h3>
+        <ul>
+          <li>What would make this a success at six months?</li>
+          <li>How has the GTM motion changed in the last year, and which systems broke first?</li>
+          <li>How does a deal get scoped and priced today, and where do Delivery and Finance come in?</li>
+          <li>What has the team tried with AI, and what stuck?</li>
+          <li>Who built the CRM, and what state is it in?</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>In the first week</h3>
+        <ul>
+          <li>Which report do you not trust, and why?</li>
+          <li>Where do you retype data from one system into another?</li>
+          <li>What request have you given up asking for?</li>
+          <li>What are the rules for putting customer data, call recordings and contracts into AI tools?</li>
+          <li>Which vendors renew in the next two quarters?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="close">
+    <div class="eyebrow">The takeaway</div>
+    <p>AI in GTM is a data problem first and an adoption problem second. The build is usually the easy part. Lead with AI and you will ship demos. Lead with the data and the hand-offs and you will ship things people use, and the AI work that follows will have numbers behind it. Earn the right to automate, then earn the right to use AI.</p>
+  </footer>
+
+  </div>
+
+</main>
+
+</body></html>
