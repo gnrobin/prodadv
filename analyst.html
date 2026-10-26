@@ -145,7 +145,7 @@ details.more[open] > summary .ar{transform:rotate(90deg)}
       <p>Pick an analysis, name the companies, and send an analyst-grade research prompt to Claude, ChatGPT, Gemini or Perplexity.</p>
     </div>
     <div class="mast-stats">
-      <div class="ms"><b>6</b><span>analyses</span></div>
+      <div class="ms"><b>7</b><span>analyses</span></div>
       <div class="ms"><b>HTML</b><span>report output</span></div>
     </div>
   </header>
@@ -232,6 +232,8 @@ const F = {
   axes:     { label: 'Positioning axes', ph: 'e.g., SMB → Enterprise vs. point tool → platform' },
   industry: { label: 'Industry name', ph: 'e.g., freight brokerage' },
   audience: { label: 'Audience', type: 'select', options: ['Investor', 'Operator / GTM leader', 'Executive briefing', 'New to the industry'] },
+  icpUse:   { label: 'Purpose', type: 'select', options: ['Client or prospect diagnostic', 'Interview prep', 'Investor diligence', 'Sales account research'] },
+  competitors: { label: 'Known competitors', ph: 'e.g., Scale AI, Surge, Mercor' },
   context:  { label: 'Extra context', type: 'area', ph: 'Your angle, documents you will attach, what matters most' }
 };
  
@@ -490,6 +492,43 @@ const A = [
       ])],
       ['OUTPUT FORMAT', house('portrait')],
       ['GUARDRAILS', guard(['Date every statistic and name its source.'])]
+    ]);
+  }
+},
+{
+  id: 'icp', name: 'ICP analysis',
+  blurb: 'Who a company sells to and who it should sell to, the TAM and account universe, tiering, top-of-funnel plays, GTM systems and questions for management.',
+  sections: ['Short answers', 'Who they sell to', 'Recommended ICP & buyers', 'TAM & account universe', 'Account tiering', 'Top-of-funnel plays', 'GTM systems', 'Questions for management'],
+  primary: { label: 'Company', ph: 'e.g., Snorkel AI', hint: 'One company, or several separated by commas for one map each.', min: 1 },
+  fields: ['website', 'icpUse', 'competitors', 'geo', 'context'], orient: 'portrait', web: true,
+  build(c, v) {
+    const who = c.length ? list(c) : ph('Company');
+    const multi = c.length > 1;
+    return assemble([
+      ['ROLE', 'Act as a revenue operations and go-to-market strategist who builds ICP and pipeline plans for CROs, CFOs and investors.'],
+      ['GOAL', `Build an ICP and pipeline map ${multi ? 'for each of ' + who : 'for ' + who} for ${(v.icpUse || 'a client or prospect diagnostic').toLowerCase()}. Answer: who they sell to today, who they should sell to, how big the addressable market is and how many accounts sit in it, and how to fill top of funnel.`],
+      ['CONTEXT', ctx(v, ['website', 'competitors', 'geo', 'context'])],
+      ['RESEARCH', numbered([
+        'Positioning and product: homepage headline, product pages, recent funding releases and stated use of funds.',
+        'Revenue scale: ARR or run rate, growth and latest round or market cap. Where sources disagree, show both and say which you use.',
+        'Customers: logos, case studies, partner and investor announcements, government contract vehicles. Note that logos may include research partners, not only paying customers.',
+        'Hiring as a signal: AE, SE and SDR postings reveal target segments, deal sizes and new-logo focus. RevOps or GTM systems postings name the tool stack.',
+        'Competitors and concentration risk: who buyers multi-source from, and what happened to peers that relied on a few large buyers.',
+        'Market anchors: analyst sizing, competitor revenues, and buyer-count lists (Global 2000, unicorn lists, bank asset tiers, agency lists).'
+      ])],
+      ['REPORT STRUCTURE', numbered([
+        'Short answers: four label-and-answer rows (ICP today; who they should add; addressable market in dollars, entity count, core ICP count and the company’s share; top-of-funnel headline). Then four KPI tiles: revenue or run rate with growth, TAM, core ICP accounts, and one concentration or scale stat.',
+        'Who they sell to today: a short paragraph on positioning, then a table of Segment | What they buy | Public evidence | Read. Note what is not public and what hiring reveals.',
+        'Recommended ICP and buyers: state the single test that qualifies an account, then a table of Segment | Fit criteria | Economic buyer | Champion and influencers | Deal shape. Add a callout on why to expand into any new segments now.',
+        'TAM and account universe: a top-down table (anchor, figure, what it tells us), a bottom-up table (segment, accounts, annual spend per buyer, share buying now, annual spend) with a total row, a reconciliation paragraph with a working midpoint, a stacked bar of spend share by segment, and an entity-count table (group, entities, who is in it) ending with the core ICP count. Use TAM, SAM and account universe. Use AUM or total assets only as a tiering band for banks, insurers or asset managers.',
+        'Account tiering: a table of Tier | Accounts | Who | Coverage model | Funnel motion for Strategic (1:1), Focus (1:few ABM) and Scale (1:many), plus size-band tables where useful (assets, AUM, revenue, funding stage, employees).',
+        'Top-of-funnel strategy: state the governing principle, then a table of Play | Segments | How it works | Signal or trigger. Consider product- or benchmark-led hand-raisers, whitespace expansion in top accounts, vertical ABM, partner and marketplace co-sell, investor portfolio channels, signal-based outbound, research and events, and public sector capture.',
+        'GTM systems to run it: a table of Layer | What to build | Tools covering the account data model, enrichment and signals, scoring and routing, conversation signals, a delivery or capacity check where relevant, measurement, and a graded AI layer. Treat only tools named in postings or case studies as known; mark the rest as candidates.',
+        'Questions for management: 8–12 specific questions grouped by revenue mix and concentration, pipeline sources and conversion, account universe and data, coverage and capacity, and GTM systems and AI. Tie each question to a finding.',
+        'Assumptions and caveats, then sources.'
+      ].concat(multi ? ['Put all maps in one HTML file with a jump link to each company at the top.'] : []))],
+      ['OUTPUT FORMAT', house('portrait')],
+      ['GUARDRAILS', guard(['Mark every derived account count and spend figure "(est.)" and show its basis.', 'Do not present logos or partnerships as confirmed revenue.'])]
     ]);
   }
 }
